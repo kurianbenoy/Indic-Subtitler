@@ -1,5 +1,6 @@
 # Indic-Subtitler
-Using Seamless M4T to subtitle indic
+
+> A tool to subtitle audios in Indian languages.
 
 ## Project Objective
 
