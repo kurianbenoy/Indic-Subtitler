@@ -12,3 +12,9 @@ The number of tools which are available in Indian languages to subitle audio and
 ## Project Feasability
 
 Due to advent of new technologies like Meta's seamless M4T model and Whisper fine-tuned models, you can do speech transcription to transcribe audio's from source audio to source text. With this a Hindi audio can be transcribed to Hindi text for generating subtitles. Meta's seamless M4T model also supports translation which can take Hindi audio and generate subtitle in languages like English, French, Malayalam etc.
+
+
+## References
+
+- https://github.com/facebookresearch/seamless_communication/blob/main/Seamless_Tutorial.ipynb
+- https://seamless.metademolab.com/source_languages
