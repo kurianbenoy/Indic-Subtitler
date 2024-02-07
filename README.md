@@ -1,10 +1,11 @@
 # Indic-Subtitler
 
+> An open source subtitling platform for transcribing videos/audios in Indic languages and translating subtitles as well using ML models.
+
 <div>
 <img src="https://github.com/kurianbenoy/Indic-Subtitler/assets/24592806/029f32ed-d5a7-4555-a33e-b2fced54c955.png" alt="logo1" width="250" height="auto">
 <img src="https://github.com/kurianbenoy/Indic-Subtitler/assets/24592806/3cd137bd-8105-4b84-8ccd-0ed662786240" alt="logo2" width="250" height="auto">
 </div>
-> An open source subtitling platform for transcribing videos/audios in Indic languages and translating subtitles as well using ML models.
 
 ## Project Objective
 
@@ -61,11 +62,12 @@ Styling: Tailwind CSS or styled-components (for styling with ease and efficiency
 
 - Start building frontend audio/video upload workflow
 - Build API to handle audio/video part
+- Build UI for displaying and downloading subtitles
 
 **Week 3**
 
-- Build UI for displaying and downloading subtitles
-- Build UI for choose source and target subtitle screenr
+- Build UI for choose source and target subtitle screen
+- Improve results of SeamlessM4T with GPT models
 - Complete integrating APIs with frontend
 
 **Week 4 onwards**
