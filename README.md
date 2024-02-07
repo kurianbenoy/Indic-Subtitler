@@ -2,6 +2,11 @@
 
 > An open source subtitling platform for transcribing videos/audios in Indic languages and translating subtitles as well using ML models.
 
+
+![Designer (1)](https://github.com/kurianbenoy/Indic-Subtitler/assets/24592806/029f32ed-d5a7-4555-a33e-b2fced54c955)
+
+![Designer](https://github.com/kurianbenoy/Indic-Subtitler/assets/24592806/3cd137bd-8105-4b84-8ccd-0ed662786240)
+
 ## Project Objective
 
 The number of tools which are available in Indian languages to subitle audio and videos in Indian languages are almost none. Yet that shouldn't be the case, as now there are lot of open-source models supporting speech transcription in most of official Indian languages.  This tool can be useful for subtitling audios and videos like Indian cinemas for Media Industry in general.
