@@ -1,7 +1,9 @@
 # Indic-Subtitler
 
+<div>
 <img src="https://github.com/kurianbenoy/Indic-Subtitler/assets/24592806/029f32ed-d5a7-4555-a33e-b2fced54c955.png" alt="logo1" width="250" height="auto">
-
+<img src="https://github.com/kurianbenoy/Indic-Subtitler/assets/24592806/3cd137bd-8105-4b84-8ccd-0ed662786240" alt="logo2" width="250" height="auto">
+</div>
 > An open source subtitling platform for transcribing videos/audios in Indic languages and translating subtitles as well using ML models.
 
 ## Project Objective
@@ -48,8 +50,6 @@ Next.js, being a React framework, offers you all the benefits of React plus more
 
 Framework: Next.js (enables SSR and SSG, improving load times and SEO)
 Styling: Tailwind CSS or styled-components (for styling with ease and efficiency)
-
- <img src="https://github.com/kurianbenoy/Indic-Subtitler/assets/24592806/3cd137bd-8105-4b84-8ccd-0ed662786240" alt="logo2" width="250" height="auto">
 
 ## Roadmap
 
