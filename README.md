@@ -15,7 +15,7 @@ Due to advent of new technologies like Meta's seamless M4T model and Whisper fin
 ### 1. ML Model
 
 I am planning to use Meta's Seamless Communication technology which was recently released[git](https://github.com/facebookresearch/seamless_communication). I am planning to use seamlessM4T_v2_large model,
-which supports almost 12 Indic languages [2] by default. With this model alone, we can potentially transcribe audio in respective languages and even translate subtitles into other languages. 
+which supports almost 12 Indic languages [2] by default. With this model alone, we can potentially transcribe audio in respective languages and even translate subtitles into other languages. In lot of Indic languages, there are fine-tuned Whisper ASR models in respective languages. More such models can be found in this Whisper event leaderboard [3]. I have personally fine-tuned Whisper models in my mother tongue malayalam like [4] and [5]. So if performance of any language is not found useful, we can switch to one of the Whisper ASR based models. Yet one thing to note though is, that Whisper might not be able to support all the languages listed in Seamless.
 
 
 **Indic Languages supported with SeamlessM4T**
@@ -40,9 +40,10 @@ My plan is use FastAPI as the backend and deploy it on serveless platforms like 
 
 ### 3. Frontend
 
+Next.js, being a React framework, offers you all the benefits of React plus more features out of the box, such as file-based routing and API routes, which can simplify your development process. It's an excellent choice, especially for a web application that requires server-side rendering (SSR) or static site generation (SSG) for better performance and SEO.
 
-
-
+Framework: Next.js (enables SSR and SSG, improving load times and SEO)
+Styling: Tailwind CSS or styled-components (for styling with ease and efficiency)
 
 ## Roadmap
 
@@ -71,3 +72,6 @@ My plan is use FastAPI as the backend and deploy it on serveless platforms like 
 
 - [1] https://github.com/facebookresearch/seamless_communication/blob/main/Seamless_Tutorial.ipynb
 - [2] https://seamless.metademolab.com/source_languages
+- [3] https://huggingface.co/spaces/whisper-event/leaderboard
+- [4] https://huggingface.co/kurianbenoy/Malwhisper-v1-medium
+- [5] https://huggingface.co/collections/kurianbenoy/vegam-whisper-models-65132456b4a3c844a7bf8d8e
