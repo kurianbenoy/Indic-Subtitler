@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-
+import { useCallback, useMemo, useState } from "react";
+import axios from "axios";
 import { FaTrash } from "react-icons/fa";
 import { useDropzone } from "react-dropzone";
 import { formatFileSize } from "@components/utils";
@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 
 const FileUpload = () => {
   const [uploadedFiles, setUploadedFiles] = useState([]);
+  const [transcription, setTranscription] = useState("");
 
   const onDrop = useCallback(async (acceptedFiles) => {
     //   console.log(acceptedFiles);
@@ -29,6 +30,9 @@ const FileUpload = () => {
   } = useDropzone({
     onDrop,
     accept: {
+      "image/jpeg": [".jpg", ".jpeg"],
+      "image/png": [".png"],
+      "audio/mpeg": [".mp3", ".mpeg", ".mpga"],
       "audio/mpeg": [".mp3", ".mpeg", ".mpga"],
       "audio/mp4": [".m4a"],
       "audio/wav": [".wav"],
@@ -47,8 +51,28 @@ const FileUpload = () => {
     [isFocused, isDragAccept, isDragReject]
   );
 
-  const handleTranscribe = () => {
-    toast.info("Transcribing Audio. Hold on...");
+  const handleTranscribe = async () => {
+    console.log(uploadedFiles);
+    const file = uploadedFiles[0];
+    const formData = new FormData();
+    formData.append("file", file);
+
+    console.log(formData);
+    const toastId = toast.info("Transcribing Audio. Hold on...");
+    try {
+      const response = await axios.post("/api/upload", formData, {
+        // headers: {
+        //   "Content-Type": "multipart/form-data",
+        // },
+      });
+
+      // console.log({ response });
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      toast.error(
+        "There seems to be some error in uploading file at the moment. Please try again with a different file..."
+      );
+    }
   };
 
   return (
