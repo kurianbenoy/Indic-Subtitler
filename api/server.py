@@ -37,10 +37,11 @@ stub = Stub(name="seamless_m4t_speech",image=image)
 
 @stub.function(gpu=GPU_TYPE)
 @web_endpoint(method="POST")
-def generate_malayalam_translation(item: Dict):
-    """Inpu"""
+def generate_seamlessm4t_speech(item: Dict):
+    """Input speech """
     import torch
     import wave
+    import base64
     import math
     import os
     from pydub import AudioSegment
@@ -49,6 +50,21 @@ def generate_malayalam_translation(item: Dict):
 
     audio_name = "audios/sample1.wav"
     target_lang = "eng"
+
+    def audio_file_to_base64(file_path):
+        """
+        Converts an audio file to a base64 encoded string.
+
+        Parameters:
+        - file_path: Path to the audio file.
+
+        Returns:
+        - A base64 encoded string of the audio file.
+        """
+        with open(file_path, "rb") as audio_file:
+            audio_data = audio_file.read()
+        base64_encoded_str = base64.b64encode(audio_data).decode('utf-8')
+        return base64_encoded_str
 
     # function to calculate the duration of the input audio clip
     def get_duration_wave(file_path):
