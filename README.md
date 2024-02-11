@@ -57,10 +57,10 @@ Styling: Tailwind CSS or styled-components (for styling with ease and efficiency
 **Week 1**
 
 - Create API to use Seamless M4T model
+- Start building frontend audio/video upload workflow using Next.js
 
 **Week 2**
 
-- Start building frontend audio/video upload workflow
 - Build API to handle audio/video part
 - Build UI for displaying and downloading subtitles
 
@@ -75,6 +75,10 @@ Styling: Tailwind CSS or styled-components (for styling with ease and efficiency
 - Evaluate the performance of Indic subtitler on various languages
 - Fine-tune ASR models based on performance for respective languages and integrate even whisper-based audio models.
 - Build a desktop app similar to webapp for using all the functionalities
+
+### Issue identified
+
+1. Seamless Communication by default doesn't support time-stamps. [github issue](https://github.com/facebookresearch/seamless_communication/issues/172)
 
 ## References
 
