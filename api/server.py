@@ -2,9 +2,12 @@ import time
 from typing import Dict
 from modal import Image,Stub, web_endpoint, gpu
 
+
+
 GPU_TYPE = "a10g"
 
 def download_models():
+    """Download models for sileroVAD, seamlessM4T, and vocoder"""
     from seamless_communication.inference import Translator
     import torch
 
