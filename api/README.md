@@ -24,6 +24,10 @@ pip install -r requirements.txt
 
 To start the API server, run the following command:
 
+```
+modal deploy  server.py
+```
+
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a pull request.

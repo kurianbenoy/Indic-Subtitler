@@ -1,5 +1,5 @@
-import time
 import base64
+import tempfile
 from typing import Dict
 from modal import Image,Stub, web_endpoint, gpu
 
@@ -42,6 +42,26 @@ def audio_file_to_base64(file_path):
             audio_data = audio_file.read()
         base64_encoded_str = base64.b64encode(audio_data).decode('utf-8')
         return base64_encoded_str
+
+def base64_to_audio_file(b64_contents):
+    """
+    Converts a base64 encoded string to an audio file and returns the path to the temporary audio file.
+
+    Parameters:
+    - b64_contents: Base64 encoded string of the audio file.
+
+    Returns:
+    - Path to the temporary audio file.
+    """
+    # Decode the base64 string
+    audio_data = base64.b64decode(b64_contents)
+    
+    # Create a temporary file
+    with tempfile.NamedTemporaryFile(delete=False, suffix='.wav') as tmp_file:
+        # Write the decoded audio data to the temporary file
+        tmp_file.write(audio_data)
+        # Return the path to the temporary file
+        return tmp_file.name
 
 image = (
         Image.from_registry("nvidia/cuda:12.2.0-devel-ubuntu20.04", add_python="3.10")
@@ -88,8 +108,17 @@ def generate_seamlessm4t_speech(item: Dict):
         VADIterator,
         collect_chunks) = utils
 
-    audio_name = "audios/sample1.wav"
-    target_lang = "eng"
+    b64 = item["wav_base64"]
+    print(b64)
+    
+    fname = base64_to_audio_file(b64_contents=b64)
+    print(fname)
+    
+    SAMPLING_RATE = 16000
+    wav = read_audio(fname, sampling_rate=SAMPLING_RATE)
+    # get speech timestamps from full audio file
+    speech_timestamps = get_speech_timestamps(wav, model, sampling_rate=SAMPLING_RATE, return_seconds=True)
+    print(speech_timestamps)
 
 
     # function to calculate the duration of the input audio clip
