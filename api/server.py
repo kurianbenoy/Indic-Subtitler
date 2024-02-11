@@ -94,6 +94,14 @@ def generate_seamlessm4t_speech(item: Dict):
     
     import torch
     
+    # function to calculate the duration of the input audio clip
+    def get_duration_wave(file_path):
+        with wave.open(file_path, 'r') as audio_file:
+            frame_rate = audio_file.getframerate()
+            n_frames = audio_file.getnframes()
+            duration = n_frames / float(frame_rate)
+            return duration
+    
     USE_ONNX = False
     model, utils = torch.hub.load(repo_or_dir='snakers4/silero-vad',
                               model='silero_vad',
@@ -109,7 +117,8 @@ def generate_seamlessm4t_speech(item: Dict):
         collect_chunks) = utils
 
     b64 = item["wav_base64"]
-    print(b64)
+    source_lang = item["source"]
+    target_lang = item["target"]
     
     fname = base64_to_audio_file(b64_contents=b64)
     print(fname)
@@ -119,15 +128,6 @@ def generate_seamlessm4t_speech(item: Dict):
     # get speech timestamps from full audio file
     speech_timestamps = get_speech_timestamps(wav, model, sampling_rate=SAMPLING_RATE, return_seconds=True)
     print(speech_timestamps)
-
-
-    # function to calculate the duration of the input audio clip
-    def get_duration_wave(file_path):
-        with wave.open(file_path, 'r') as audio_file:
-            frame_rate = audio_file.getframerate()
-            n_frames = audio_file.getnframes()
-            duration = n_frames / float(frame_rate)
-            return duration
 
     print("Initialized")
     model_name = "seamlessM4T_v2_large"
@@ -145,11 +145,13 @@ def generate_seamlessm4t_speech(item: Dict):
 
     b64_contents = item["wav_base64"]
 
-    duration = get_duration_wave(audio_name)
+    duration = get_duration_wave(fname)
     print(f"Duration: {duration:.2f} seconds")
 
     resample_rate = 16000
     t1 = 0
     t2 = 20000
+    
+    return {"result": "success", "message": "Speech generated successfully."}
 
 
