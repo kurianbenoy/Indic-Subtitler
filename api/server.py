@@ -1,4 +1,5 @@
 import time
+import base64
 from typing import Dict
 from modal import Image,Stub, web_endpoint, gpu
 
@@ -20,6 +21,27 @@ def download_models():
         device=torch.device("cuda:0"),
         dtype=torch.float16,
     )
+    
+    USE_ONNX = False
+    model, utils = torch.hub.load(repo_or_dir='snakers4/silero-vad',
+                              model='silero_vad',
+                              force_reload=True,
+                              onnx=USE_ONNX)
+    
+def audio_file_to_base64(file_path):
+        """
+        Converts an audio file to a base64 encoded string.
+
+        Parameters:
+        - file_path: Path to the audio file.
+
+        Returns:
+        - A base64 encoded string of the audio file.
+        """
+        with open(file_path, "rb") as audio_file:
+            audio_data = audio_file.read()
+        base64_encoded_str = base64.b64encode(audio_data).decode('utf-8')
+        return base64_encoded_str
 
 image = (
         Image.from_registry("nvidia/cuda:12.2.0-devel-ubuntu20.04", add_python="3.10")
@@ -49,25 +71,26 @@ def generate_seamlessm4t_speech(item: Dict):
     import os
     from pydub import AudioSegment
     from seamless_communication.inference import Translator
-
+    
+    import torch
+    
+    USE_ONNX = False
+    model, utils = torch.hub.load(repo_or_dir='snakers4/silero-vad',
+                              model='silero_vad',
+                              force_reload=True,
+                              onnx=USE_ONNX)
+    
+    
+    
+    (get_speech_timestamps,
+        save_audio,
+        read_audio,
+        VADIterator,
+        collect_chunks) = utils
 
     audio_name = "audios/sample1.wav"
     target_lang = "eng"
 
-    def audio_file_to_base64(file_path):
-        """
-        Converts an audio file to a base64 encoded string.
-
-        Parameters:
-        - file_path: Path to the audio file.
-
-        Returns:
-        - A base64 encoded string of the audio file.
-        """
-        with open(file_path, "rb") as audio_file:
-            audio_data = audio_file.read()
-        base64_encoded_str = base64.b64encode(audio_data).decode('utf-8')
-        return base64_encoded_str
 
     # function to calculate the duration of the input audio clip
     def get_duration_wave(file_path):
