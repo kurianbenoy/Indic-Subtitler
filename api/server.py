@@ -127,7 +127,7 @@ def generate_seamlessm4t_speech(item: Dict):
         SAMPLING_RATE = 16000
         wav = read_audio(fname, sampling_rate=SAMPLING_RATE)
         # get speech timestamps from full audio file
-        speech_timestamps = get_speech_timestamps(wav, model, sampling_rate=SAMPLING_RATE, return_seconds=True)
+        speech_timestamps = get_speech_timestamps(wav, model, sampling_rate=SAMPLING_RATE)
         print(speech_timestamps)
     
         print("Initialized")
@@ -161,6 +161,23 @@ def generate_seamlessm4t_speech(item: Dict):
         timestamps_start = []
         timestamps_end = []
         text = []
+        
+        # Logic for VAD based filtering
+        # for item in speech_timestamps:
+        #     s = speech_timestamps["start"]
+        #     e = speech_timestamps["end"]
+
+        #     newAudio = AudioSegment.from_wav(audio_name)
+        #     newAudio = newAudio[s:e]
+        #     new_audio_name = "new_" + str(t1) + ".wav"
+        #     newAudio.export(new_audio_name, format="wav")
+        #     resampler = torchaudio.transforms.Resample(sample_rate, resample_rate, dtype=waveform.dtype)
+        #     resampled_waveform = resampler(waveform)
+        #     torchaudio.save("resampled.wav", resampled_waveform, resample_rate)
+        #     translated_text, _ = translator.predict("resampled.wav", "s2tt", target_lang)
+        #     text.append(str(translated_text[0]))
+        #     os.remove(new_audio_name)
+        
         for i in range(num_samples):
             newAudio = AudioSegment.from_wav(audio_name)
             newAudio = newAudio[t1:t2]
