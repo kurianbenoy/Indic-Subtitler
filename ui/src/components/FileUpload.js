@@ -1,18 +1,17 @@
 import { useCallback, useMemo, useState } from "react";
-import axios from "axios";
 import { FaTrash } from "react-icons/fa";
 import { useDropzone } from "react-dropzone";
 import { formatFileSize } from "@components/utils";
 import { toast } from "react-toastify";
+import Dropdown from "./Dropdown";
+import { SOURCE_LANGUAGES, TARGET_LANGUAGES } from "@components/constants";
 
-const FileUpload = () => {
+const FileUpload = ({ onSubmit }) => {
   const [uploadedFiles, setUploadedFiles] = useState([]);
-  const [transcription, setTranscription] = useState("");
+  const [soruceLanguage, setSoruceLanguage] = useState("");
+  const [targetLanguage, setTargetLanguage] = useState("");
 
   const onDrop = useCallback(async (acceptedFiles) => {
-    //   console.log(acceptedFiles);
-    //   const uniqueFiles = [...new Set([...uploadedFiles, ...acceptedFiles])];
-    //   setUploadedFiles(uniqueFiles);
     setUploadedFiles(acceptedFiles);
   }, []);
 
@@ -51,28 +50,20 @@ const FileUpload = () => {
     [isFocused, isDragAccept, isDragReject]
   );
 
-  const handleTranscribe = async () => {
-    console.log(uploadedFiles);
-    const file = uploadedFiles[0];
-    const formData = new FormData();
-    formData.append("file", file);
-
-    console.log(formData);
-    const toastId = toast.info("Transcribing Audio. Hold on...");
-    try {
-      const response = await axios.post("/api/upload", formData, {
-        // headers: {
-        //   "Content-Type": "multipart/form-data",
-        // },
-      });
-
-      // console.log({ response });
-    } catch (error) {
-      console.error("Error uploading file:", error);
-      toast.error(
-        "There seems to be some error in uploading file at the moment. Please try again with a different file..."
-      );
+  const handleSubmit = () => {
+    let toastMsg = "";
+    if (!uploadedFiles?.length) {
+      toastMsg = "Please upload a file";
+    } else if (!soruceLanguage || !targetLanguage) {
+      toastMsg = "Please add a source and target language!";
     }
+
+    if (toastMsg) {
+      toast.info(toastMsg);
+      return;
+    }
+    const selectedFile = uploadedFiles[0];
+    onSubmit(selectedFile, soruceLanguage, targetLanguage);
   };
 
   return (
@@ -115,7 +106,18 @@ const FileUpload = () => {
             ))}
           </ul>
 
-          <button className="btn btn-primary" onClick={handleTranscribe}>
+          <Dropdown
+            onChange={(item) => setSoruceLanguage(item.id)}
+            label="Select Source Language"
+            options={SOURCE_LANGUAGES}
+          />
+          <Dropdown
+            onChange={(item) => setTargetLanguage(item.id)}
+            label="Select Target Language"
+            options={TARGET_LANGUAGES}
+          />
+
+          <button className="btn btn-primary" onClick={handleSubmit}>
             Get Subtitles
           </button>
         </div>
