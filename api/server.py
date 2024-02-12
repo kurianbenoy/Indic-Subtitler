@@ -101,57 +101,65 @@ def generate_seamlessm4t_speech(item: Dict):
             n_frames = audio_file.getnframes()
             duration = n_frames / float(frame_rate)
             return duration
+    try:
+        USE_ONNX = False
+        model, utils = torch.hub.load(repo_or_dir='snakers4/silero-vad',
+                                  model='silero_vad',
+                                  force_reload=True,
+                                  onnx=USE_ONNX)
+        
+        
+        
+        (get_speech_timestamps,
+            save_audio,
+            read_audio,
+            VADIterator,
+            collect_chunks) = utils
     
-    USE_ONNX = False
-    model, utils = torch.hub.load(repo_or_dir='snakers4/silero-vad',
-                              model='silero_vad',
-                              force_reload=True,
-                              onnx=USE_ONNX)
+        b64 = item["wav_base64"]
+        source_lang = item["source"]
+        target_lang = item["target"]
+        
+        fname = base64_to_audio_file(b64_contents=b64)
+        print(fname)
+        
+        SAMPLING_RATE = 16000
+        wav = read_audio(fname, sampling_rate=SAMPLING_RATE)
+        # get speech timestamps from full audio file
+        speech_timestamps = get_speech_timestamps(wav, model, sampling_rate=SAMPLING_RATE, return_seconds=True)
+        print(speech_timestamps)
     
+        print("Initialized")
+        model_name = "seamlessM4T_v2_large"
+        vocoder_name = "vocoder_v2" if model_name == "seamlessM4T_v2_large" else "vocoder_36langs"
     
+        translator = Translator(
+            model_name,
+            vocoder_name,
+            device=torch.device("cuda:0"),
+            dtype=torch.float16,
+        )
     
-    (get_speech_timestamps,
-        save_audio,
-        read_audio,
-        VADIterator,
-        collect_chunks) = utils
-
-    b64 = item["wav_base64"]
-    source_lang = item["source"]
-    target_lang = item["target"]
+        text_contents = item["text"]
+        print(f"text: {text_contents}")
     
-    fname = base64_to_audio_file(b64_contents=b64)
-    print(fname)
+        b64_contents = item["wav_base64"]
     
-    SAMPLING_RATE = 16000
-    wav = read_audio(fname, sampling_rate=SAMPLING_RATE)
-    # get speech timestamps from full audio file
-    speech_timestamps = get_speech_timestamps(wav, model, sampling_rate=SAMPLING_RATE, return_seconds=True)
-    print(speech_timestamps)
+        duration = get_duration_wave(fname)
+        print(f"Duration: {duration:.2f} seconds")
+    
+        resample_rate = 16000
+        t1 = 0
+        t2 = 20000
 
-    print("Initialized")
-    model_name = "seamlessM4T_v2_large"
-    vocoder_name = "vocoder_v2" if model_name == "seamlessM4T_v2_large" else "vocoder_36langs"
 
-    translator = Translator(
-        model_name,
-        vocoder_name,
-        device=torch.device("cuda:0"),
-        dtype=torch.float16,
-    )
-
-    text_contents = item["text"]
-    print(f"text: {text_contents}")
-
-    b64_contents = item["wav_base64"]
-
-    duration = get_duration_wave(fname)
-    print(f"Duration: {duration:.2f} seconds")
-
-    resample_rate = 16000
-    t1 = 0
-    t2 = 20000
     
     return {"result": "success", "message": "Speech generated successfully."}
+    
+    except Exception as e:
+        print(e)
+        return {"message": "Internal server error", "code": 500}
 
+            
+        return {"message": "Internal server error", "code": 500}
 
