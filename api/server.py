@@ -28,20 +28,20 @@ def download_models():
                               force_reload=True,
                               onnx=USE_ONNX)
     
-def audio_file_to_base64(file_path):
-        """
-        Converts an audio file to a base64 encoded string.
+# def audio_file_to_base64(file_path):
+#         """
+#         Converts an audio file to a base64 encoded string.
 
-        Parameters:
-        - file_path: Path to the audio file.
+#         Parameters:
+#         - file_path: Path to the audio file.
 
-        Returns:
-        - A base64 encoded string of the audio file.
-        """
-        with open(file_path, "rb") as audio_file:
-            audio_data = audio_file.read()
-        base64_encoded_str = base64.b64encode(audio_data).decode('utf-8')
-        return base64_encoded_str
+#         Returns:
+#         - A base64 encoded string of the audio file.
+#         """
+#         with open(file_path, "rb") as audio_file:
+#             audio_data = audio_file.read()
+#         base64_encoded_str = base64.b64encode(audio_data).decode('utf-8')
+#         return base64_encoded_str
 
 def base64_to_audio_file(b64_contents):
     """
@@ -157,6 +157,9 @@ def generate_seamlessm4t_speech(item: Dict):
         num_samples = math.ceil(duration/20)
         print("number of samples ", num_samples)
 
+        # Replace t1, t2 with VAD time
+        timestamps_start = []
+        timestamps_end = []
         text = []
         for i in range(num_samples):
             newAudio = AudioSegment.from_wav(audio_name)
@@ -169,14 +172,19 @@ def generate_seamlessm4t_speech(item: Dict):
             torchaudio.save("resampled.wav", resampled_waveform, resample_rate)
         
             translated_text, _ = translator.predict("resampled.wav", "s2tt", target_lang)
+            timestamps_start.append(t1)
+            timestamps_end.append(t2)
+            text.append(str(translated_text[0]))
+            t1 = t2
+            t2 += 20000
+            os.remove(new_audio_name)
+        os.remove("resampled.wav")
 
-    
+    chunks = []
+    for i in range(len(text)):
+        chunks.append({"start": timestamps_start[i], "end": timestamps_end[i],"text": text[i] })
     return {"result": "success", "message": "Speech generated successfully."}
     
     except Exception as e:
         print(e)
         return {"message": "Internal server error", "code": 500}
-
-            
-        return {"message": "Internal server error", "code": 500}
-
