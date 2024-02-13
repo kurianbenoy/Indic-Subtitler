@@ -17,10 +17,9 @@ module.exports = {
         secondary: "#242424",
       },
     },
-    plugins: [require("@tailwindcss/typography"), require("daisyui")],
-
-    daisyui: {
-      themes: ["retro"],
-    },
+  },
+  plugins: [require("@tailwindcss/typography"), require("daisyui")],
+  daisyui: {
+    themes: ["retro"],
   },
 };
