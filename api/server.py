@@ -70,15 +70,15 @@ stub = Stub(name="seamless_m4t_speech",image=image)
 def generate_seamlessm4t_speech(item: Dict):
     """Input speech """
     import math
-    import torch
     import wave
     import base64
     import math
     import os
+
+    import torch
+    import torchaudio
     from pydub import AudioSegment
     from seamless_communication.inference import Translator
-    
-    import torch
     
     # function to calculate the duration of the input audio clip
     def get_duration_wave(file_path):
@@ -159,7 +159,7 @@ def generate_seamlessm4t_speech(item: Dict):
         #     os.remove(new_audio_name)
         
         for i in range(num_samples):
-            newAudio = AudioSegment.from_wav(audio_name)
+            newAudio = AudioSegment.from_wav(fname)
             newAudio = newAudio[t1:t2]
             new_audio_name = "new_" + str(t1) + ".wav"
             newAudio.export(new_audio_name, format="wav")
