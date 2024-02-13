@@ -126,11 +126,6 @@ def generate_seamlessm4t_speech(item: Dict):
             dtype=torch.float16,
         )
     
-        text_contents = item["text"]
-        print(f"text: {text_contents}")
-    
-        b64_contents = item["wav_base64"]
-    
         duration = get_duration_wave(fname)
         print(f"Duration: {duration:.2f} seconds")
     
@@ -185,7 +180,7 @@ def generate_seamlessm4t_speech(item: Dict):
         chunks = []
         for i in range(len(text)):
             chunks.append({"start": timestamps_start[i], "end": timestamps_end[i],"text": text[i] })
-        return {"result": "success", "message": "Speech generated successfully."}
+        return {"result": "success", "message": "Speech generated successfully.", "chunks": chunks}
     
     except Exception as e:
         print(e)
