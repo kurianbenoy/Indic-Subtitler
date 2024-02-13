@@ -41,6 +41,8 @@ which supports almost 12 Indic languages [2] by default. With this model alone, 
 12. Telgu
 13. Urdu
 
+The language code abbrevation for each of the models can be [found out here](https://github.com/facebookresearch/seamless_communication/blob/main/demo/expressive/utils.py).
+
 ### 2. Backend API
 
 My plan is use FastAPI as the backend and deploy it on serveless platforms like [Modal.com](https://modal.com/)
