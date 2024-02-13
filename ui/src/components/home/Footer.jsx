@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Footer() {
   return (
-    <footer className="md:px-20 lg:px-40 px-2 py-12 bg-[#edf2fa] flex md:flex-row flex-col">
+    <footer className="md:px-20 lg:px-40 px-8 py-12 bg-[#edf2fa] flex md:flex-row flex-col">
       <section>
         <h1 className="text-3xl font-semibold font-sans text-primary">
           Indic Subtitler

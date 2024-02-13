@@ -25,8 +25,8 @@ export default function Information() {
   const modes = ["No credit card required", "Nominal Fee", "Cancel Anytime"];
 
   return (
-    <main className="md:mt-36 mt-16 space-y-24 md:px-20 px-2 ">
-      <section>
+    <main className="md:mt-36 space-y-36 mt-16  md:px-20 px-4">
+      <section className="space-y-20">
         <h2 className="text-center text-3xl md:text-5xl font-medium underline decoration-8 underline-offset-[14px] decoration-primary">
           How it works
         </h2>
@@ -62,7 +62,7 @@ export default function Information() {
         <div className="self-center m-10">
           <PrimaryBtn />
         </div>
-        <div className="flex flex-col md:flex-row md:justify-center mb-12">
+        <div className="flex flex-col md:flex-row  md:justify-center mb-12">
           {modes.map((element, index) => {
             return (
               <div
