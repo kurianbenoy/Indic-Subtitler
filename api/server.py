@@ -27,21 +27,6 @@ def download_models():
                               model='silero_vad',
                               force_reload=True,
                               onnx=USE_ONNX)
-    
-# def audio_file_to_base64(file_path):
-#         """
-#         Converts an audio file to a base64 encoded string.
-
-#         Parameters:
-#         - file_path: Path to the audio file.
-
-#         Returns:
-#         - A base64 encoded string of the audio file.
-#         """
-#         with open(file_path, "rb") as audio_file:
-#             audio_data = audio_file.read()
-#         base64_encoded_str = base64.b64encode(audio_data).decode('utf-8')
-#         return base64_encoded_str
 
 def base64_to_audio_file(b64_contents):
     """
@@ -195,12 +180,12 @@ def generate_seamlessm4t_speech(item: Dict):
             t1 = t2
             t2 += 20000
             os.remove(new_audio_name)
-        os.remove("resampled.wav")
+            os.remove("resampled.wav")
 
-    chunks = []
-    for i in range(len(text)):
-        chunks.append({"start": timestamps_start[i], "end": timestamps_end[i],"text": text[i] })
-    return {"result": "success", "message": "Speech generated successfully."}
+        chunks = []
+        for i in range(len(text)):
+            chunks.append({"start": timestamps_start[i], "end": timestamps_end[i],"text": text[i] })
+        return {"result": "success", "message": "Speech generated successfully."}
     
     except Exception as e:
         print(e)
