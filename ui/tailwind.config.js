@@ -15,11 +15,7 @@ module.exports = {
       colors: {
         primary: "#5E3AEE",
         secondary: "#242424",
-      },
-      colors: {
-        primary: "#5E3AEE",
-        secondary: "#242424",
-      },
+      
     },
   },
   plugins: [require("@tailwindcss/typography"), require("daisyui")],
