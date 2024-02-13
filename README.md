@@ -9,6 +9,7 @@
 
 This project is participating in [Open Source AI Hackathon](https://hasgeek.com/fifthelephant/open-source-ai-hackathon/) sponsored by Meta.
 > Theme: AI FOR IMAGE GENERATION/CREATIVES
+> 
 > [Hasgeek Submission](https://hasgeek.com/fifthelephant/open-source-ai-hackathon/sub/indic-subtitler-3WGToX2LwAuAxTRedhUJyT)
 
 ## Project Objective
