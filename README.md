@@ -7,6 +7,10 @@
 <img src="https://github.com/kurianbenoy/Indic-Subtitler/assets/24592806/3cd137bd-8105-4b84-8ccd-0ed662786240" alt="logo2" width="250" height="auto">
 </div>
 
+This project is participating in [Open Source AI Hackathon](https://hasgeek.com/fifthelephant/open-source-ai-hackathon/) sponsored by Meta.
+> Theme: AI FOR IMAGE GENERATION/CREATIVES
+> [Hasgeek Submission](https://hasgeek.com/fifthelephant/open-source-ai-hackathon/sub/indic-subtitler-3WGToX2LwAuAxTRedhUJyT)
+
 ## Project Objective
 
 The number of tools which are available in Indian languages to subitle audio and videos in Indian languages are almost none. Yet that shouldn't be the case, as now there are lot of open-source models supporting speech transcription in most of official Indian languages.  This tool can be useful for subtitling audios and videos like Indian cinemas for Media Industry in general.
