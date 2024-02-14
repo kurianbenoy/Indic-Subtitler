@@ -68,6 +68,14 @@ Styling: Tailwind CSS or styled-components (for styling with ease and efficiency
 
 **Week 2**
 
+- Build Landing page for Indic subtitler web app
+- Continue creating API to use Seamless M4T v2 model. Trying to find a work around timestamps not available issue. 
+
+GPU's needed: 1 A100 or T4
+Solutions available:
+
+1. Use Silero VAD to chunk audio and use start time/end time of each chunks
+
 - Build API to handle audio/video part
 - Build UI for displaying and downloading subtitles
 
