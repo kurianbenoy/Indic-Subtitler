@@ -1,8 +1,14 @@
+import { transitionToDashboard } from "@components/utils";
+import { useRouter } from "next/router";
 import React from "react";
 
 function PrimaryBtn() {
+  const router = useRouter();
   return (
-    <button className="px-4 py-2 bg-primary  text-white font-medium rounded-md text-xl">
+    <button
+      onClick={() => transitionToDashboard(router)}
+      className="px-4 py-2 bg-primary  text-white font-medium rounded-md text-xl"
+    >
       Try now for free!
     </button>
   );
