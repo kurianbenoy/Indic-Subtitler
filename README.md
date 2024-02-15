@@ -27,7 +27,7 @@ Due to advent of new technologies like Meta's seamless M4T model and Whisper fin
 ### 1. ML Model
 
 I am planning to use Meta's Seamless Communication technology which was recently released[git](https://github.com/facebookresearch/seamless_communication). I am planning to use seamlessM4T_v2_large model,
-which supports almost 12 Indic languages [2] by default. With this model alone, we can potentially transcribe audio in respective languages and even translate subtitles into other languages. In lot of Indic languages, there are fine-tuned Whisper ASR models in respective languages. More such models can be found in this Whisper event leaderboard [3]. I have personally fine-tuned Whisper models in my mother tongue malayalam like [4] and [5]. So if performance of any language is not found useful, we can switch to one of the Whisper ASR based models. Yet one thing to note though is, that Whisper might not be able to support all the languages listed in Seamless.
+which supports almost 12 Indic languages [2] by default. With this model alone, we can potentially transcribe audio in respective languages and even translate subtitles into other languages. In lot of Indic languages, there are fine-tuned Whisper ASR models in respective languages. More such models can be found in this Whisper event leaderboard [3]. I have personally fine-tuned Whisper models in my mother tongue malayalam like [4] and [5]. So if performance of any language is not found useful, we can switch to one of the Whisper ASR based models. Yet one thing to note though is, that Whisper might not be able to support all the languages listed in Seamless. More details about SeamlessM4T can be found in paper [7].
 
 
 **Indic Languages supported with SeamlessM4T**
@@ -104,4 +104,6 @@ Solutions available:
 - [3] https://huggingface.co/spaces/whisper-event/leaderboard
 - [4] https://huggingface.co/kurianbenoy/Malwhisper-v1-medium
 - [5] https://huggingface.co/collections/kurianbenoy/vegam-whisper-models-65132456b4a3c844a7bf8d8e
-- [6] https://github.com/facebookresearch/seamless_communication/blob/1862dea5b7f30041e95a53fa98c769b5871d9abf/demo/expressive/utils.py#L1
+- [6] https://github.com/facebookresearch/seamless_communication/blob/main/demo/expressive/utils.py#L2-L103
+- [7] Seamless M4T paper - https://arxiv.org/abs/2308.11596
+  
