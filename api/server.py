@@ -26,6 +26,8 @@ def download_models():
     model, utils = torch.hub.load(repo_or_dir='snakers4/silero-vad',
                               model='silero_vad',
                               onnx=USE_ONNX)
+    
+    return translator
 
 def base64_to_audio_file(b64_contents):
     """
@@ -109,34 +111,18 @@ def generate_seamlessm4t_speech(item: Dict):
         
         SAMPLING_RATE = 16000
         wav = read_audio(fname, sampling_rate=SAMPLING_RATE)
+
         # get speech timestamps from full audio file
-        speech_timestamps = get_speech_timestamps(wav, model, sampling_rate=SAMPLING_RATE)
-        print(speech_timestamps)
-        print(type(speech_timestamps))
         speech_timestamps_seconds = get_speech_timestamps(wav, model, sampling_rate=SAMPLING_RATE, return_seconds=True)
         print(speech_timestamps_seconds)
     
-        print("Initialized")
-        model_name = "seamlessM4T_v2_large"
-        vocoder_name = "vocoder_v2" if model_name == "seamlessM4T_v2_large" else "vocoder_36langs"
-    
-        translator = Translator(
-            model_name,
-            vocoder_name,
-            device=torch.device("cuda:0"),
-            dtype=torch.float16,
-        )
+        print("Initialized Seamless model")
+        translator = download_models()
     
         duration = get_duration_wave(fname)
         print(f"Duration: {duration:.2f} seconds")
     
         resample_rate = 16000
-        # t1 = 0
-        # t2 = 20000
-
-        # Generating 'n' number of audio samples each with 20seconds duration. This is to avoid issue with the maximum sequence length
-        num_samples = math.ceil(duration/20)
-        print("number of samples ", num_samples)
 
         # Replace t1, t2 with VAD time
         timestamps_start = []
@@ -144,14 +130,14 @@ def generate_seamlessm4t_speech(item: Dict):
         text = []
         
         # Logic for VAD based filtering
-        for item in speech_timestamps:
+        for item in speech_timestamps_seconds:
             s = item["start"]
             e = item["end"]
 
             timestamps_start.append(s)
             timestamps_end.append(e)
             newAudio = AudioSegment.from_wav(fname)
-            newAudio = newAudio[s:e]
+            newAudio = newAudio[s*1000:e*1000]
             new_audio_name = "new_" + str(s) + ".wav"
             newAudio.export(new_audio_name, format="wav")
             waveform, sample_rate = torchaudio.load(new_audio_name)
@@ -160,37 +146,16 @@ def generate_seamlessm4t_speech(item: Dict):
             torchaudio.save("resampled.wav", resampled_waveform, resample_rate)
             translated_text, _ = translator.predict("resampled.wav", "s2tt", target_lang)
             print(translated_text)
-            print(s)
-            print(e)
             text.append(str(translated_text[0]))
             os.remove(new_audio_name)
             os.remove("resampled.wav")
-        
-        # for i in range(num_samples):
-        #     newAudio = AudioSegment.from_wav(fname)
-        #     newAudio = newAudio[t1:t2]
-        #     new_audio_name = "new_" + str(t1) + ".wav"
-        #     newAudio.export(new_audio_name, format="wav")
-        #     waveform, sample_rate = torchaudio.load(new_audio_name)
-        #     resampler = torchaudio.transforms.Resample(sample_rate, resample_rate, dtype=waveform.dtype)
-        #     resampled_waveform = resampler(waveform)
-        #     torchaudio.save("resampled.wav", resampled_waveform, resample_rate)
-        
-        #     translated_text, _ = translator.predict("resampled.wav", "s2tt", target_lang)
-        #     timestamps_start.append(t1)
-        #     timestamps_end.append(t2)
-        #     text.append(str(translated_text[0]))
-        #     t1 = t2
-        #     t2 += 20000
-        #     os.remove(new_audio_name)
-        #     os.remove("resampled.wav")
 
         chunks = []
         for i in range(len(text)):
             chunks.append({"start": timestamps_start[i], "end": timestamps_end[i],"text": text[i] })
 
         full_text = " ".join([x["text"] for x in chunks])
-        return {"result": "success", "message": "Speech generated successfully.", "chunks": chunks, "text": full_text}
+        return {"code": 200, "message": "Speech generated successfully.", "chunks": chunks, "text": full_text}
     
     except Exception as e:
         print(e)
