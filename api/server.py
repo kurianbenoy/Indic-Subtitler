@@ -26,8 +26,6 @@ def download_models():
     model, utils = torch.hub.load(repo_or_dir='snakers4/silero-vad',
                               model='silero_vad',
                               onnx=USE_ONNX)
-    
-    return translator
 
 def base64_to_audio_file(b64_contents):
     """
@@ -117,7 +115,17 @@ def generate_seamlessm4t_speech(item: Dict):
         print(speech_timestamps_seconds)
     
         print("Initialized Seamless model")
-        translator = download_models()
+        # translator = download_models()
+        model_name = "seamlessM4T_v2_large"
+        vocoder_name = "vocoder_v2" if model_name == "seamlessM4T_v2_large" else "vocoder_36langs"
+
+        translator = Translator(
+            model_name,
+            vocoder_name,
+            device=torch.device("cuda:0"),
+            dtype=torch.float16,
+        )
+    
     
         duration = get_duration_wave(fname)
         print(f"Duration: {duration:.2f} seconds")
