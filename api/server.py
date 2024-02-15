@@ -66,7 +66,7 @@ image = (
 
 stub = Stub(name="seamless_m4t_speech",image=image)
 
-@stub.function(gpu=GPU_TYPE)
+@stub.function(gpu=GPU_TYPE, timeout=600)
 @web_endpoint(method="POST")
 def generate_seamlessm4t_speech(item: Dict):
     """Input speech """
