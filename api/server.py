@@ -25,7 +25,6 @@ def download_models():
     USE_ONNX = False
     model, utils = torch.hub.load(repo_or_dir='snakers4/silero-vad',
                               model='silero_vad',
-                              force_reload=True,
                               onnx=USE_ONNX)
 
 def base64_to_audio_file(b64_contents):
@@ -91,7 +90,6 @@ def generate_seamlessm4t_speech(item: Dict):
         USE_ONNX = False
         model, utils = torch.hub.load(repo_or_dir='snakers4/silero-vad',
                                   model='silero_vad',
-                                  force_reload=True,
                                   onnx=USE_ONNX)
         
         
