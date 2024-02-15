@@ -32,21 +32,23 @@ which supports almost 12 Indic languages [2] by default. With this model alone, 
 
 **Indic Languages supported with SeamlessM4T**
 
-1. Assamese
-2. Bengali
-3. English (Very commonly used)
-4. Gujarati
-5. Hindi
-6. Kannada
-7. Malayalam
-8. Marathi
-9. Odia
-10. Punjabi
-11. Tamil
-12. Telgu
-13. Urdu
+| Language   | Code   |
+|------------|--------|
+| Assamese   | asm    |
+| Bengali    | ben    |
+| English    | eng    |
+| Gujarati   | guj    |
+| Hindi      | hin    |
+| Kannada    | kan    |
+| Malayalam  | mal    |
+| Marathi    | mar    |
+| Odia       | ory    |
+| Punjabi    | pan    |
+| Tamil      | tam    |
+| Telugu     | tel    |
+| Urdu       | urd    |
 
-The language code abbrevation for each of the models can be [found out here](https://github.com/facebookresearch/seamless_communication/blob/main/demo/expressive/utils.py).
+The language code abbrevation for each of the models can be [found out here](https://github.com/facebookresearch/seamless_communication/blob/main/demo/expressive/utils.py) [6].
 
 ### 2. Backend API
 
@@ -102,3 +104,4 @@ Solutions available:
 - [3] https://huggingface.co/spaces/whisper-event/leaderboard
 - [4] https://huggingface.co/kurianbenoy/Malwhisper-v1-medium
 - [5] https://huggingface.co/collections/kurianbenoy/vegam-whisper-models-65132456b4a3c844a7bf8d8e
+- [6] https://github.com/facebookresearch/seamless_communication/blob/1862dea5b7f30041e95a53fa98c769b5871d9abf/demo/expressive/utils.py#L1
