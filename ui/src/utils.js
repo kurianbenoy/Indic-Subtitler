@@ -21,3 +21,7 @@ export const fileToBase64 = async (file) => {
     };
   });
 };
+
+export function transitionToDashboard(router) {
+  router.push("/home");
+}
