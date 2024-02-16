@@ -7,7 +7,7 @@ function PrimaryBtn() {
   return (
     <button
       onClick={() => transitionToDashboard(router)}
-      className="px-4 py-2 bg-primary  text-white font-medium rounded-md text-xl"
+      className="px-4 py-2 bg-primary-900  text-white font-medium rounded-md text-xl"
     >
       Try now for free!
     </button>

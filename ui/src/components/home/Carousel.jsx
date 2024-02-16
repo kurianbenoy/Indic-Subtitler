@@ -67,7 +67,7 @@ export default function Carousel() {
               className="carousel-item  md:w-72 md:h-72 h-52 w-52 rounded-lg bg-white flex flex-col items-center justify-center gap-4  mx-4"
               key={index}
             >
-              <h1 className="text-4xl font-semibold font text-primary">
+              <h1 className="text-4xl font-semibold font text-primary-900">
                 {element.regionalName}
               </h1>
               <h3 className="text-gray-500 text-lg">{element.englishName}</h3>

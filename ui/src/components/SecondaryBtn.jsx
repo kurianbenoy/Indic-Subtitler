@@ -8,7 +8,7 @@ export default function SecondaryBtn() {
   return (
     <button
       onClick={() => transitionToDashboard(router)}
-      className="bg-secondary text-white font-medium md:px-8 md:py-2 px-4 py-2 rounded-md"
+      className="bg-secondary-900 text-white font-medium md:px-8 md:py-2 px-4 py-2 rounded-md"
     >
       Dashboard
     </button>

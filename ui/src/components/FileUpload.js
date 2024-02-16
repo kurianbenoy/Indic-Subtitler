@@ -117,7 +117,7 @@ const FileUpload = ({ onSubmit }) => {
             options={TARGET_LANGUAGES}
           />
 
-          <button className="btn btn-primary" onClick={handleSubmit}>
+          <button className="btn btn-primary-900" onClick={handleSubmit}>
             Get Subtitles
           </button>
         </div>

@@ -8,7 +8,7 @@ export default function HeroSection() {
       <div className="md:w-[40%] space-y-6 md:px-20 px-2 ">
         <h1 className="text-5xl font-medium">
           Only Open Source subtitle generator for{" "}
-          <span className="text-primary">Indic Languages</span>
+          <span className="text-primary-900">Indic Languages</span>
         </h1>
         <p className="text-gray-500 text-lg">
           Supported by SeamlessM4T-v2 large model, which supports almost 12

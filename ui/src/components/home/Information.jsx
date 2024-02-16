@@ -26,7 +26,7 @@ export default function Information() {
   return (
     <main className="md:mt-36 space-y-36 mt-16  md:px-20 px-4">
       <section className="space-y-20">
-        <h2 className="text-center text-3xl md:text-5xl font-medium underline decoration-8 underline-offset-[14px] decoration-primary">
+        <h2 className="text-center text-3xl md:text-5xl font-medium underline decoration-8 underline-offset-[14px] decoration-primary-900">
           How it works
         </h2>
         <div className="mt-12 flex md:flex-row flex-col items-center justify-center">
@@ -37,7 +37,7 @@ export default function Information() {
                 key={index}
                 className="flex flex-col items-center mx-10 my-3 md:mt-0"
               >
-                <div className="bg-primary text-white md:p-8 p-6 rounded-lg ">
+                <div className="bg-primary-900 text-white md:p-8 p-6 rounded-lg ">
                   <Icon size="46" />
                 </div>
                 <p className="md:text-2xl text-xl mt-2">{element}</p>

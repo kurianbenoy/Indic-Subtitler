@@ -12,14 +12,26 @@ module.exports = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      screens: {
+        xl: "1200",
+      },
       colors: {
-        primary: "#5E3AEE",
-        secondary: "#242424",
+        primary: {
+          900: "#5E3AEE",
+          500: "#5E3AEE",
+          300: "#9DC0FA",
+        },
+        secondary: {
+          900: "#242424",
+        },
+        s_light: {
+          100: "#F7FAFF",
+        },
       },
     },
   },
   plugins: [require("@tailwindcss/typography"), require("daisyui")],
-  daisyui: {
-    themes: ["retro"],
-  },
+  // daisyui: {
+  //   themes: ["retro"],
+  // },
 };

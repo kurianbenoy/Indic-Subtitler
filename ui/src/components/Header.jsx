@@ -25,7 +25,7 @@ export default function Header() {
     >
       <h1
         onClick={scrollToTop}
-        className="text-3xl font-semibold font-sans text-primary cursor-pointer"
+        className="text-3xl font-semibold font-sans text-primary-900 cursor-pointer"
       >
         Indic Subtitler
       </h1>
