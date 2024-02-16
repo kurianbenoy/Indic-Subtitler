@@ -145,6 +145,8 @@ def generate_seamlessm4t_speech(item: Dict):
             timestamps_start.append(s)
             timestamps_end.append(e)
             newAudio = AudioSegment.from_wav(fname)
+
+            # time in seconds should be multiplied by 1000.0 for AudioSegment array. So 20s = 20000
             newAudio = newAudio[s*1000:e*1000]
             new_audio_name = "new_" + str(s) + ".wav"
             newAudio.export(new_audio_name, format="wav")
