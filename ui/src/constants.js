@@ -1,6 +1,6 @@
 export const SOURCE_LANGUAGES = [
-  { id: "en", name: "English" },
-  { id: "ml", name: "Malayalam" },
+  { id: "eng", name: "English" },
+  { id: "mal", name: "Malayalam" },
 ];
 
 // export const TARGET_LANGUAGES = [
