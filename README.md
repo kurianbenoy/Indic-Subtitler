@@ -78,6 +78,15 @@ Solutions available:
 
 1. Use Silero VAD to chunk audio and use start time/end time of each chunks
 
+
+##### API Performance
+
+| Audio length   | Time  |
+|------------|--------|
+| 3 minutes   |41.4s   |
+| 27 minutes  | 4m 45s |
+
+
 - Build API to handle audio/video part
 - Build UI for displaying and downloading subtitles
 
