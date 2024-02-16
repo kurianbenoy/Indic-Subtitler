@@ -106,6 +106,19 @@ Solutions available:
 
 1. Seamless Communication by default doesn't support time-stamps. [github issue](https://github.com/facebookresearch/seamless_communication/issues/172)
 
+### Feedback from mentors
+
+1. Instead of uploading, it would be good to have another option to pass youtube video URLs directly and then do subtitling. (Aravind)
+
+2. Improve the existing transcription accuracy by providing context also along with Input Audio and then post-process with GPTs (Simrat)
+
+3. We should ideally focus on doing one thing really well. I was discussing the two features with mentors:
+
+Our first feature is about speech to text Subtitling in both source language and translating to other indic language. The second idea is to generate speech output in different language in a live streaming like setup
+
+They said try to build one thing really well and then only go to the next feature. (Bharat, Aravind)
+
+
 ## References
 
 - [1] https://github.com/facebookresearch/seamless_communication/blob/main/Seamless_Tutorial.ipynb
