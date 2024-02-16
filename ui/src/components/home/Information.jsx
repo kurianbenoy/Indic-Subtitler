@@ -6,9 +6,8 @@ import {
   IconEdit,
 } from "@tabler/icons-react";
 import React from "react";
-import Carousel from "../Carousel";
 import PrimaryBtn from "../PrimaryBtn";
-
+import Carousel from "./Carousel";
 export default function Information() {
   const iconMap = {
     0: IconUpload,
@@ -51,7 +50,6 @@ export default function Information() {
         <h2 className="text-center text-3xl md:text-5xl font-medium ">
           Cutting edge technology that supports 10+ languages
         </h2>
-        <p></p>
         <Carousel />
       </section>
       <section className="flex flex-col ">
