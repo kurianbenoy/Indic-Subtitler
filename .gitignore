@@ -214,3 +214,5 @@ pyrightconfig.json
 # ignore all wav files
 
 *.wav
+*.mp3
+*.srt
