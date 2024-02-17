@@ -47,8 +47,8 @@ export default function dashboard() {
   return (
     <>
       <Header />
-      <main className="mt-8 flex flex-col md:flex-row md:mb-8 border-2 lg:mx-28 mx-4 ">
-        <aside className="w-full md:w-[40%] lg:w-[30vw] flex flex-col space-y-10 p-2">
+      <main className="mt-8 flex flex-col md:flex-row md:mb-8 xl:mx-14 mx-4 gap-4">
+        <aside className="w-full md:w-[40%] lg:w-[25%] flex flex-col space-y-10 p-2">
           <div>
             <h2 className="text-3xl font-medium">Upload a File</h2>
             <p className="font-xl text-gray-500 font-medium mt-2">
@@ -64,12 +64,12 @@ export default function dashboard() {
           <div className="space-y-5">
             <Dropdown
               onChange={(item) => setSourceLanguage(item)}
-              label="Source Language"
+              label="Source"
               options={SOURCE_LANGUAGES}
             />
             <Dropdown
               onChange={(item) => setOutputLanguage(item)}
-              label="Output Language"
+              label="Output"
               options={SOURCE_LANGUAGES}
             />
           </div>
@@ -90,23 +90,18 @@ export default function dashboard() {
           </button>
         </aside>
         {transcribe ? (
-          <aside className="w-full mt-14 md:mt-0 md:border-l-2 ">
-            <div className="md:border-b-2 flex md:flex-row flex-col md:justify-end md:text-lg text-white gap-4 md:px-4 md:p-2 md:py-4">
-              {/* commented out for now because auto save feature is enabled   */}
-              {/* <button className="bg-[#16A34A] md:py-2 px-4 p-4 rounded-md flex gap-4 w-fit">
-                <IconDeviceFloppy />
-                Save Changes
-              </button> */}
+          <aside className="w-full lg:w-[75%] mt-14 md:mt-0 md:border-l-2 ">
+            <div className="flex md:flex-row flex-col md:justify-end md:text-lg text-white gap-4 md:px-4 md:p-2 md:py-4">
               <button
                 onClick={() => console.log(transcribe)}
-                className="bg-secondary-900 md:py-2 p-4 rounded-md flex gap-4 w-fit"
+                className="bg-secondary-900 p-2 rounded-md flex gap-4 w-fit"
               >
                 <IconDownload />
                 Download
               </button>
             </div>
             <div>
-              <div className="overflow-x-auto">
+              <div className="overflow-x-auto h-[680px]">
                 <table className="table text-lg">
                   <thead className="text-lg">
                     <tr>
@@ -114,31 +109,15 @@ export default function dashboard() {
                       <th>Text</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody className="">
                     {transcribe?.map((element, index) => (
                       <tr key={index}>
                         <td>
-                          {/* <input
-                          type="text"
-                          value={element.time}
-                          onChange={(e) =>
-                            handleInputChange(index, e.target.value, "time")
-                          }
-                        /> */}
                           <p>
                             {element.start} - {element.end}
                           </p>
                         </td>
-
                         <td>
-                          {/* <input
-                            className="w-full"
-                            type="text"
-                            value={element.text}
-                            onChange={(e) =>
-                              handleInputChange(index, e.target.value, "text")
-                            }
-                          /> */}
                           <textarea
                             rows="4"
                             cols="50"

@@ -4,13 +4,13 @@ export default function Dropdown({ label, options = [], onChange }) {
     onChange(value);
   };
   return (
-    <div className="flex flex-col lg:flex-row lg:items-center lg:gap-2 ">
+    <div className="flex flex-col xl:flex-row xl:items-center xl:gap-14 ">
       <label htmlFor="language-select" className="font-medium">
         {label}:
       </label>
       <select
         onChange={handleSelectChange}
-        className="mt-1 border-2 lg:w-[60%] text-lg px-2 py-2 rounded-md cursor-pointer focus-visible:outline-none focus-visible:ring focus-visible:ring-primary-300 transition-all transition-75"
+        className="mt-1 border-2 w-full  text-lg px-2 py-2 rounded-md cursor-pointer focus-visible:outline-none focus-visible:ring focus-visible:ring-primary-300 transition-all transition-75"
       >
         <option disabled selected>
           Select language
