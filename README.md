@@ -21,6 +21,8 @@ The number of tools which are available in Indian languages to subitle audio and
 
 Due to advent of new technologies like Meta's seamless M4T model and Whisper fine-tuned models, you can do speech transcription to transcribe audio's from source audio to source text. With this a Hindi audio can be transcribed to Hindi text for generating subtitles. Meta's seamless M4T model also supports translation which can take Hindi audio and generate subtitle in languages like English, French, Malayalam etc.
 
+---
+
 ## Technology stack
 
 
@@ -61,6 +63,8 @@ Next.js, being a React framework, offers you all the benefits of React plus more
 Framework: Next.js (enables SSR and SSG, improving load times and SEO)
 Styling: Tailwind CSS or styled-components (for styling with ease and efficiency)
 
+---
+
 ## Roadmap
 
 **Week 1**
@@ -79,7 +83,7 @@ Styling: Tailwind CSS or styled-components (for styling with ease and efficiency
 <img width="919" alt="indic_subtitle_v2a" src="https://github.com/kurianbenoy/Indic-Subtitler/assets/24592806/636981f1-3b38-4adf-be81-2fe2f27a952b">
 <img width="905" alt="indic_subtitle_v2b" src="https://github.com/kurianbenoy/Indic-Subtitler/assets/24592806/42a7be88-250e-4be2-804e-2990bd668a1e">
 
-- Continue creating API to use Seamless M4T v2 model. Trying to find a work around timestamps not available issue. 
+- Continue creating API to use Seamless M4T v2 model. Seamless Communication by default doesn't support time-stamps. [github issue](https://github.com/facebookresearch/seamless_communication/issues/172). Trying to find a good work around about this.
 
 *GPU's needed: 1 A100 or T4*
 
@@ -117,9 +121,8 @@ Smaller chunks get very little context and becuase of this our model is sometime
 - Fine-tune ASR models based on performance for respective languages and integrate even whisper-based audio models.
 - Build a desktop app similar to webapp for using all the functionalities
 
-### Issue identified
+---
 
-1. Seamless Communication by default doesn't support time-stamps. [github issue](https://github.com/facebookresearch/seamless_communication/issues/172)
 
 ### Feedback from mentors
 
