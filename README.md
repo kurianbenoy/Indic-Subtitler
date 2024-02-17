@@ -110,7 +110,7 @@ Smaller chunks get very little context and becuase of this our model is sometime
 - Build API to handle audio/video part
 - Build UI for displaying and downloading subtitles
 
-**Week 3 🌗 **
+**Week 3 🌗**
 
 - Build UI for choose source and target subtitle screen
 - Improve results of SeamlessM4T with GPT models
