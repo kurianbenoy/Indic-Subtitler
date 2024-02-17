@@ -1,6 +1,6 @@
 # Indic-Subtitler
 
-> An open source subtitling platform for transcribing videos/audios in Indic languages and translating subtitles as well using ML models.
+> An open source subtitling platform 💻 for transcribing videos/audios in Indic languages and translating subtitles as well using ML models.
 
 <div>
 <img src="https://github.com/kurianbenoy/Indic-Subtitler/assets/24592806/029f32ed-d5a7-4555-a33e-b2fced54c955.png" alt="logo1" width="250" height="auto">
@@ -28,9 +28,10 @@ Due to advent of new technologies like Meta's seamless M4T model and Whisper fin
 
 ### 1. ML Model
 
-I am planning to use Meta's Seamless Communication technology which was recently released[git](https://github.com/facebookresearch/seamless_communication). I am planning to use seamlessM4T_v2_large model,
-which supports almost 12 Indic languages [2] by default. With this model alone, we can potentially transcribe audio in respective languages and even translate subtitles into other languages. In lot of Indic languages, there are fine-tuned Whisper ASR models in respective languages. More such models can be found in this Whisper event leaderboard [3]. I have personally fine-tuned Whisper models in my mother tongue malayalam like [4] and [5]. So if performance of any language is not found useful, we can switch to one of the Whisper ASR based models. Yet one thing to note though is, that Whisper might not be able to support all the languages listed in Seamless. More details about SeamlessM4T can be found in paper [7].
+We are planning to use Meta's Seamless Communication technology which was recently released[git](https://github.com/facebookresearch/seamless_communication). The `SeamlessM4T_v2_large` model 🚀, supports almost 12 Indic languages [2] by default. With this model alone, we can potentially transcribe audio in respective languages and even translate subtitles into other languages.  More details about SeamlessM4T can be found in paper [7].
 
+
+In lot of Indic languages, there are fine-tuned Whisper ASR models in respective languages. More such models can be found in this Whisper event leaderboard [3]. We have personally fine-tuned Whisper models in my mother tongue malayalam like [4] and [5]. So if performance of any language is not really good in SeamlessM4T model, we can switch to one of the fine-tuned Whisper ASR based models available in open source or make one ourselves. Yet one thing to note though is, that Whisper might not be able to support all the languages listed in Seamless.
 
 **Indic Languages supported with SeamlessM4T**
 
@@ -54,7 +55,7 @@ The language code abbrevation for each of the models can be [found out here](htt
 
 ### 2. Backend API
 
-My plan is use FastAPI as the backend and deploy it on serveless platforms like [Modal.com](https://modal.com/)
+We plan to use FastAPI as the backend and deploy it on serveless platforms like [Modal.com](https://modal.com/) or any other alternatives.
 
 ### 3. Frontend
 
