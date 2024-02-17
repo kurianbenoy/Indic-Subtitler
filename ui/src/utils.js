@@ -49,18 +49,18 @@ export const handleTranscribe = async (file, sourceLang, targetLang) => {
   }
 };
 
-export function formatTime(seconds) {
-  let hours = Math.floor(seconds / 3600);
-  let minutes = Math.floor((seconds % 3600) / 60);
-  let remainingSeconds = Math.floor(seconds % 60);
-
-  // Add leading zeros if needed
-  hours = hours < 10 ? "0" + hours : hours;
-  minutes = minutes < 10 ? "0" + minutes : minutes;
-  remainingSeconds =
-    remainingSeconds < 10 ? "0" + remainingSeconds : remainingSeconds;
-
-  return hours + ":" + minutes + ":" + remainingSeconds;
+export function formatTime(time) {
+  const hours = Math.floor(time / 3600);
+  const minutes = Math.floor((time % 3600) / 60);
+  const seconds = Math.floor(time % 60);
+  const milliseconds = Math.floor((time % 1) * 1000);
+  return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(
+    2,
+    "0"
+  )}:${String(seconds).padStart(2, "0")},${String(milliseconds).padStart(
+    3,
+    "0"
+  )}`;
 }
 
 export function removeFileExtension(filename) {
