@@ -73,11 +73,18 @@ Styling: Tailwind CSS or styled-components (for styling with ease and efficiency
 - Build Landing page for Indic subtitler web app
 - Continue creating API to use Seamless M4T v2 model. Trying to find a work around timestamps not available issue. 
 
-GPU's needed: 1 A100 or T4
-Solutions available:
+*GPU's needed: 1 A100 or T4*
+
+#### Solutions to this issue:
 
 1. Use Silero VAD to chunk audio and use start time/end time of each chunks
 
+ We run VAD first through the entire audio to figure out the VAD chunks start and end time, which is storee into an array.
+Then we loop through all these chunks and run seamlessM4T model on each of them.
+
+**Issues with this approach:**
+
+Smaller chunks get very little context and becuase of this our model is sometimes not able to transcribe these chunks accurately. We feel for seamless to effectively work, we need says we need atleast each chunk of size 5 seconds and less than 20 seconds.
 
 ##### API Performance
 
