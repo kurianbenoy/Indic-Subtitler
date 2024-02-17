@@ -66,9 +66,9 @@ Styling: Tailwind CSS or styled-components (for styling with ease and efficiency
 
 ---
 
-## Roadmap
+## 🚄 Roadmap 
 
-**Week 1**
+**Week 1 🌛**
 
 - Create API to use Seamless M4T model
 - Start building frontend audio/video upload workflow using Next.js
@@ -76,7 +76,7 @@ Styling: Tailwind CSS or styled-components (for styling with ease and efficiency
 <img width="1535" alt="indic_subtitle_v1" src="https://github.com/kurianbenoy/Indic-Subtitler/assets/24592806/972cb7f8-7861-47df-a0b3-08a30145a0c2">
 
 
-**Week 2**
+**Week 2 🌓**
 
 - Build Landing page for Indic subtitler web app
 
@@ -110,13 +110,13 @@ Smaller chunks get very little context and becuase of this our model is sometime
 - Build API to handle audio/video part
 - Build UI for displaying and downloading subtitles
 
-**Week 3**
+**Week 3 🌗 **
 
 - Build UI for choose source and target subtitle screen
 - Improve results of SeamlessM4T with GPT models
 - Complete integrating APIs with frontend
 
-**Week 4 onwards**
+**Week 4 onwards 🌕**
 
 - Evaluate the performance of Indic subtitler on various languages
 - Fine-tune ASR models based on performance for respective languages and integrate even whisper-based audio models.
