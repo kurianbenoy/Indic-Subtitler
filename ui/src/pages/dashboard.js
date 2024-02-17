@@ -6,7 +6,7 @@ import { SOURCE_LANGUAGES, translation } from "@components/constants";
 import { handleTranscribe } from "@components/utils";
 import ReactLoading from "react-loading";
 import { toast } from "react-toastify";
-import { IconDownload } from "@tabler/icons-react";
+import SubtitleEditor from "@components/components/SubtitleEditor";
 
 export default function dashboard() {
   const [uploadedFile, setUploadedFile] = useState();
@@ -14,8 +14,7 @@ export default function dashboard() {
   const [outputLanguage, setOutputLanguage] = useState();
   const [disabled, setDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [transcribed, setTranscribed] = useState(translation);
-  const textRef = useRef();
+  const [transcribed, setTranscribed] = useState();
 
   useEffect(() => {
     if (uploadedFile && sourceLanguage && outputLanguage) {
@@ -39,11 +38,6 @@ export default function dashboard() {
         setTranscribed(response.data.chunks);
       }
     }
-  }
-  function handleInputChange(index, newText, type) {
-    const updateTranscribe = [...transcribed];
-    updateTranscribe[index][type] = newText;
-    setTranscribed(updateTranscribe);
   }
   return (
     <>
@@ -91,63 +85,11 @@ export default function dashboard() {
           </button>
         </aside>
         {transcribed ? (
-          <aside className="w-full lg:w-[75%] mt-14 md:mt-0 md:border-l-2 ">
-            <div className="flex md:flex-row flex-col md:justify-end md:text-lg text-white gap-4 md:px-4 md:p-2 md:py-4">
-              <button
-                onClick={() => console.log(transcribed)}
-                className="bg-secondary-900 p-2 rounded-md flex gap-4 w-fit"
-              >
-                <IconDownload />
-                Download
-              </button>
-            </div>
-            <div>
-              <div className="overflow-x-auto h-[680px]">
-                <table className="table text-lg">
-                  <thead className="text-lg">
-                    <tr>
-                      <th>Timestamp</th>
-                      <th>Text</th>
-                    </tr>
-                  </thead>
-                  <tbody className="">
-                    {transcribed?.map((element, index) => (
-                      <tr key={index}>
-                        <td>
-                          <p>
-                            {element.start} - {element.end}
-                          </p>
-                        </td>
-                        <td>
-                          <textarea
-                            ref={index === 0 ? textRef : null}
-                            className="w-full resize-none"
-                            rows={element.text.length < 100 ? 1 : undefined}
-                            type="text"
-                            value={element.text}
-                            onChange={(e) =>
-                              handleInputChange(index, e.target.value, "text")
-                            }
-                          />
-
-                          {/* texting with inputfield */}
-                          {/* <input
-                            ref={index === 0 ? textRef : null}
-                            className="w-full resize-none min-h-fit  max-h-full"
-                            type="text"
-                            value={element.text}
-                            onChange={(e) =>
-                              handleInputChange(index, e.target.value, "text")
-                            }
-                          /> */}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </aside>
+          <SubtitleEditor
+            transcribed={transcribed}
+            setTranscribed={setTranscribed}
+            filename={uploadedFile?.path}
+          />
         ) : null}
       </main>
     </>

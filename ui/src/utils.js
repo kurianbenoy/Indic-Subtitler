@@ -48,3 +48,26 @@ export const handleTranscribe = async (file, sourceLang, targetLang) => {
     return error;
   }
 };
+
+export function formatTime(seconds) {
+  let hours = Math.floor(seconds / 3600);
+  let minutes = Math.floor((seconds % 3600) / 60);
+  let remainingSeconds = Math.floor(seconds % 60);
+
+  // Add leading zeros if needed
+  hours = hours < 10 ? "0" + hours : hours;
+  minutes = minutes < 10 ? "0" + minutes : minutes;
+  remainingSeconds =
+    remainingSeconds < 10 ? "0" + remainingSeconds : remainingSeconds;
+
+  return hours + ":" + minutes + ":" + remainingSeconds;
+}
+
+export function removeFileExtension(filename) {
+  const lastDotIndex = filename.lastIndexOf(".");
+  if (lastDotIndex !== -1 && lastDotIndex !== 0) {
+    return filename.substring(0, lastDotIndex);
+  } else {
+    return filename;
+  }
+}
