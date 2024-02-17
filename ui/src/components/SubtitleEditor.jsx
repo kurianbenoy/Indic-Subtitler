@@ -57,7 +57,8 @@ export default function SubtitleEditor({
                 <tr key={index}>
                   <td>
                     <p>
-                      {formatTime(element.start)} - {formatTime(element.end)}
+                      {formatTime(element.start).replace(",", ".")} -{" "}
+                      {formatTime(element.end).replace(",", ".")}
                     </p>
                   </td>
                   <td>
