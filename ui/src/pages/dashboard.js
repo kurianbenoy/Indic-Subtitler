@@ -15,6 +15,7 @@ export default function dashboard() {
   const [disabled, setDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
   const [transcribe, setTranscribe] = useState(translation);
+  const textRef = useRef();
 
   useEffect(() => {
     if (uploadedFile && sourceLanguage && outputLanguage) {
@@ -121,7 +122,7 @@ export default function dashboard() {
                           <textarea
                             ref={index === 0 ? textRef : null}
                             className="w-full resize-none "
-                            rows="1"
+                            rows={element.text.length < 100 ? 1 : undefined}
                             type="text"
                             value={element.text}
                             onChange={(e) =>
