@@ -5,7 +5,7 @@ from modal import Image,Stub, web_endpoint, gpu
 
 
 
-GPU_TYPE = "a10g"
+GPU_TYPE = "A100"
 
 def download_models():
     """Download models for sileroVAD, seamlessM4T, and vocoder"""
