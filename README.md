@@ -68,9 +68,17 @@ Styling: Tailwind CSS or styled-components (for styling with ease and efficiency
 - Create API to use Seamless M4T model
 - Start building frontend audio/video upload workflow using Next.js
 
+<img width="1535" alt="indic_subtitle_v1" src="https://github.com/kurianbenoy/Indic-Subtitler/assets/24592806/972cb7f8-7861-47df-a0b3-08a30145a0c2">
+
+
 **Week 2**
 
 - Build Landing page for Indic subtitler web app
+
+<img width="926" alt="indic_subtitle_v2" src="https://github.com/kurianbenoy/Indic-Subtitler/assets/24592806/c420bbc6-f20e-4e2b-a58a-7cf283d5673e">
+<img width="919" alt="indic_subtitle_v2a" src="https://github.com/kurianbenoy/Indic-Subtitler/assets/24592806/636981f1-3b38-4adf-be81-2fe2f27a952b">
+<img width="905" alt="indic_subtitle_v2b" src="https://github.com/kurianbenoy/Indic-Subtitler/assets/24592806/42a7be88-250e-4be2-804e-2990bd668a1e">
+
 - Continue creating API to use Seamless M4T v2 model. Trying to find a work around timestamps not available issue. 
 
 *GPU's needed: 1 A100 or T4*
