@@ -14,7 +14,7 @@ export default function dashboard() {
   const [outputLanguage, setOutputLanguage] = useState();
   const [disabled, setDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [transcribe, setTranscribe] = useState(translation);
+  const [transcribed, setTranscribed] = useState(translation);
   const textRef = useRef();
 
   useEffect(() => {
@@ -36,14 +36,14 @@ export default function dashboard() {
       if (response.status !== 200) {
         return toast.error("An error occured");
       } else {
-        setTranscribe(response.data.chunks);
+        setTranscribed(response.data.chunks);
       }
     }
   }
   function handleInputChange(index, newText, type) {
-    const updateTranscribe = [...transcribe];
-    transcribe[index][type] = newText;
-    setTranscribe(updateTranscribe);
+    const updateTranscribe = [...transcribed];
+    updateTranscribe[index][type] = newText;
+    setTranscribed(updateTranscribe);
   }
   return (
     <>
@@ -90,11 +90,11 @@ export default function dashboard() {
             )}
           </button>
         </aside>
-        {transcribe ? (
+        {transcribed ? (
           <aside className="w-full lg:w-[75%] mt-14 md:mt-0 md:border-l-2 ">
             <div className="flex md:flex-row flex-col md:justify-end md:text-lg text-white gap-4 md:px-4 md:p-2 md:py-4">
               <button
-                onClick={() => console.log(transcribe)}
+                onClick={() => console.log(transcribed)}
                 className="bg-secondary-900 p-2 rounded-md flex gap-4 w-fit"
               >
                 <IconDownload />
@@ -111,7 +111,7 @@ export default function dashboard() {
                     </tr>
                   </thead>
                   <tbody className="">
-                    {transcribe?.map((element, index) => (
+                    {transcribed?.map((element, index) => (
                       <tr key={index}>
                         <td>
                           <p>
@@ -121,7 +121,7 @@ export default function dashboard() {
                         <td>
                           <textarea
                             ref={index === 0 ? textRef : null}
-                            className="w-full resize-none "
+                            className="w-full resize-none"
                             rows={element.text.length < 100 ? 1 : undefined}
                             type="text"
                             value={element.text}
