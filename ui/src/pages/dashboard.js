@@ -1,8 +1,8 @@
 import Header from "@components/components/Header";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Dropzone from "@components/components/Dropzone";
 import Dropdown from "@components/components/Dropdown";
-import { SOURCE_LANGUAGES } from "@components/constants";
+import { SOURCE_LANGUAGES, translation } from "@components/constants";
 import { handleTranscribe } from "@components/utils";
 import ReactLoading from "react-loading";
 import { toast } from "react-toastify";
@@ -14,7 +14,7 @@ export default function dashboard() {
   const [outputLanguage, setOutputLanguage] = useState();
   const [disabled, setDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [transcribe, setTranscribe] = useState(undefined);
+  const [transcribe, setTranscribe] = useState(translation);
 
   useEffect(() => {
     if (uploadedFile && sourceLanguage && outputLanguage) {
@@ -119,15 +119,26 @@ export default function dashboard() {
                         </td>
                         <td>
                           <textarea
-                            rows="4"
-                            cols="50"
-                            className="w-full resize-none"
+                            ref={index === 0 ? textRef : null}
+                            className="w-full resize-none "
+                            rows="1"
                             type="text"
                             value={element.text}
                             onChange={(e) =>
                               handleInputChange(index, e.target.value, "text")
                             }
                           />
+
+                          {/* texting with inputfield */}
+                          {/* <input
+                            ref={index === 0 ? textRef : null}
+                            className="w-full resize-none min-h-fit  max-h-full"
+                            type="text"
+                            value={element.text}
+                            onChange={(e) =>
+                              handleInputChange(index, e.target.value, "text")
+                            }
+                          /> */}
                         </td>
                       </tr>
                     ))}
