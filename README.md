@@ -104,6 +104,7 @@ Smaller chunks get very little context and becuase of this our model is sometime
 | Audio length   | Time  |
 |------------|--------|
 | 3 minutes   |41.4s   |
+| 5 minutes   | 1m 42s |
 | 27 minutes  | 4m 45s |
 
 
