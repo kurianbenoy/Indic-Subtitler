@@ -46,6 +46,20 @@ def base64_to_audio_file(b64_contents):
         tmp_file.write(audio_data)
         # Return the path to the temporary file
         return tmp_file.name
+    
+def convert_to_mono_16k(input_file, output_file):
+    from pydub import AudioSegment
+    # Load the input file
+    sound = AudioSegment.from_file(input_file)
+    
+    # Convert stereo to mono
+    sound = sound.set_channels(1)
+    
+    # Set sample rate to 16000 Hz
+    sound = sound.set_frame_rate(16000)
+    
+    # Export the converted audio
+    sound.export(output_file, format="wav")
 
 image = (
         Image.from_registry("nvidia/cuda:12.2.0-devel-ubuntu20.04", add_python="3.10")
@@ -106,9 +120,11 @@ def generate_seamlessm4t_speech(item: Dict):
         
         fname = base64_to_audio_file(b64_contents=b64)
         print(fname)
+
+        convert_to_mono_16k(fname, "output.wav")
         
         SAMPLING_RATE = 16000
-        wav = read_audio(fname, sampling_rate=SAMPLING_RATE)
+        wav = read_audio("output.wav", sampling_rate=SAMPLING_RATE)
 
         # get speech timestamps from full audio file
         speech_timestamps_seconds = get_speech_timestamps(wav, model, sampling_rate=SAMPLING_RATE, return_seconds=True)
@@ -127,8 +143,8 @@ def generate_seamlessm4t_speech(item: Dict):
         )
     
     
-        duration = get_duration_wave(fname)
-        print(f"Duration: {duration:.2f} seconds")
+        # duration = get_duration_wave(fname)
+        # print(f"Duration: {duration:.2f} seconds")
     
         resample_rate = 16000
 
@@ -144,7 +160,7 @@ def generate_seamlessm4t_speech(item: Dict):
 
             timestamps_start.append(s)
             timestamps_end.append(e)
-            newAudio = AudioSegment.from_wav(fname)
+            newAudio = AudioSegment.from_wav("output.wav")
 
             # time in seconds should be multiplied by 1000.0 for AudioSegment array. So 20s = 20000
             newAudio = newAudio[s*1000:e*1000]
