@@ -7,6 +7,7 @@ import { handleTranscribe } from "@components/utils";
 import ReactLoading from "react-loading";
 import { toast } from "react-toastify";
 import SubtitleEditor from "@components/components/SubtitleEditor";
+import useLocalStorage from "@components/hooks/useLocalStorage";
 
 export default function dashboard() {
   const [uploadedFile, setUploadedFile] = useState();
@@ -14,7 +15,8 @@ export default function dashboard() {
   const [outputLanguage, setOutputLanguage] = useState();
   const [disabled, setDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [transcribed, setTranscribed] = useState();
+  const [transcribed, setTranscribed] = useState([]);
+  // const [transcribed, setTranscribed] = useLocalStorage("transcription", []);
 
   useEffect(() => {
     if (uploadedFile && sourceLanguage && outputLanguage) {
@@ -43,11 +45,11 @@ export default function dashboard() {
     <>
       <Header />
       <main className="mt-8 flex flex-col md:flex-row md:mb-8 xl:mx-14 mx-4 gap-4">
-        <aside className="w-full md:w-[40%] lg:w-[25%] flex flex-col space-y-10 p-2">
+        <aside className="w-full md:w-[30%] lg:w-[25%] flex flex-col space-y-10 p-2">
           <div>
             <h2 className="text-3xl font-medium">Upload a File</h2>
             <p className="font-xl text-gray-500 font-medium mt-2">
-              Upload an audio file to generate subtitle
+              Upload an audio file to generate subtitles
             </p>
           </div>
           <div className="h-80">
@@ -59,6 +61,7 @@ export default function dashboard() {
           <div className="space-y-5">
             <Dropdown
               onChange={(item) => setSourceLanguage(item)}
+              keyName="source-language"
               label="Source"
               options={SOURCE_LANGUAGES}
             />
@@ -66,6 +69,7 @@ export default function dashboard() {
               onChange={(item) => setOutputLanguage(item)}
               label="Output"
               options={SOURCE_LANGUAGES}
+              keyName="target-language"
             />
           </div>
           <button

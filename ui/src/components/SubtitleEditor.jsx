@@ -3,7 +3,7 @@ import { IconDownload } from "@tabler/icons-react";
 import { formatTime, removeFileExtension } from "@components/utils";
 
 export default function SubtitleEditor({
-  transcribed,
+  transcribed = [],
   setTranscribed,
   filename,
 }) {
@@ -32,6 +32,23 @@ export default function SubtitleEditor({
     URL.revokeObjectURL(url);
     document.body.removeChild(a);
   }
+
+  if (!transcribed?.length) {
+    return (
+      <>
+        <aside className="w-full lg:w-[75%] mt-14 md:mt-0 md:border-l-2 ">
+          <div className="flex md:flex-row flex-col md:justify-end md:text-lg text-white gap-4 md:px-4 md:p-2 md:py-4"></div>
+
+          <div className="flex justify-center items-center h-[70vh]">
+            <h5 className="text-xl font-medium">
+              Upload a file to edit subtitles
+            </h5>
+          </div>
+        </aside>
+      </>
+    );
+  }
+
   return (
     <aside className="w-full lg:w-[75%] mt-14 md:mt-0 md:border-l-2 ">
       <div className="flex md:flex-row flex-col md:justify-end md:text-lg text-white gap-4 md:px-4 md:p-2 md:py-4">
@@ -55,7 +72,7 @@ export default function SubtitleEditor({
             <tbody className="">
               {transcribed?.map((element, index) => (
                 <tr key={index}>
-                  <td>
+                  <td width="25%">
                     <p>
                       {formatTime(element.start).replace(",", ".")} -{" "}
                       {formatTime(element.end).replace(",", ".")}
@@ -64,7 +81,7 @@ export default function SubtitleEditor({
                   <td>
                     <textarea
                       className="w-full resize-none"
-                      rows={element.text.length < 100 ? 1 : undefined}
+                      rows={Math.ceil(element.text.length / 100)}
                       type="text"
                       value={element.text}
                       onChange={(e) =>
