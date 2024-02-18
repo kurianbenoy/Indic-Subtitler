@@ -1,6 +1,17 @@
 export const SOURCE_LANGUAGES = [
+  { id: "asm", name: "Assamese", disabled: true },
+  { id: "ben", name: "Bengali", disabled: true },
   { id: "eng", name: "English" },
+  { id: "guj", name: "Gujarati", disabled: true },
+  { id: "hin", name: "Hindi" },
+  { id: "kan", name: "Kannada", disabled: true },
   { id: "mal", name: "Malayalam" },
+  { id: "mar", name: "Marathi", disabled: true },
+  { id: "ory", name: "Odia", disabled: true },
+  { id: "pan", name: "Punjabi", disabled: true },
+  { id: "tam", name: "Tamil", disabled: true },
+  { id: "tel", name: "Telugu", disabled: true },
+  { id: "urd", name: "Urdu" },
 ];
 
 // export const TARGET_LANGUAGES = [
