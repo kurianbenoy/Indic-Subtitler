@@ -110,17 +110,16 @@ Smaller chunks get very little context and becuase of this our model is sometime
 | 15 minutes  | 2m23s  |
 | 27 minutes  | 4m 45s |
 
-
+- Completed integrating APIs with Next.JS frontend.
 - Build API to handle audio/video part
-- Build UI for choose source and target subtitle screen
-- Build UI for displaying and downloading subtitles
+
 
 **Week 3 🌗**
 
 - Build Streming API for Seamless M4T models
 - Incorprate frontend to make use of streaming API endpoints for Generative UI
-- Improve results of SeamlessM4T with GPT models
-- Complete integrating APIs with frontend
+- Improve results of SeamlessM4T with GPT models.
+- Include more model families like faster-whisper, whisperX etc.
 
 **Week 4 onwards 🌕**
 
