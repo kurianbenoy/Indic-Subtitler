@@ -116,13 +116,22 @@ Smaller chunks get very little context and becuase of this our model is sometime
 
 **Week 3 🌗**
 
-- Build Streming API for Seamless M4T models
-- Incorprate frontend to make use of streaming API endpoints for Generative UI
+- Build Streaming API for Seamless M4T models
+- Incorporate frontend to make use of streaming API endpoints for Generative UI
 - In the Landing page include LICENSE of models; Also add an About us page.
 - Add a section on Projects to shows audios uploaded and it's associated results SRT files. Also show the name, created date, file size(optional)
-- Consider the approach of imporving the results of SeamlessM4T with GPT models.
 - Include more model families like faster-whisper, whisperX etc.
 - Evaluate the performance of models in Indic subtitler on custom videos.
+
+##### Few extra approaches to consider:
+
+- Improving the results of SeamlessM4T with GPT models.
+- Grouping the chunks received from VAD to approx 30 second long chunks and then passing to Seamless model. (the max cut-off for Seamless is 30 seconds).
+  - See how we can then break down the longer, more accurate audio chunk to smaller parts with timestamps, again from VAD array
+- Try whisper-X model on the whole audio, then compare with the smaller chunks approach made with seamless and then try replacing the timestamped version with the audio from seamless
+- Consider breaking down the process into 2 independent steps:
+  - one for transcription only
+  - then a separate call to LLM to translate the accurate transcriptions to a target language
 
 </br>
 
