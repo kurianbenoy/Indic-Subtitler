@@ -118,6 +118,8 @@ Smaller chunks get very little context and becuase of this our model is sometime
 
 - Build Streming API for Seamless M4T models
 - Incorprate frontend to make use of streaming API endpoints for Generative UI
+- In the Landing page include LICENSE of models, About us.
+- Add a section on Projects to shows audios uploaded and it's associated results SRT files.
 - Improve results of SeamlessM4T with GPT models.
 - Include more model families like faster-whisper, whisperX etc.
 
