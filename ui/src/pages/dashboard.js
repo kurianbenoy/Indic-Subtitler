@@ -24,8 +24,13 @@ export default function dashboard() {
     }
   }, [uploadedFile, sourceLanguage, outputLanguage]);
 
+  function reset(state) {
+    setLoading(state);
+    setDisabled(state);
+  }
+
   async function handleSubmit() {
-    setLoading(true);
+    reset(true);
     const response = await handleTranscribe(
       uploadedFile,
       sourceLanguage,
@@ -33,7 +38,7 @@ export default function dashboard() {
     );
 
     if (response) {
-      setLoading(false);
+      reset(false);
       if (response.status !== 200) {
         return toast.error("An error occured");
       } else {
