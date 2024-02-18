@@ -80,9 +80,11 @@ Styling: Tailwind CSS or styled-components (for styling with ease and efficiency
 
 - Build Landing page for Indic subtitler web app
 
-<img width="926" alt="indic_subtitle_v2" src="https://github.com/kurianbenoy/Indic-Subtitler/assets/24592806/c420bbc6-f20e-4e2b-a58a-7cf283d5673e">
-<img width="919" alt="indic_subtitle_v2a" src="https://github.com/kurianbenoy/Indic-Subtitler/assets/24592806/636981f1-3b38-4adf-be81-2fe2f27a952b">
-<img width="905" alt="indic_subtitle_v2b" src="https://github.com/kurianbenoy/Indic-Subtitler/assets/24592806/42a7be88-250e-4be2-804e-2990bd668a1e">
+![landing-page_](https://github.com/kurianbenoy/Indic-Subtitler/assets/83013781/2af4776d-a8fb-4749-8ede-0fefcec94f91)
+
+- Build Dashboard to Upload Files, Generate & Edit subtitles and Download subtitles in .srt format
+
+![Screenshot from 2024-02-18 13-05-59](https://github.com/kurianbenoy/Indic-Subtitler/assets/83013781/d2db0ea9-8b79-4ce0-96e7-8770e17af63c)
 
 - Continue creating API to use Seamless M4T v2 model. Seamless Communication by default doesn't support time-stamps. [github issue](https://github.com/facebookresearch/seamless_communication/issues/172). Trying to find a good work around about this.
 
