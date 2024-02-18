@@ -10,12 +10,13 @@ export default function Dropzone({ setUploadedFile, uploadedFile }) {
     accept: {
       //   "audio/mpeg": [".mp3", ".mpeg", ".mpga"],
       //   "audio/mp4": [".m4a"],
-      //   "video/mp4": [".mp4"],
+      // "video/mp4": [".mp4"],
       //   "video/webm": [".webm"],
 
       // Only accepting .wav & .mp3 file right now
       "audio/wav": [".wav"],
       "audio/mpeg": [".mp3"],
+      "video/mp4": [".mp4"],
     },
   });
   function modalText(active) {
