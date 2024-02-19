@@ -1,3 +1,4 @@
+import { formatFileSize } from "@components/utils";
 import React, { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 
@@ -39,17 +40,15 @@ export default function Dropzone({ setUploadedFile, uploadedFile }) {
     >
       <input {...getInputProps()} />
       {uploadedFile ? (
-        <p className="text-lg font-medium">{uploadedFile.path}</p>
+        <div>
+          <p className="text-lg font-medium">{uploadedFile.path}</p>
+          <p className="text-center text-gray-500">
+            ( {formatFileSize(uploadedFile.size)} )
+          </p>
+        </div>
       ) : (
         modalText(isDragActive)
       )}
-      {/* <p className="text-lg">
-        {uploadedFile
-          ? `${uploadedFile.path}`
-          : isDragActive
-          ? `Drop the files here ...`
-          : `Drag 'n' drop some files here, or click to select files`}
-      </p> */}
     </div>
   );
 }
