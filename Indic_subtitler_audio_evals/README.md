@@ -1,3 +1,19 @@
+---
+language: 
+- "ml"
+- "hi"
+- "en"
+- "bn"
+- "kn"
+- "te"
+pretty_name: "Indic_subtitler_audio_evals"
+tags:
+- "datasets"
+- "Indic-subtitler"
+- "Audio"
+license: gpl-2.0
+---
+
 # Indic_audio_evals
 
 As part of this project. We are evaluating our performance of various ASR models as well
