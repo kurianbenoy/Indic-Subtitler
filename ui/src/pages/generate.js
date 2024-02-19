@@ -129,11 +129,7 @@ export default function dashboard() {
                 : "bg-primary-900 hover:cursor-pointer"
             } text-white py-2 rounded-md text-lg font-medium transition-all duration-300 flex items-center justify-center`}
           >
-            {loading ? (
-              <ReactLoading type="spin" height={30} width={30} />
-            ) : (
-              "Generate"
-            )}
+            Generate
           </button>
         </aside>
         <SubtitleEditor
