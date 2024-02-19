@@ -9,7 +9,6 @@ export default function Header() {
 
   function scrollToTop() {
     if (isHome) {
-      console.log("hey");
       window.scrollTo({
         top: 0,
         behavior: "smooth",

@@ -1,5 +1,3 @@
-import { transitionToCollection } from "@components/utils";
-import { useRouter } from "next/router";
 import React from "react";
 
 export default function SecondaryBtn({ fn, children }) {

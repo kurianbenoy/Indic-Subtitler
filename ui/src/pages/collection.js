@@ -15,7 +15,7 @@ const Collection = () => {
     if (storedFiles?.length) {
       return (
         <div className="overflow-x-auto ">
-          <table className="table text-lg">
+          <table className="table md:text-lg">
             <thead>
               <tr className="text-lg text-gray-600">
                 <th></th>
@@ -32,10 +32,10 @@ const Collection = () => {
                   <th>{index + 1}</th>
                   <td>{element.filename}</td>
                   <td>{formattedDate(element.uploadDate)}</td>
-                  {/* <td>{formatFileSize(element?.size)}</td> */}
+                  <td>{formatFileSize(element?.size)}</td>
                   <td>
                     <button
-                      onClick={() => router.push(`/dashboard?id=${index}`)}
+                      onClick={() => router.push(`/generate?id=${index}`)}
                       className="flex items-center gap-2"
                     >
                       <IconEdit />
@@ -73,13 +73,13 @@ const Collection = () => {
     <>
       <Header />
       <section className="flex justify-center">
-        <div className="md:w-[70%]  border-2 rounded-md">
+        <div className="md:w-[70%] w-full md:mx-0 mx-8 border-2 rounded-md">
           <div className="flex justify-between items-center border-b-[2px] py-2 px-2">
             <p className="text-lg text-gray-500 font-medium">
               {storedFiles.length}
               {storedFiles.length === 1 ? " item" : " items"}
             </p>
-            <SecondaryBtn fn={() => router.push("/dashboard")}>
+            <SecondaryBtn fn={() => router.push("/generate")}>
               Generate New Subtitles
             </SecondaryBtn>
           </div>
