@@ -11,6 +11,8 @@ tags:
 - "datasets"
 - "Indic-subtitler"
 - "Audio"
+task_categories:
+- automatic-speech-recognition
 license: gpl-2.0
 ---
 
