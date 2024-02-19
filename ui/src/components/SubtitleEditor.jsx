@@ -6,6 +6,7 @@ export default function SubtitleEditor({
   transcribed = [],
   setTranscribed,
   filename,
+  requestSentToAPI,
 }) {
   function handleInputChange(index, newText, type) {
     const updateTranscribe = [...transcribed];
@@ -33,7 +34,7 @@ export default function SubtitleEditor({
     document.body.removeChild(a);
   }
 
-  if (!transcribed?.length) {
+  if (!transcribed?.length && !requestSentToAPI) {
     return (
       <>
         <aside className="w-full lg:w-[75%] mt-14 md:mt-0 md:border-l-2 ">
@@ -48,7 +49,9 @@ export default function SubtitleEditor({
       </>
     );
   }
-
+  if (requestSentToAPI) {
+    return <h1>Loading....</h1>;
+  }
   return (
     <aside className="w-full lg:w-[75%] mt-14 md:mt-0 md:border-l-2 ">
       <div className="flex md:flex-row flex-col md:justify-end md:text-lg text-white gap-4 md:px-4 md:p-2 md:py-4">
@@ -62,8 +65,11 @@ export default function SubtitleEditor({
       </div>
       <div>
         <div className="overflow-x-auto h-[680px]">
+          <p className="text-gray-500 font-semibold mx-2">
+            Click on subtitle to start editing
+          </p>
           <table className="table text-lg">
-            <thead className="text-lg">
+            <thead className="text-lg text-gray-600">
               <tr>
                 <th>Timestamp</th>
                 <th>Text</th>
