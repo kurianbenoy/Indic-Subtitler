@@ -1,17 +1,16 @@
 import Header from "@components/components/Header";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Dropzone from "@components/components/Dropzone";
 import Dropdown from "@components/components/Dropdown";
-import { SOURCE_LANGUAGES, translation } from "@components/constants";
+import { SOURCE_LANGUAGES } from "@components/constants";
 import { handleTranscribe } from "@components/utils";
 import ReactLoading from "react-loading";
 import { toast } from "react-toastify";
 import SubtitleEditor from "@components/components/SubtitleEditor";
 import useLocalStorage from "@components/hooks/useLocalStorage";
 import { useRouter } from "next/router";
-import { useSearchParams } from "next/navigation";
 
-export default function dashboard({ index }) {
+export default function dashboard() {
   const [uploadedFile, setUploadedFile] = useState();
   const [sourceLanguage, setSourceLanguage] = useState();
   const [outputLanguage, setOutputLanguage] = useState();
@@ -20,7 +19,9 @@ export default function dashboard({ index }) {
   const [transcribed, setTranscribed] = useState([]);
   const [requestSentToAPI, setrequestSentToAPI] = useState(false);
   const [isLocalFile, setIsLocalFile] = useState(false);
-  // const [transcribed, setTranscribed] = useLocalStorage("transcription", []);
+
+  const router = useRouter();
+  const index = router.query.id;
 
   useEffect(() => {
     const items = JSON.parse(localStorage.getItem("file"));
@@ -39,7 +40,7 @@ export default function dashboard({ index }) {
         setIsLocalFile(true);
       }
     }
-  }, []);
+  }, [index]);
 
   useEffect(() => {
     if (uploadedFile && sourceLanguage && outputLanguage && !isLocalFile) {
@@ -73,7 +74,7 @@ export default function dashboard({ index }) {
     if (response) {
       reset(false);
       if (response.status !== 200) {
-        return toast.error("An error occured");
+        return toast.error("An error ocurred");
       } else {
         setTranscribed(response.data.chunks);
         const file = {
@@ -144,14 +145,4 @@ export default function dashboard({ index }) {
       </main>
     </>
   );
-}
-
-export async function getServerSideProps(context) {
-  const index = context.query.id ? context.query.id : null;
-
-  return {
-    props: {
-      index,
-    },
-  };
 }
