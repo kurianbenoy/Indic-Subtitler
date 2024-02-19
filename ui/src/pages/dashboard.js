@@ -16,6 +16,7 @@ export default function dashboard() {
   const [disabled, setDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
   const [transcribed, setTranscribed] = useState([]);
+  const [requestSentToAPI, setrequestSentToAPI] = useState(false);
   // const [transcribed, setTranscribed] = useLocalStorage("transcription", []);
 
   useEffect(() => {
@@ -27,6 +28,7 @@ export default function dashboard() {
   function reset(state) {
     setLoading(state);
     setDisabled(state);
+    setrequestSentToAPI(state);
   }
 
   async function handleSubmit() {
@@ -93,13 +95,12 @@ export default function dashboard() {
             )}
           </button>
         </aside>
-        {transcribed ? (
-          <SubtitleEditor
-            transcribed={transcribed}
-            setTranscribed={setTranscribed}
-            filename={uploadedFile?.path}
-          />
-        ) : null}
+        <SubtitleEditor
+          transcribed={transcribed}
+          setTranscribed={setTranscribed}
+          filename={uploadedFile?.path}
+          requestSentToAPI={requestSentToAPI}
+        />
       </main>
     </>
   );
