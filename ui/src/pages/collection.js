@@ -1,21 +1,18 @@
+import dynamic from "next/dynamic";
 import Header from "@components/components/Header";
 import SecondaryBtn from "@components/components/SecondaryBtn";
+import useLocalStorage from "@components/hooks/useLocalStorage";
 import { downloadSRT, formatFileSize, formattedDate } from "@components/utils";
 import { IconDownload, IconEdit, IconFileText } from "@tabler/icons-react";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
-export default function collection() {
-  const [storedFile, setStoredFile] = useState([]);
-  useEffect(() => {
-    const file = JSON.parse(localStorage.getItem("file"));
-    if (file) setStoredFile(file);
-    console.log(file);
-  }, []);
+const Collection = () => {
+  const [storedFiles, setStoredFiles] = useLocalStorage("file", []);
 
   const router = useRouter();
   function TableRows() {
-    if (storedFile.length > 0) {
+    if (storedFiles?.length) {
       return (
         <div className="overflow-x-auto ">
           <table className="table text-lg">
@@ -30,7 +27,7 @@ export default function collection() {
               </tr>
             </thead>
             <tbody>
-              {storedFile.map((element, index) => (
+              {storedFiles.map((element, index) => (
                 <tr key={index}>
                   <th>{index + 1}</th>
                   <td>{element.filename}</td>
@@ -79,11 +76,11 @@ export default function collection() {
         <div className="md:w-[70%]  border-2 rounded-md">
           <div className="flex justify-between items-center border-b-[2px] py-2 px-2">
             <p className="text-lg text-gray-500 font-medium">
-              {storedFile.length}
-              {storedFile.length > 1 ? " items" : " item"}
+              {storedFiles.length}
+              {storedFiles.length === 1 ? " item" : " items"}
             </p>
             <SecondaryBtn fn={() => router.push("/dashboard")}>
-              Upload new file
+              Generate New Subtitles
             </SecondaryBtn>
           </div>
           <TableRows />
@@ -91,4 +88,6 @@ export default function collection() {
       </section>
     </>
   );
-}
+};
+
+export default dynamic(() => Promise.resolve(Collection), { ssr: false });

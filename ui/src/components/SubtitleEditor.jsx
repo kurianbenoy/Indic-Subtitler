@@ -24,7 +24,7 @@ export default function SubtitleEditor({
 
           <div className="flex justify-center items-center h-[70vh]">
             <h5 className="text-xl font-medium">
-              Upload a file to edit subtitles
+              Upload a file to start editing subtitles
             </h5>
           </div>
         </aside>
@@ -32,7 +32,12 @@ export default function SubtitleEditor({
     );
   }
   if (requestSentToAPI) {
-    return <h1>Loading....</h1>;
+    return (
+      <div className="w-full flex justify-center items-center flex-col">
+        <span className="loading loading-spinner loading-lg"></span>
+        <h1>Loading Subtitles....</h1>
+      </div>
+    );
   }
   return (
     <aside className="w-full lg:w-[75%] mt-14 md:mt-0 md:border-l-2 ">

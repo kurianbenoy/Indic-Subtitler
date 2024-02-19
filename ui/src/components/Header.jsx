@@ -32,7 +32,7 @@ export default function Header() {
       </h1>
       {isHome && (
         <SecondaryBtn fn={() => transitionToCollection(router)}>
-          Collection
+          Dashboard
         </SecondaryBtn>
       )}
     </header>
