@@ -25,8 +25,8 @@ export const fileToBase64 = async (file) => {
   });
 };
 
-export function transitionToDashboard(router) {
-  router.push("/dashboard");
+export function transitionToCollection(router) {
+  router.push("/collection");
 }
 
 export const handleTranscribe = async (file, sourceLang, targetLang) => {

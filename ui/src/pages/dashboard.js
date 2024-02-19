@@ -8,8 +8,10 @@ import ReactLoading from "react-loading";
 import { toast } from "react-toastify";
 import SubtitleEditor from "@components/components/SubtitleEditor";
 import useLocalStorage from "@components/hooks/useLocalStorage";
+import { useRouter } from "next/router";
+import { useSearchParams } from "next/navigation";
 
-export default function dashboard() {
+export default function dashboard({ index }) {
   const [uploadedFile, setUploadedFile] = useState();
   const [sourceLanguage, setSourceLanguage] = useState();
   const [outputLanguage, setOutputLanguage] = useState();
@@ -17,13 +19,43 @@ export default function dashboard() {
   const [loading, setLoading] = useState(false);
   const [transcribed, setTranscribed] = useState([]);
   const [requestSentToAPI, setrequestSentToAPI] = useState(false);
+  const [isLocalFile, setIsLocalFile] = useState(false);
   // const [transcribed, setTranscribed] = useLocalStorage("transcription", []);
 
   useEffect(() => {
-    if (uploadedFile && sourceLanguage && outputLanguage) {
+    const items = JSON.parse(localStorage.getItem("file"));
+    if (index && items) {
+      if (items[index]) {
+        const item = items[index];
+        setDisabled(true);
+        setUploadedFile(item.uploadedFile);
+        setSourceLanguage(item.sourceLanguage);
+        setOutputLanguage(item.outputLanguage);
+        setTranscribed(item.transcribedData);
+        setUploadedFile({
+          path: item.filename,
+          size: item.size,
+        });
+        setIsLocalFile(true);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (uploadedFile && sourceLanguage && outputLanguage && !isLocalFile) {
       setDisabled(false);
     }
   }, [uploadedFile, sourceLanguage, outputLanguage]);
+
+  function storeFileToLocalStorage(file) {
+    const items = JSON.parse(localStorage.getItem("file"));
+    if (!items) {
+      localStorage.setItem("file", JSON.stringify([file]));
+    } else {
+      items.push(file);
+      localStorage.setItem("file", JSON.stringify(items));
+    }
+  }
 
   function reset(state) {
     setLoading(state);
@@ -38,13 +70,21 @@ export default function dashboard() {
       sourceLanguage,
       outputLanguage
     );
-
     if (response) {
       reset(false);
       if (response.status !== 200) {
         return toast.error("An error occured");
       } else {
         setTranscribed(response.data.chunks);
+        const file = {
+          filename: uploadedFile.path,
+          size: uploadedFile.size,
+          transcribedData: response.data.chunks,
+          uploadDate: new Date(),
+          sourceLanguage: sourceLanguage,
+          outputLanguage: outputLanguage,
+        };
+        storeFileToLocalStorage(file);
       }
     }
   }
@@ -104,4 +144,14 @@ export default function dashboard() {
       </main>
     </>
   );
+}
+
+export async function getServerSideProps(context) {
+  const index = context.query.id ? context.query.id : null;
+
+  return {
+    props: {
+      index,
+    },
+  };
 }

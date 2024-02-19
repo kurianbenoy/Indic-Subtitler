@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import SecondaryBtn from "./SecondaryBtn";
 import { useState } from "react";
-import { transitionToDashboard } from "@components/utils";
+import { transitionToCollection } from "@components/utils";
 
 export default function Header() {
   const router = useRouter();
@@ -31,8 +31,7 @@ export default function Header() {
         Indic Subtitler
       </h1>
       {isHome && (
-        <SecondaryBtn fn={() => transitionToDashboard(router)}>
-          {" "}
+        <SecondaryBtn fn={() => transitionToCollection(router)}>
           Dashboard
         </SecondaryBtn>
       )}
