@@ -41,7 +41,7 @@ export default function Dropzone({ setUploadedFile, uploadedFile }) {
       <input {...getInputProps()} />
       {uploadedFile ? (
         <div>
-          <p className="text-lg font-medium">{uploadedFile.path}</p>
+          <p className="text-lg font-medium text-center">{uploadedFile.path}</p>
           <p className="text-center text-gray-500">
             ( {formatFileSize(uploadedFile.size)} )
           </p>
