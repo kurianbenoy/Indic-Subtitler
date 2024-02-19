@@ -73,6 +73,26 @@ B. faster-whisper
 | Tamil     | ta |
 | Urdu      | ur |
 
+C. WhisperX
+
+ WhisperX provides fast automatic speech recognition (70x realtime with large-v2) with word-level timestamps and speaker diarization. The features provided by WhisperX are:
+
+- ⚡️ Batched inference for 70x realtime transcription using whisper large-v2
+- 🪶 faster-whisper backend, requires <8GB gpu memory for large-v2 with beam_size=5
+- 🎯 Accurate word-level timestamps using wav2vec2 alignment
+- 👯‍♂️ Multispeaker ASR using speaker diarization from pyannote-audio (speaker ID labels)
+- 🗣️ VAD preprocessing, reduces hallucination & batching with no WER degradation
+
+  
+**Indic Languages supported with faster-whisper**
+
+| Language  | Code |
+| --------- | ---- |
+| English   | en |
+| Hindi     | hi |
+| Malayalam | ml |
+| Telgu     | te |
+| Urdu      | ur |
 
 ### 2. Backend API
 
