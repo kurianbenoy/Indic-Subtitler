@@ -57,6 +57,23 @@ B. faster-whisper
 
 [faster-whisper](https://github.com/SYSTRAN/faster-whisper) [9] is a reimplementation of OpenAI's Whisper model using CTranslate2, which is a fast inference engine for Transformer models. This implementation is up to 4 times faster than openai/whisper for the same accuracy while using less memory. The efficiency can be further improved with 8-bit quantization on both CPU and GPU. Since faster-whisper is based in Whisper, it supports all the 99 languages supported by whisper.
 
+**Indic Languages supported with faster-whisper**
+
+| Language  | Code |
+| --------- | ---- |
+| Assamese  | as |
+| Bengali   | bn |
+| English   | en |
+| Gujarati  | gu |
+| Hindi     | hi |
+| Kannada   | kn |
+| Malayalam | ml |
+| Marathi   | mr |
+| Punjabi   | pa |
+| Tamil     | ta |
+| Urdu      | ur |
+
+
 ### 2. Backend API
 
 We plan to use FastAPI as the backend and deploy it on serveless platforms like [Modal.com](https://modal.com/) or any other alternatives.
