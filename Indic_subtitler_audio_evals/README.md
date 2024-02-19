@@ -14,6 +14,8 @@ tags:
 task_categories:
 - automatic-speech-recognition
 license: gpl-2.0
+size_categories:
+- n<1K
 ---
 
 # Indic_audio_evals
