@@ -33,7 +33,7 @@ export default function SubtitleEditor({
   }
   if (requestSentToAPI) {
     return (
-      <div className="w-full flex justify-center items-center flex-col">
+      <div className="w-full lg:w-[75%] flex justify-center items-center flex-col">
         <span className="loading loading-spinner loading-lg"></span>
         <h1>Loading Subtitles....</h1>
       </div>
