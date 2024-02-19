@@ -93,7 +93,7 @@ _GPU's needed: 1 A100 or T4_
 
 1. Use Silero VAD to chunk audio and use start time/end time of each chunks
 
-We run VAD first through the entire audio to figure out the VAD chunks start and end time, which is storee into an array.
+We run VAD first through the entire audio to figure out the VAD chunks start and end time, which is stored into an array.
 Then we loop through all these chunks and run seamlessM4T model on each of them.
 
 **Issues with this approach:**
@@ -149,11 +149,15 @@ Smaller chunks get very little context and becuase of this our model is sometime
 
 2. Improve the existing transcription accuracy by providing context also along with Input Audio and then post-process with GPTs (Simrat)
 
-3. We should ideally focus on doing one thing really well. I was discussing the two features with mentors:
+3. We should ideally focus on doing one thing really well. We were discussing the two features with mentors:
 
 Our first feature is about speech to text Subtitling in both source language and translating to other indic language. The second idea is to generate speech output in different language in a live streaming like setup
 
 They said try to build one thing really well and then only go to the next feature. (Bharat, Aravind)
+
+4. Add more ASR models, instead of SeamlessM4T only(Bharat)
+
+5. Fine tune ASR models if needed (Bharat)
 
 ## References
 
