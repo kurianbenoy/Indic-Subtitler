@@ -62,7 +62,6 @@ export function formatTime(time) {
     "0"
   )}`;
 }
-
 export function removeFileExtension(filename) {
   const lastDotIndex = filename.lastIndexOf(".");
   if (lastDotIndex !== -1 && lastDotIndex !== 0) {
@@ -70,4 +69,40 @@ export function removeFileExtension(filename) {
   } else {
     return filename;
   }
+}
+
+export function downloadSRT(transcribed, filename) {
+  const srtContent = transcribed
+    .map((entry, index) => {
+      const { start, end, text } = entry;
+      const startTime = formatTime(start);
+      const endTime = formatTime(end);
+      return `${index + 1}\n${startTime} --> ${endTime}\n${text}\n\n`;
+    })
+    .join("");
+
+  const blob = new Blob([srtContent], { type: "text/plain" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `${removeFileExtension(filename)}.srt`;
+  document.body.appendChild(a);
+  a.click();
+  URL.revokeObjectURL(url);
+  document.body.removeChild(a);
+}
+
+export function formattedDate(date) {
+  const processedDate = new Date(date);
+  const options = {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  };
+  const formatDate = new Intl.DateTimeFormat("en-US", options).format(
+    processedDate
+  );
+  return formatDate;
 }
