@@ -1,21 +1,21 @@
 ---
-language: 
-- "ml"
-- "hi"
-- "en"
-- "bn"
-- "kn"
-- "te"
-pretty_name: "Indic_subtitler_audio_evals"
+language:
+- ml
+- hi
+- en
+- bn
+- kn
+- te
+pretty_name: Indic_subtitler_audio_evals
 tags:
-- "datasets"
-- "Indic-subtitler"
-- "Audio"
-task_categories:
-- automatic-speech-recognition
+- datasets
+- Indic-subtitler
+- Audio
 license: gpl-2.0
 size_categories:
 - n<1K
+task_categories:
+- automatic-speech-recognition
 ---
 
 # Indic_audio_evals
