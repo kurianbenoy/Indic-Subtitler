@@ -26,8 +26,21 @@ is more alligned to real-world use-cases rather than having any academic dataset
 
 ## About Dataset
 
-Dataset Link:
+Dataset Link in HuggingFace: [kurianbenoy/Indic-subtitler-audio_evals](https://huggingface.co/datasets/kurianbenoy/Indic-subtitler-audio_evals)
 
+### How to download dataset
+
+- You need to install git and git-lfs
+```
+apt-get install git git-lfs
+```
+
+- Download the dataset
+
+```
+git lfs install
+git clone https://huggingface.co/datasets/kurianbenoy/Indic-subtitler-audio_evals
+```
 
 ### Sources used in dataset
 
