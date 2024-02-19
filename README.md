@@ -27,7 +27,9 @@ Due to advent of new technologies like Meta's seamless M4T model and Whisper fin
 
 ### 1. ML Model
 
-We are planning to use Meta's Seamless Communication technology which was recently released[git](https://github.com/facebookresearch/seamless_communication). The `SeamlessM4T_v2_large` model 🚀, supports almost 12 Indic languages [2] by default. With this model alone, we can potentially transcribe audio in respective languages and even translate subtitles into other languages. More details about SeamlessM4T can be found in paper [7].
+A. SeamlessM4T model
+
+We are planning to use Meta's Seamless Communication technology which was recently [released in github](https://github.com/facebookresearch/seamless_communication) [1]. The `SeamlessM4T_v2_large` model 🚀, supports almost 12 Indic languages [2] by default. With this model alone, we can potentially transcribe audio in respective languages and even translate subtitles into other languages. More details about SeamlessM4T can be found in paper [7]. The functionality is very well explained [in this tutorial](https://github.com/facebookresearch/seamless_communication/blob/main/Seamless_Tutorial.ipynb) [8] written in Seamless Communication Repository.
 
 In lot of Indic languages, there are fine-tuned Whisper ASR models in respective languages. More such models can be found in this Whisper event leaderboard [3]. We have personally fine-tuned Whisper models in my mother tongue malayalam like [4] and [5]. So if performance of any language is not really good in SeamlessM4T model, we can switch to one of the fine-tuned Whisper ASR based models available in open source or make one ourselves. Yet one thing to note though is, that Whisper might not be able to support all the languages listed in Seamless.
 
@@ -50,6 +52,10 @@ In lot of Indic languages, there are fine-tuned Whisper ASR models in respective
 | Urdu      | urd  |
 
 The language code abbrevation for each of the models can be [found out here](https://github.com/facebookresearch/seamless_communication/blob/main/demo/expressive/utils.py) [6].
+
+B. faster-whisper
+
+[faster-whisper](https://github.com/SYSTRAN/faster-whisper) [9] is a reimplementation of OpenAI's Whisper model using CTranslate2, which is a fast inference engine for Transformer models. This implementation is up to 4 times faster than openai/whisper for the same accuracy while using less memory. The efficiency can be further improved with 8-bit quantization on both CPU and GPU. Since faster-whisper is based in Whisper, it supports all the 99 languages supported by whisper.
 
 ### 2. Backend API
 
@@ -161,10 +167,12 @@ They said try to build one thing really well and then only go to the next featur
 
 ## References
 
-- [1] https://github.com/facebookresearch/seamless_communication/blob/main/Seamless_Tutorial.ipynb
+- [1] https://github.com/facebookresearch/seamless_communication
 - [2] https://seamless.metademolab.com/source_languages
 - [3] https://huggingface.co/spaces/whisper-event/leaderboard
 - [4] https://huggingface.co/kurianbenoy/Malwhisper-v1-medium
 - [5] https://huggingface.co/collections/kurianbenoy/vegam-whisper-models-65132456b4a3c844a7bf8d8e
 - [6] https://github.com/facebookresearch/seamless_communication/blob/main/demo/expressive/utils.py#L2-L103
 - [7] Seamless M4T paper - https://arxiv.org/abs/2308.11596
+- [8] https://github.com/facebookresearch/seamless_communication/blob/main/Seamless_Tutorial.ipynb
+- [9] https://github.com/SYSTRAN/faster-whisper
