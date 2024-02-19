@@ -9,6 +9,7 @@ import React, { useEffect, useState } from "react";
 
 function TableRows({ storedFiles }) {
   const router = useRouter();
+
   if (storedFiles?.length) {
     return (
       <div className="overflow-x-auto ">
@@ -67,6 +68,7 @@ function TableRows({ storedFiles }) {
 
 const Collection = () => {
   const [storedFiles, setStoredFiles] = useLocalStorage("file", []);
+  const router = useRouter();
 
   return (
     <>
