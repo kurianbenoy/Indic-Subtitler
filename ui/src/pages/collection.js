@@ -68,7 +68,6 @@ const Collection = () => {
 
   return (
     <>
-      <Header />
       <section className="flex justify-center">
         <div className=" w-full lg:w-[70%] md:mx-0 mx-8 border-2 rounded-md">
           <div className="flex justify-between items-center border-b-[2px] py-2 px-2">

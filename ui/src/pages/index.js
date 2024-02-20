@@ -6,7 +6,6 @@ import Information from "../components/home/Information";
 export default function Home() {
   return (
     <main className="bg-white">
-      <Header />
       <HeroSection />
       <Information />
       <Footer />

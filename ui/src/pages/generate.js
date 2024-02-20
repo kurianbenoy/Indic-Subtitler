@@ -91,7 +91,6 @@ export default function dashboard() {
   }
   return (
     <>
-      <Header />
       <main className="mt-8 flex flex-col md:flex-row md:mb-8 xl:mx-14 mx-4 gap-4">
         <aside className="w-full md:w-[30%] lg:w-[25%] flex flex-col space-y-10 p-2">
           <div>

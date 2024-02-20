@@ -1,12 +1,12 @@
 import { useRouter } from "next/router";
 import SecondaryBtn from "./SecondaryBtn";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { transitionToCollection } from "@components/utils";
 
 export default function Header() {
   const router = useRouter();
-  const [isHome, setIsHome] = useState(router.pathname === "/");
 
+  const isHome = router.pathname === "/";
   function scrollToTop() {
     if (isHome) {
       window.scrollTo({
