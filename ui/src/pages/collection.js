@@ -2,10 +2,11 @@ import dynamic from "next/dynamic";
 import Header from "@components/components/Header";
 import SecondaryBtn from "@components/components/SecondaryBtn";
 import useLocalStorage from "@components/hooks/useLocalStorage";
-import { downloadSRT, formatFileSize, formattedDate } from "@components/utils";
-import { IconDownload, IconEdit, IconFileText } from "@tabler/icons-react";
+import { formatFileSize, formattedDate } from "@components/utils";
+import { IconEdit } from "@tabler/icons-react";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React from "react";
+import DownloadFileDropdown from "@components/components/DownloadFileDropdown";
 
 function TableRows({ storedFiles }) {
   const router = useRouter();
@@ -41,15 +42,10 @@ function TableRows({ storedFiles }) {
                   </button>
                 </td>
                 <td>
-                  <button
-                    className="flex items-center gap-2"
-                    onClick={() =>
-                      downloadSRT(element.transcribedData, element.filename)
-                    }
-                  >
-                    <IconDownload />
-                    <p className="font-medium">Download</p>
-                  </button>
+                  <DownloadFileDropdown
+                    file={element.transcribedData}
+                    filename={element.filename}
+                  />
                 </td>
               </tr>
             ))}
@@ -74,7 +70,7 @@ const Collection = () => {
     <>
       <Header />
       <section className="flex justify-center">
-        <div className="md:w-[70%] w-full md:mx-0 mx-8 border-2 rounded-md">
+        <div className=" w-full lg:w-[70%] md:mx-0 mx-8 border-2 rounded-md">
           <div className="flex justify-between items-center border-b-[2px] py-2 px-2">
             <p className="text-lg text-gray-500 font-medium">
               {storedFiles.length}

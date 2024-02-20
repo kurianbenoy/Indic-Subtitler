@@ -3,6 +3,7 @@ import { IconDownload } from "@tabler/icons-react";
 import { formatTime, removeFileExtension } from "@components/utils";
 import SecondaryBtn from "./SecondaryBtn";
 import { downloadSRT } from "../utils";
+import DownloadFileDropdown from "./DownloadFileDropdown";
 
 export default function SubtitleEditor({
   transcribed = [],
@@ -42,9 +43,10 @@ export default function SubtitleEditor({
   return (
     <aside className="w-full lg:w-[75%] md:mt-0 md:border-l-2 ">
       <div className="flex md:flex-row flex-col md:justify-end md:text-lg text-white gap-4 md:px-4 md:p-2 md:py-4">
-        <SecondaryBtn fn={() => downloadSRT(transcribed, filename)}>
+        {/* <SecondaryBtn fn={() => downloadSRT(transcribed, filename)}>
           Download
-        </SecondaryBtn>
+        </SecondaryBtn> */}
+        <DownloadFileDropdown file={transcribed} filename={filename} />
       </div>
       <div>
         <div className="overflow-x-auto h-[680px]">
