@@ -133,6 +133,7 @@ def generate_seamlessm4t_speech(item: Dict):
         # Decode the base64 audio and convert it for processing
         b64 = item["wav_base64"]
         # source_lang = item["source"]
+        print(f"Target_lang: {item.get('target')}")
         target_lang = item["target"]
 
         fname = base64_to_audio_file(b64_contents=b64)
