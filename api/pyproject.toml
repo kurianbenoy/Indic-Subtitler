@@ -9,3 +9,6 @@ line-length = 100
 # [tool.ruff.lint]
 # Add the `line-too-long` rule to the enforced rule set.
 # extend-select = ["E501"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
