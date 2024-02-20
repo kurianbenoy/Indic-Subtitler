@@ -3,7 +3,6 @@
     "browser": true,
     "es2021": true
   },
-  // "extends": "next/core-web-vitals",
   "extends": ["next/babel", "next/core-web-vitals"],
 
   "parserOptions": {
@@ -13,3 +12,4 @@
   "plugins": ["react"],
   "rules": {}
 }
+
