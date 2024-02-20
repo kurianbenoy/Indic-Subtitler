@@ -4,7 +4,6 @@ import Dropzone from "@components/components/Dropzone";
 import Dropdown from "@components/components/Dropdown";
 import { SOURCE_LANGUAGES } from "@components/constants";
 import { handleTranscribe } from "@components/utils";
-import ReactLoading from "react-loading";
 import { ToastContainer, toast } from "react-toastify";
 import SubtitleEditor from "@components/components/SubtitleEditor";
 import useLocalStorage from "@components/hooks/useLocalStorage";
@@ -13,7 +12,7 @@ import { useRouter } from "next/router";
 export default function dashboard() {
   const [uploadedFile, setUploadedFile] = useState();
   const [sourceLanguage, setSourceLanguage] = useState();
-  const [outputLanguage, setOutputLanguage] = useState();
+  const [targetLanguage, setTargetLanguage] = useState();
   const [disabled, setDisabled] = useState(true);
   const [transcribed, setTranscribed] = useState([]);
   const [requestSentToAPI, setrequestSentToAPI] = useState(false);
@@ -30,7 +29,7 @@ export default function dashboard() {
         setDisabled(true);
         setUploadedFile(item.uploadedFile);
         setSourceLanguage(item.sourceLanguage);
-        setOutputLanguage(item.outputLanguage);
+        setTargetLanguage(item.targetLanguage);
         setTranscribed(item.transcribedData);
         setUploadedFile({
           path: item.filename,
@@ -42,10 +41,10 @@ export default function dashboard() {
   }, [index]);
 
   useEffect(() => {
-    if (uploadedFile && outputLanguage && !isLocalFile) {
+    if (uploadedFile && targetLanguage && !isLocalFile) {
       setDisabled(false);
     }
-  }, [uploadedFile, outputLanguage]);
+  }, [uploadedFile, targetLanguage]);
 
   function storeFileToLocalStorage(file) {
     const items = JSON.parse(localStorage.getItem("file"));
@@ -64,7 +63,7 @@ export default function dashboard() {
 
   async function handleSubmit() {
     reset(true);
-    const response = await handleTranscribe(uploadedFile, outputLanguage);
+    const response = await handleTranscribe(uploadedFile, targetLanguage);
     if (response) {
       reset(false);
       if (response.data.code !== 200) {
@@ -78,7 +77,7 @@ export default function dashboard() {
           transcribedData: response.data.chunks,
           uploadDate: new Date(),
           sourceLanguage: sourceLanguage,
-          outputLanguage: outputLanguage,
+          targetLanguage: targetLanguage,
         };
         storeFileToLocalStorage(file);
       }
@@ -110,8 +109,8 @@ export default function dashboard() {
               options={SOURCE_LANGUAGES}
             /> */}
             <Dropdown
-              onChange={(item) => setOutputLanguage(item)}
-              label="Output"
+              onChange={(item) => setTargetLanguage(item)}
+              label="Subtitle Language"
               options={SOURCE_LANGUAGES}
               keyName="target-language"
             />
