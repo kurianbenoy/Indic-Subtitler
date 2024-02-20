@@ -1,20 +1,23 @@
 import base64
 import tempfile
 from typing import Dict
-from modal import Image,Stub, web_endpoint, gpu
+from modal import Image, Stub, web_endpoint, gpu
 
-
-
+# Define the GPU type to be used for processing
 GPU_TYPE = "T4"
 
 def download_models():
-    """Download models for sileroVAD, seamlessM4T, and vocoder"""
+    """
+    Downloads and initializes models required for speech processing, including a translator model and a VAD (Voice Activity Detection) model.
+    """
     from seamless_communication.inference import Translator
     import torch
 
+    # Define model names for the translator and vocoder
     model_name = "seamlessM4T_v2_large"
     vocoder_name = "vocoder_v2" if model_name == "seamlessM4T_v2_large" else "vocoder_36langs"
 
+    # Initialize the translator model with specified parameters
     translator = Translator(
         model_name,
         vocoder_name,
@@ -22,66 +25,74 @@ def download_models():
         dtype=torch.float16,
     )
     
+    # Load the VAD model from the specified repository
     USE_ONNX = False
     model, utils = torch.hub.load(repo_or_dir='snakers4/silero-vad',
-                              model='silero_vad',
-                              onnx=USE_ONNX)
+                                  model='silero_vad',
+                                  onnx=USE_ONNX)
 
 def base64_to_audio_file(b64_contents):
     """
     Converts a base64 encoded string to an audio file and returns the path to the temporary audio file.
-
+    
     Parameters:
-    - b64_contents: Base64 encoded string of the audio file.
+    - b64_contents (str): Base64 encoded string of the audio file.
 
     Returns:
-    - Path to the temporary audio file.
+    - str: Path to the temporary audio file.
     """
-    # Decode the base64 string
+    # Decode the base64 string to audio data
     audio_data = base64.b64decode(b64_contents)
     
-    # Create a temporary file
+    # Create a temporary file to store the audio data
     with tempfile.NamedTemporaryFile(delete=False, suffix='.wav') as tmp_file:
-        # Write the decoded audio data to the temporary file
         tmp_file.write(audio_data)
-        # Return the path to the temporary file
         return tmp_file.name
     
 def convert_to_mono_16k(input_file, output_file):
+    """
+    Converts an audio file to mono channel with a sample rate of 16000 Hz.
+    
+    Parameters:
+    - input_file (str): Path to the input audio file.
+    - output_file (str): Path where the converted audio file will be saved.
+    """
     from pydub import AudioSegment
-    # Load the input file
     sound = AudioSegment.from_file(input_file)
-    
-    # Convert stereo to mono
-    sound = sound.set_channels(1)
-    
-    # Set sample rate to 16000 Hz
-    sound = sound.set_frame_rate(16000)
-    
-    # Export the converted audio
+    sound = sound.set_channels(1).set_frame_rate(16000)
     sound.export(output_file, format="wav")
 
+# Define the Docker image configuration for the processing environment
 image = (
-        Image.from_registry("nvidia/cuda:12.2.0-devel-ubuntu20.04", add_python="3.10")
-        .apt_install("git", "ffmpeg")
-        .pip_install("fairseq2==0.2.*",
+    Image.from_registry("nvidia/cuda:12.2.0-devel-ubuntu20.04", add_python="3.10")
+    .apt_install("git", "ffmpeg")
+    .pip_install(
+        "fairseq2==0.2.*",
         "sentencepiece",
         "pydub",
         "ffmpeg-python",
         "torch==2.1.1",
-        "seamless_communication @  git+https://github.com/facebookresearch/seamless_communication.git",
-         )
-        .run_function(download_models, gpu=GPU_TYPE)
+        "seamless_communication @ git+https://github.com/facebookresearch/seamless_communication.git",
     )
+    .run_function(download_models, gpu=GPU_TYPE)
+)
 # torchaudio already included in seamless_communication
 
-
+# Initialize the processing stub with the defined Docker image
 stub = Stub(name="seamless_m4t_speech",image=image)
 
 @stub.function(gpu=GPU_TYPE, timeout=600)
 @web_endpoint(method="POST")
 def generate_seamlessm4t_speech(item: Dict):
-    """Input speech """
+    """
+    Processes the input speech audio, performs voice activity detection, and translates the speech from the source language to the target language.
+    
+    Parameters:
+    - item (Dict): A dictionary containing the base64 encoded audio data, source language, and target language.
+
+    Returns:
+    - Dict: A dictionary containing the status code, message, detected speech chunks, and the translated text.
+    """
     import math
     import wave
     import base64
@@ -113,16 +124,17 @@ def generate_seamlessm4t_speech(item: Dict):
             read_audio,
             VADIterator,
             collect_chunks) = utils
-    
+
+        # Decode the base64 audio and convert it for processing
         b64 = item["wav_base64"]
         source_lang = item["source"]
         target_lang = item["target"]
         
         fname = base64_to_audio_file(b64_contents=b64)
         print(fname)
-
         convert_to_mono_16k(fname, "output.wav")
-        
+
+        # Perform voice activity detection on the processed audio       
         SAMPLING_RATE = 16000
         wav = read_audio("output.wav", sampling_rate=SAMPLING_RATE)
 
