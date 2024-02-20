@@ -34,9 +34,12 @@ modal deploy  server.py
 For style checks use the following command:
 
 ```
-ruff format .
+# Ruff Identifies the issues
 ruff check .
+#  Ruff considers this a "fixable" error, so we can resolve the issue automatically by running
 ruff check --fix
+# Now that our project is passing ruff check, we can run the Ruff formatter via ruff format:
+ruff format .
 ```
 
 ## Contributing

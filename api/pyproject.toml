@@ -1,0 +1,11 @@
+[project]
+# Support Python 3.8+.
+requires-python = ">=3.8"
+
+[tool.ruff]
+# Set the maximum line length to 100.
+line-length = 100
+
+# [tool.ruff.lint]
+# Add the `line-too-long` rule to the enforced rule set.
+# extend-select = ["E501"]
