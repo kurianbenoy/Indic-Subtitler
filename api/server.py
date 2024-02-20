@@ -1,5 +1,6 @@
 import base64
 import tempfile
+import logging
 from typing import Dict
 from modal import Image, Stub, web_endpoint
 
@@ -97,7 +98,7 @@ def generate_seamlessm4t_speech(item: Dict):
     Returns:
     - Dict: A dictionary containing the status code, message, detected speech chunks, and the translated text.
     """
-    import wave
+    # import wave
     import os
 
     import torch
@@ -105,13 +106,14 @@ def generate_seamlessm4t_speech(item: Dict):
     from pydub import AudioSegment
     from seamless_communication.inference import Translator
 
-    # function to calculate the duration of the input audio clip
-    def get_duration_wave(file_path):
-        with wave.open(file_path, "r") as audio_file:
-            frame_rate = audio_file.getframerate()
-            n_frames = audio_file.getnframes()
-            duration = n_frames / float(frame_rate)
-            return duration
+    # removed because of error in mp4 & mp3 files because of wave
+    # # function to calculate the duration of the input audio clip
+    # def get_duration_wave(file_path):
+    #     with wave.open(file_path, "r") as audio_file:
+    #         frame_rate = audio_file.getframerate()
+    #         n_frames = audio_file.getnframes()
+    #         duration = n_frames / float(frame_rate)
+    #         return duration
 
     try:
         USE_ONNX = False
@@ -156,8 +158,8 @@ def generate_seamlessm4t_speech(item: Dict):
             dtype=torch.float16,
         )
 
-        duration = get_duration_wave(fname)
-        print(f"Duration: {duration:.2f} seconds")
+        # duration = get_duration_wave(fname)
+        # print(f"Duration: {duration:.2f} seconds")
 
         resample_rate = 16000
 
@@ -211,4 +213,5 @@ def generate_seamlessm4t_speech(item: Dict):
 
     except Exception as e:
         print(e)
+        logging.critical(e, exc_info=True)
         return {"message": "Internal server error", "code": 500}
