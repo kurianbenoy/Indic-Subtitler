@@ -26,7 +26,9 @@ is more alligned to real-world use-cases rather than having any academic dataset
 
 ## About Dataset
 
-Dataset Link in HuggingFace: [kurianbenoy/Indic-subtitler-audio_evals](https://huggingface.co/datasets/kurianbenoy/Indic-subtitler-audio_evals)
+- Dataset Link in HuggingFace: [kurianbenoy/Indic-subtitler-audio_evals](https://huggingface.co/datasets/kurianbenoy/Indic-subtitler-audio_evals)
+
+- This dataset contains audio file in `.wav` format and video file in `.mp4`. The respective groundtruth will be added as a `.txt` file as well.
 
 ### How to download dataset
 
@@ -41,6 +43,7 @@ apt-get install git git-lfs
 git lfs install
 git clone https://huggingface.co/datasets/kurianbenoy/Indic-subtitler-audio_evals
 ```
+
 
 ### Sources used in dataset
 
