@@ -28,14 +28,12 @@ def download_models():
         dtype=torch.float16,
     )
 
-    # Load the VAD model from the specified repository
+    # Load the silero-VAD model from the specified repository
     USE_ONNX = False
-    torch.hub.load(
-        repo_or_dir="snakers4/silero-vad", model="silero_vad", onnx=USE_ONNX
-    )
+    torch.hub.load(repo_or_dir="snakers4/silero-vad", model="silero_vad", onnx=USE_ONNX)
 
 
-def base64_to_audio_file(b64_contents):
+def base64_to_audio_file(b64_contents: str):
     """
     Converts a base64 encoded string to an audio file and returns the path to the temporary audio file.
 
@@ -54,7 +52,7 @@ def base64_to_audio_file(b64_contents):
         return tmp_file.name
 
 
-def convert_to_mono_16k(input_file, output_file):
+def convert_to_mono_16k(input_file: str, output_file: str) -> None:
     """
     Converts an audio file to mono channel with a sample rate of 16000 Hz.
 
@@ -79,12 +77,11 @@ image = (
         "pydub",
         "ffmpeg-python",
         "torch==2.1.1",
-        "seamless_communication @ git+https://github.com/facebookresearch/seamless_communication.git",
+        "seamless_communication @ git+https://github.com/facebookresearch/seamless_communication.git",  # torchaudio already included in seamless_communication
         "faster-whisper",
     )
     .run_function(download_models, gpu=GPU_TYPE)
 )
-# torchaudio already included in seamless_communication
 
 # Initialize the processing stub with the defined Docker image
 stub = Stub(name="seamless_m4t_speech", image=image)
@@ -150,8 +147,6 @@ def generate_seamlessm4t_speech(item: Dict):
             wav, model, sampling_rate=SAMPLING_RATE, return_seconds=True
         )
         print(speech_timestamps_seconds)
-
-        print("Initialized Seamless model")
         # translator = download_models()
         model_name = "seamlessM4T_v2_large"
         vocoder_name = (
@@ -165,8 +160,8 @@ def generate_seamlessm4t_speech(item: Dict):
             dtype=torch.float16,
         )
 
-        # duration = get_duration_wave(fname)
-        # print(f"Duration: {duration:.2f} seconds")
+        duration = get_duration_wave(fname)
+        print(f"Duration: {duration:.2f} seconds")
 
         resample_rate = 16000
 

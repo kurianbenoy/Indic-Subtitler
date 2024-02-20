@@ -11,27 +11,26 @@ GPU_TYPE = "A100"
 
 def download_models():
     """Download models for sileroVAD, seamlessM4T, and vocoder"""
-    print("Enter download models")
     from seamless_communication.inference import Translator
     import torch
 
+    # Define model names for the translator and vocoder
     model_name = "seamlessM4T_v2_large"
     vocoder_name = (
         "vocoder_v2" if model_name == "seamlessM4T_v2_large" else "vocoder_36langs"
     )
 
-    translator = Translator(
+    # Initialize the translator model with specified parameters
+    Translator(
         model_name,
         vocoder_name,
         device=torch.device("cuda:0"),
         dtype=torch.float16,
     )
 
+    # Load the silero-VAD model from the specified repository
     USE_ONNX = False
-    model, utils = torch.hub.load(
-        repo_or_dir="snakers4/silero-vad", model="silero_vad", onnx=USE_ONNX
-    )
-
+    torch.hub.load(repo_or_dir="snakers4/silero-vad", model="silero_vad", onnx=USE_ONNX)
 
 web_app = FastAPI()
 image = (
@@ -108,7 +107,7 @@ async def generate_seamlessm4t_speech(item: Dict):
         ) = utils
 
         b64 = item["wav_base64"]
-        source_lang = item["source"]
+        # source_lang = item["source"]
         target_lang = item["target"]
 
         fname = base64_to_audio_file(b64_contents=b64)
