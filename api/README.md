@@ -29,7 +29,7 @@ modal deploy  server.py
 
 ## Style checks
 
-- We are using [ruff](https://docs.astral.sh/ruff/), an extremely fast Python linter and code formatter, written in Rust for checking formatting and code styles.
+- We are using [ruff](https://docs.astral.sh/ruff/), an extremely fast Python linter and code formatter, written in Rust for checking formatting and code styles. Along with pre-commit to manage ruff as CI for testing style and minor other tests as well.
 
 For style checks use the following command:
 
@@ -40,6 +40,8 @@ ruff check .
 ruff check --fix
 # Now that our project is passing ruff check, we can run the Ruff formatter via ruff format:
 ruff format .
+# Pre-commit check
+pre-commit run --all-files
 ```
 
 ## Contributing
