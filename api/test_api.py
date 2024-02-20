@@ -18,8 +18,8 @@ def get_srt_time(sec):
 
     return time_str
 
-def gen_srt_file(input_chunks, output_file_path):
 
+def gen_srt_file(input_chunks, output_file_path):
     data = input_chunks
 
     row = 1
@@ -29,30 +29,27 @@ def gen_srt_file(input_chunks, output_file_path):
             endTime = get_srt_time(seg["end"])
             text = seg["text"]
             print(text)
-            segment = (
-                f"{row}\n{startTime} --> {endTime}\n{text[1:] if text[0] == ' ' else text}\n\n"
-            )
+            segment = f"{row}\n{startTime} --> {endTime}\n{text[1:] if text[0] == ' ' else text}\n\n"
             print(segment)
             srtFile.write(segment)
             row += 1
 
 
-
-
 def audio_file_to_base64(file_path):
-        """
-        Converts an audio file to a base64 encoded string.
+    """
+    Converts an audio file to a base64 encoded string.
 
-        Parameters:
-        - file_path: Path to the audio file.
+    Parameters:
+    - file_path: Path to the audio file.
 
-        Returns:
-        - A base64 encoded string of the audio file.
-        """
-        with open(file_path, "rb") as audio_file:
-            audio_data = audio_file.read()
-        base64_encoded_str = base64.b64encode(audio_data).decode('utf-8')
-        return base64_encoded_str
+    Returns:
+    - A base64 encoded string of the audio file.
+    """
+    with open(file_path, "rb") as audio_file:
+        audio_data = audio_file.read()
+    base64_encoded_str = base64.b64encode(audio_data).decode("utf-8")
+    return base64_encoded_str
+
 
 URL = "https://kurianbenoy--seamless-m4t-speech-generate-seamlessm4t-speech.modal.run"
 
