@@ -19,13 +19,24 @@ This directory contains the backend API for the Indic-Subtitler project, which i
 pip install -r requirements.txt
 ```
 
-
 ## Running the API
 
 To start the API server, run the following command:
 
 ```
 modal deploy  server.py
+```
+
+## Style checks
+
+- We are using [ruff](https://docs.astral.sh/ruff/), an extremely fast Python linter and code formatter, written in Rust for checking formatting and code styles. 
+
+For style checks use the following command:
+
+```
+ruff format .
+ruff check .
+ruff check --fix
 ```
 
 ## Contributing

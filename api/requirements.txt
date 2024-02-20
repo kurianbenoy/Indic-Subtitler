@@ -1,2 +1,3 @@
 modal==0.56.4822
 fastapi
+ruff
