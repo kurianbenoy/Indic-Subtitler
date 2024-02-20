@@ -1,7 +1,7 @@
 import base64
 import tempfile
 from typing import Dict
-from modal import Image, Stub, web_endpoint, gpu
+from modal import Image, Stub, web_endpoint
 
 # Define the GPU type to be used for processing
 GPU_TYPE = "T4"
@@ -102,10 +102,7 @@ def generate_seamlessm4t_speech(item: Dict):
     Returns:
     - Dict: A dictionary containing the status code, message, detected speech chunks, and the translated text.
     """
-    import math
     import wave
-    import base64
-    import math
     import os
 
     import torch

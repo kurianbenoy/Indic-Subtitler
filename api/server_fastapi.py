@@ -2,8 +2,8 @@ import base64
 import tempfile
 from typing import Dict
 
-from fastapi import FastAPI, Header
-from modal import Image, Stub, web_endpoint, asgi_app
+from fastapi import FastAPI
+from modal import Image, Stub, asgi_app
 
 
 GPU_TYPE = "A100"
@@ -77,10 +77,7 @@ def base64_to_audio_file(b64_contents):
 @web_app.post("/")
 async def generate_seamlessm4t_speech(item: Dict):
     """Input speech"""
-    import math
     import wave
-    import base64
-    import math
     import os
 
     import torch
