@@ -116,6 +116,7 @@ def generate_seamlessm4t_speech(item: Dict):
     #         return duration
 
     try:
+        print(f"Payload: {item}")
         USE_ONNX = False
         model, utils = torch.hub.load(
             repo_or_dir="snakers4/silero-vad", model="silero_vad", onnx=USE_ONNX
