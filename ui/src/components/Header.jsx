@@ -33,7 +33,7 @@ export default function Header() {
       {isHome && (
         <div className="space-x-4 ">
           <PrimaryBtn accent={true} fn={() => router.push("/about")}>
-            Check our team
+            Team
           </PrimaryBtn>
           <SecondaryBtn fn={() => transitionToCollection(router)}>
             Dashboard
