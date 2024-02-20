@@ -83,7 +83,7 @@ C. WhisperX
 - 👯‍♂️ Multispeaker ASR using speaker diarization from pyannote-audio (speaker ID labels)
 - 🗣️ VAD preprocessing, reduces hallucination & batching with no WER degradation
 
-  
+
 **Indic Languages supported with faster-whisper**
 
 | Language  | Code |

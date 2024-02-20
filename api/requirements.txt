@@ -1,3 +1,5 @@
-modal==0.56.4822
 fastapi
+modal==0.56.4822
+pre-commit
 ruff
+

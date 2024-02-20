@@ -29,7 +29,7 @@ modal deploy  server.py
 
 ## Style checks
 
-- We are using [ruff](https://docs.astral.sh/ruff/), an extremely fast Python linter and code formatter, written in Rust for checking formatting and code styles. 
+- We are using [ruff](https://docs.astral.sh/ruff/), an extremely fast Python linter and code formatter, written in Rust for checking formatting and code styles.
 
 For style checks use the following command:
 

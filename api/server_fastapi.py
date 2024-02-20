@@ -16,9 +16,7 @@ def download_models():
 
     # Define model names for the translator and vocoder
     model_name = "seamlessM4T_v2_large"
-    vocoder_name = (
-        "vocoder_v2" if model_name == "seamlessM4T_v2_large" else "vocoder_36langs"
-    )
+    vocoder_name = "vocoder_v2" if model_name == "seamlessM4T_v2_large" else "vocoder_36langs"
 
     # Initialize the translator model with specified parameters
     Translator(
@@ -31,6 +29,7 @@ def download_models():
     # Load the silero-VAD model from the specified repository
     USE_ONNX = False
     torch.hub.load(repo_or_dir="snakers4/silero-vad", model="silero_vad", onnx=USE_ONNX)
+
 
 web_app = FastAPI()
 image = (
@@ -125,9 +124,7 @@ async def generate_seamlessm4t_speech(item: Dict):
         print("Initialized Seamless model")
         # translator = download_models()
         model_name = "seamlessM4T_v2_large"
-        vocoder_name = (
-            "vocoder_v2" if model_name == "seamlessM4T_v2_large" else "vocoder_36langs"
-        )
+        vocoder_name = "vocoder_v2" if model_name == "seamlessM4T_v2_large" else "vocoder_36langs"
 
         translator = Translator(
             model_name,
@@ -165,9 +162,7 @@ async def generate_seamlessm4t_speech(item: Dict):
             )
             resampled_waveform = resampler(waveform)
             torchaudio.save("resampled.wav", resampled_waveform, resample_rate)
-            translated_text, _ = translator.predict(
-                "resampled.wav", "s2tt", target_lang
-            )
+            translated_text, _ = translator.predict("resampled.wav", "s2tt", target_lang)
             print(translated_text)
             text.append(str(translated_text[0]))
             os.remove(new_audio_name)

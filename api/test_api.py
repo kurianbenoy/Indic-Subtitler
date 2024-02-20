@@ -29,7 +29,9 @@ def gen_srt_file(input_chunks, output_file_path):
             endTime = get_srt_time(seg["end"])
             text = seg["text"]
             print(text)
-            segment = f"{row}\n{startTime} --> {endTime}\n{text[1:] if text[0] == ' ' else text}\n\n"
+            segment = (
+                f"{row}\n{startTime} --> {endTime}\n{text[1:] if text[0] == ' ' else text}\n\n"
+            )
             print(segment)
             srtFile.write(segment)
             row += 1
