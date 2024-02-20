@@ -206,7 +206,7 @@ async def generate_seamlessm4t_speech(item: Dict):
                 # yield json.dumps({"data": json.dumps(obj)})
                 yield json.dumps(obj)
 
-        response = StreamingResponse(generate(), media_type="application/json")
+        response = StreamingResponse(generate(), media_type="text/event-stream")
         return response
 
         # chunks = []

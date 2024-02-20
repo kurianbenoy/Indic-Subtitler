@@ -53,16 +53,11 @@ export const handleTranscribe = async (file, targetLang) => {
 
       while (true) {
         const { done, value } = await reader.read();
-        console.log(done, value);
         if (done) break;
-        const chunk = decoder.decode(value, { stream: true });
-        console.log(chunk);
-
-        // const decodedValue = new TextDecoder().decode(value);
-        // console.log(decodedValue);
-        // const jsonData = JSON.parse(decodedValue);
-        // console.log(jsonData);
-        // finalData.push(jsonData);
+        const decodedValue = decoder.decode(value, { stream: true });
+        const jsonData = JSON.parse(decodedValue);
+        console.log(jsonData);
+        finalData.push(jsonData);
       }
     })
     .catch((err) => console.log("error: ", err));
