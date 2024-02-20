@@ -73,6 +73,7 @@ image = (
         "ffmpeg-python",
         "torch==2.1.1",
         "seamless_communication @ git+https://github.com/facebookresearch/seamless_communication.git",
+        "faster-whisper",
     )
     .run_function(download_models, gpu=GPU_TYPE)
 )
