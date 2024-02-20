@@ -64,24 +64,24 @@ export default function dashboard() {
   async function handleSubmit() {
     reset(true);
     const response = await handleTranscribe(uploadedFile, targetLanguage);
-    if (response) {
-      reset(false);
-      if (response.data.code !== 200) {
-        console.log(response);
-        toast.error(response.data.message);
-      } else {
-        setTranscribed(response.data.chunks);
-        const file = {
-          filename: uploadedFile.path,
-          size: uploadedFile.size,
-          transcribedData: response.data.chunks,
-          uploadDate: new Date(),
-          sourceLanguage: sourceLanguage,
-          targetLanguage: targetLanguage,
-        };
-        storeFileToLocalStorage(file);
-      }
-    }
+    // if (response) {
+    //   reset(false);
+    //   if (response.data.code !== 200) {
+    //     console.log(response);
+    //     toast.error(response.data.message);
+    //   } else {
+    //     setTranscribed(response.data.chunks);
+    //     const file = {
+    //       filename: uploadedFile.path,
+    //       size: uploadedFile.size,
+    //       transcribedData: response.data.chunks,
+    //       uploadDate: new Date(),
+    //       sourceLanguage: sourceLanguage,
+    //       targetLanguage: targetLanguage,
+    //     };
+    //     storeFileToLocalStorage(file);
+    //   }
+    // }
   }
 
   return (
@@ -116,7 +116,7 @@ export default function dashboard() {
             />
           </div>
           <button
-            disabled={disabled}
+            // disabled={disabled}
             onClick={handleSubmit}
             className={` ${
               disabled
