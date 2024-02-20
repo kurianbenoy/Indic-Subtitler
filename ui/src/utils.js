@@ -36,17 +36,103 @@ export const handleTranscribe = async (file, targetLang) => {
     wav_base64: base64Data,
     target: targetLang,
   };
+  let finalData = [];
 
-  try {
-    const response = await axios.post(
-      "https://kurianbenoy--seamless-m4t-speech-generate-seamlessm4t-speech.modal.run/",
-      requestData
-    );
-    return response;
-  } catch (error) {
-    return error;
-  }
+  fetch("https://aldrinjenson--vllm-mixtral.modal.run", {
+    method: "POST",
+    body: JSON.stringify(requestData),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then(async (res) => {
+      console.log(res);
+      console.log(res.body);
+      const decoder = new TextDecoder();
+      const reader = res.body.getReader();
+
+      while (true) {
+        const { done, value } = await reader.read();
+        console.log(done, value);
+        if (done) break;
+        const chunk = decoder.decode(value, { stream: true });
+        console.log(chunk);
+
+        // const decodedValue = new TextDecoder().decode(value);
+        // console.log(decodedValue);
+        // const jsonData = JSON.parse(decodedValue);
+        // console.log(jsonData);
+        // finalData.push(jsonData);
+      }
+    })
+    .catch((err) => console.log("error: ", err));
+  // return finalData;
 };
+
+// export const handleTranscribe = async (file, targetLang) => {
+//   const base64Data = await fileToBase64(file);
+
+//   const requestData = {
+//     wav_base64: base64Data,
+//     target: targetLang,
+//   };
+//   console.log(requestData);
+
+//   try {
+//     const response = await axios.post(
+//       "https://aldrinjenson--vllm-mixtral.modal.run",
+//       requestData,
+//       { responseType: "stream" } // Set responseType to 'stream' to enable streaming response
+//     );
+
+//     // Create an array to hold the streaming JSON data
+//     const streamingData = [];
+
+//     // Create a new TextDecoder to decode the response stream
+//     const decoder = new TextDecoder("utf-8");
+
+//     // Read the response stream in chunks
+//     for await (const chunk of response.data) {
+//       // Decode the chunk and append it to the streamingData array
+//       console.log(chunk);
+//       const decodedChunk = decoder.decode(chunk, { stream: true });
+//       console.log(decodedChunk);
+//       streamingData.push(decodedChunk);
+//     }
+
+//     // Join the decoded chunks to form a single string
+//     const jsonDataString = streamingData.join("");
+
+//     // Parse the JSON array
+//     const jsonData = JSON.parse(jsonDataString);
+
+//     console.log(jsonData);
+//     return jsonData;
+//   } catch (error) {
+//     console.error("Error:", error);
+//     throw error; // Rethrow the error to handle it outside of this function
+//   }
+// };
+
+// export const handleTranscribe = async (file, targetLang) => {
+//   const base64Data = await fileToBase64(file);
+
+//   const requestData = {
+//     wav_base64: base64Data,
+//     target: targetLang,
+//   };
+
+//   try {
+//     const response = await axios.post(
+//       "https://aldrinjenson--vllm-mixtral.modal.run",
+//       requestData
+//     );
+//     console.log(response);
+//     return response;
+//   } catch (error) {
+//     return error;
+//   }
+// };
 
 export function formatTime(time) {
   const hours = Math.floor(time / 3600);
