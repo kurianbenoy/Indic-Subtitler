@@ -1,5 +1,6 @@
 import base64
 import tempfile
+import logging
 from typing import Dict
 from modal import Image, Stub, web_endpoint
 
@@ -97,7 +98,7 @@ def generate_seamlessm4t_speech(item: Dict):
     Returns:
     - Dict: A dictionary containing the status code, message, detected speech chunks, and the translated text.
     """
-    import wave
+    # import wave
     import os
 
     import torch
@@ -105,15 +106,17 @@ def generate_seamlessm4t_speech(item: Dict):
     from pydub import AudioSegment
     from seamless_communication.inference import Translator
 
-    # function to calculate the duration of the input audio clip
-    def get_duration_wave(file_path):
-        with wave.open(file_path, "r") as audio_file:
-            frame_rate = audio_file.getframerate()
-            n_frames = audio_file.getnframes()
-            duration = n_frames / float(frame_rate)
-            return duration
+    # removed because of error in mp4 & mp3 files because of wave
+    # # function to calculate the duration of the input audio clip
+    # def get_duration_wave(file_path):
+    #     with wave.open(file_path, "r") as audio_file:
+    #         frame_rate = audio_file.getframerate()
+    #         n_frames = audio_file.getnframes()
+    #         duration = n_frames / float(frame_rate)
+    #         return duration
 
     try:
+        print(f"Payload: {item}")
         USE_ONNX = False
         model, utils = torch.hub.load(
             repo_or_dir="snakers4/silero-vad", model="silero_vad", onnx=USE_ONNX
@@ -130,6 +133,7 @@ def generate_seamlessm4t_speech(item: Dict):
         # Decode the base64 audio and convert it for processing
         b64 = item["wav_base64"]
         # source_lang = item["source"]
+        print(f"Target_lang: {item.get('target')}")
         target_lang = item["target"]
 
         fname = base64_to_audio_file(b64_contents=b64)
@@ -156,8 +160,8 @@ def generate_seamlessm4t_speech(item: Dict):
             dtype=torch.float16,
         )
 
-        duration = get_duration_wave(fname)
-        print(f"Duration: {duration:.2f} seconds")
+        # duration = get_duration_wave(fname)
+        # print(f"Duration: {duration:.2f} seconds")
 
         resample_rate = 16000
 
@@ -211,4 +215,5 @@ def generate_seamlessm4t_speech(item: Dict):
 
     except Exception as e:
         print(e)
+        logging.critical(e, exc_info=True)
         return {"message": "Internal server error", "code": 500}
