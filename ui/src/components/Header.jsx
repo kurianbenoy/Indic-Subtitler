@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import SecondaryBtn from "./SecondaryBtn";
 import { useEffect, useState } from "react";
 import { transitionToCollection } from "@components/utils";
+import PrimaryBtn from "./PrimaryBtn";
 
 export default function Header() {
   const router = useRouter();
@@ -21,7 +22,7 @@ export default function Header() {
     <header
       className={`
     ${isHome && "top-0"}
-    flex justify-between pt-5 items-center sticky  py-5 z-20 bg-white md:px-20 px-2`}
+    flex md:flex-row flex-col space-y-4 flex-wrap md:space-y-0 justify-between pt-5 items-center sticky  py-5 z-20 bg-white md:px-20 px-2 `}
     >
       <h1
         onClick={scrollToTop}
@@ -30,9 +31,14 @@ export default function Header() {
         Indic Subtitler
       </h1>
       {isHome && (
-        <SecondaryBtn fn={() => transitionToCollection(router)}>
-          Dashboard
-        </SecondaryBtn>
+        <div className="space-x-4 ">
+          <PrimaryBtn accent={true} fn={() => router.push("/about")}>
+            Check our team
+          </PrimaryBtn>
+          <SecondaryBtn fn={() => transitionToCollection(router)}>
+            Dashboard
+          </SecondaryBtn>
+        </div>
       )}
     </header>
   );

@@ -8,7 +8,10 @@ import {
 import React from "react";
 import PrimaryBtn from "../PrimaryBtn";
 import Carousel from "./Carousel";
+import { transitionToCollection } from "@components/utils";
+import { useRouter } from "next/router";
 export default function Information() {
+  const router = useRouter();
   const iconMap = {
     0: IconUpload,
     1: IconSettingsFilled,
@@ -58,7 +61,9 @@ export default function Information() {
           videos?
         </h2>
         <div className="self-center m-10">
-          <PrimaryBtn />
+          <PrimaryBtn fn={() => transitionToCollection(router)}>
+            Try now for free!
+          </PrimaryBtn>
         </div>
         <div className="flex flex-col md:flex-row  md:justify-center mb-12">
           {modes.map((element, index) => {
