@@ -5,7 +5,7 @@ import Dropdown from "@components/components/Dropdown";
 import { SOURCE_LANGUAGES } from "@components/constants";
 import { handleTranscribe } from "@components/utils";
 import ReactLoading from "react-loading";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import SubtitleEditor from "@components/components/SubtitleEditor";
 import useLocalStorage from "@components/hooks/useLocalStorage";
 import { useRouter } from "next/router";
@@ -15,7 +15,6 @@ export default function dashboard() {
   const [sourceLanguage, setSourceLanguage] = useState();
   const [outputLanguage, setOutputLanguage] = useState();
   const [disabled, setDisabled] = useState(true);
-  const [loading, setLoading] = useState(false);
   const [transcribed, setTranscribed] = useState([]);
   const [requestSentToAPI, setrequestSentToAPI] = useState(false);
   const [isLocalFile, setIsLocalFile] = useState(false);
@@ -43,10 +42,10 @@ export default function dashboard() {
   }, [index]);
 
   useEffect(() => {
-    if (uploadedFile && sourceLanguage && outputLanguage && !isLocalFile) {
+    if (uploadedFile && outputLanguage && !isLocalFile) {
       setDisabled(false);
     }
-  }, [uploadedFile, sourceLanguage, outputLanguage]);
+  }, [uploadedFile, outputLanguage]);
 
   function storeFileToLocalStorage(file) {
     const items = JSON.parse(localStorage.getItem("file"));
@@ -59,22 +58,18 @@ export default function dashboard() {
   }
 
   function reset(state) {
-    setLoading(state);
     setDisabled(state);
     setrequestSentToAPI(state);
   }
 
   async function handleSubmit() {
     reset(true);
-    const response = await handleTranscribe(
-      uploadedFile,
-      sourceLanguage,
-      outputLanguage
-    );
+    const response = await handleTranscribe(uploadedFile, outputLanguage);
     if (response) {
       reset(false);
-      if (response.status !== 200) {
-        return toast.error("An error ocurred");
+      if (response.data.code !== 200) {
+        console.log(response);
+        toast.error(response.data.message);
       } else {
         setTranscribed(response.data.chunks);
         const file = {
@@ -89,8 +84,10 @@ export default function dashboard() {
       }
     }
   }
+
   return (
     <>
+      <ToastContainer />
       <main className="mt-8 flex flex-col md:flex-row md:mb-8 xl:mx-14 mx-4 gap-4">
         <aside className="w-full md:w-[30%] lg:w-[25%] flex flex-col space-y-10 p-2">
           <div>
@@ -106,12 +103,12 @@ export default function dashboard() {
             />
           </div>
           <div className="space-y-5">
-            <Dropdown
+            {/* <Dropdown
               onChange={(item) => setSourceLanguage(item)}
               keyName="source-language"
               label="Source"
               options={SOURCE_LANGUAGES}
-            />
+            /> */}
             <Dropdown
               onChange={(item) => setOutputLanguage(item)}
               label="Output"

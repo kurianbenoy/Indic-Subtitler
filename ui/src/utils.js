@@ -29,12 +29,11 @@ export function transitionToCollection(router) {
   router.push("/collection");
 }
 
-export const handleTranscribe = async (file, sourceLang, targetLang) => {
+export const handleTranscribe = async (file, targetLang) => {
   const base64Data = await fileToBase64(file);
 
   const requestData = {
     wav_base64: base64Data,
-    source: sourceLang,
     target: targetLang,
   };
 

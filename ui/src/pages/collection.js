@@ -13,8 +13,8 @@ function TableRows({ storedFiles }) {
 
   if (storedFiles?.length) {
     return (
-      <div className="overflow-x-auto ">
-        <table className="table md:text-lg">
+      <div className="overflow-x-auto min-h-[75vh]">
+        <table className="table md:text-lg ">
           <thead>
             <tr className="text-lg text-gray-600">
               <th></th>
