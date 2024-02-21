@@ -92,4 +92,4 @@ git clone https://huggingface.co/datasets/kurianbenoy/Indic-subtitler-audio_eval
 ## Thanks
 
 1. Mayank kumar for allowing using his private video for benchmarking purpose in Hindi.
-2. All other youtube sources which we used for training.
+2. All other youtube sources which we used for benchmarking.
