@@ -92,7 +92,8 @@ image = (
 stub = Stub(name="seamless_m4t_speech", image=image)
 
 
-@stub.function(gpu=GPU_TYPE, timeout=600)
+# Timeout in 20 minutes
+@stub.function(gpu=GPU_TYPE, timeout=1200)
 @web_endpoint(method="POST")
 def generate_seamlessm4t_speech(item: Dict):
     """
@@ -218,6 +219,65 @@ def generate_seamlessm4t_speech(item: Dict):
             "chunks": chunks,
             "text": full_text,
         }
+
+    except Exception as e:
+        print(e)
+        logging.critical(e, exc_info=True)
+        return {"message": "Internal server error", "code": 500}
+    
+
+@stub.function(gpu=GPU_TYPE, timeout=600)
+@web_endpoint(method="POST")
+def generate_faster_whisper_speech(item: Dict):
+    """
+    Processes the input speech audio and translates the speech to the target language using faster-whisper.
+
+    Parameters:
+    - item (Dict): A dictionary containing the base64 encoded audio data and target language.
+
+    Returns:
+    - Dict: A dictionary containing the status code, message, detected speech chunks, and the translated text.
+    """
+    import torch
+    from faster_whisper import WhisperModel
+
+    try:
+        print(f"Payload: {item}")
+        # Decode the base64 audio and convert it for processing
+        b64 = item["wav_base64"]
+        # source_lang = item["source"]
+        print(f"Target_lang: {item.get('target')}")
+        target_lang = item["target"]
+
+        print(torch.cuda.is_available())
+        fname = base64_to_audio_file(b64_contents=b64)
+        print(fname)
+        convert_to_mono_16k(fname, "output.wav")
+
+        model = WhisperModel("large-v3", device="cuda", compute_type="float16")
+
+        segments, info = model.transcribe(
+            "output.wav",
+            beam_size=5,
+            language=target_lang,
+        )
+
+        print(
+            "Detected language '%s' with probability %f"
+            % (info.language, info.language_probability)
+        )
+
+        chunks = [{"start": segment.start, "end": segment.end, "text": segment.text} for segment in segments]
+
+        full_text = " ".join([x["text"] for x in chunks])
+
+        return {
+            "code": 200,
+            "message": "Speech generated successfully.",
+            "chunks": chunks,
+            "text": full_text,
+        }
+
 
     except Exception as e:
         print(e)
