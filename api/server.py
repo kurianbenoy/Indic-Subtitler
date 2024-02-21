@@ -15,6 +15,7 @@ def download_models():
     from seamless_communication.inference import Translator
     from faster_whisper import WhisperModel
     import torch
+    import whisperx
 
     # Define model names for the translator and vocoder
     model_name = "seamlessM4T_v2_large"
@@ -35,7 +36,10 @@ def download_models():
     # Download faster-whisper
     model_size = "large-v3"
     # Run on GPU with FP16
-    model = WhisperModel(model_size, device="cuda", compute_type="float16")
+    WhisperModel(model_size, device="cuda", compute_type="float16")
+
+    # Download whisperX model
+    whisperx.load_model(model_size, "cuda", compute_type="float16")
 
 
 def base64_to_audio_file(b64_contents: str):
@@ -279,6 +283,59 @@ def generate_faster_whisper_speech(item: Dict):
             "text": full_text,
         }
 
+
+    except Exception as e:
+        print(e)
+        logging.critical(e, exc_info=True)
+        return {"message": "Internal server error", "code": 500}
+
+
+@stub.function(gpu=GPU_TYPE, timeout=600)
+@web_endpoint(method="POST")
+def generate_whisperx_speech(item: Dict):
+    """
+    Processes the input speech audio and translates the speech to the target language using faster-whisper.
+
+    Parameters:
+    - item (Dict): A dictionary containing the base64 encoded audio data and target language.
+
+    Returns:
+    - Dict: A dictionary containing the status code, message, detected speech chunks, and the translated text.
+    """
+    import whisperx
+    try:
+        # print(f"Payload: {item}")
+        # Decode the base64 audio and convert it for processing
+        b64 = item["wav_base64"]
+        # source_lang = item["source"]
+        print(f"Target_lang: {item.get('target')}")
+        target_lang = item["target"]
+
+        fname = base64_to_audio_file(b64_contents=b64)
+        print(fname)
+        convert_to_mono_16k(fname, "output.wav")
+
+        model = whisperx.load_model("large-v3", "cuda", compute_type="float16")
+
+        audio = whisperx.load_audio("output.wav")
+        result = model.transcribe(audio, batch_size=16)
+
+        model_a, metadata = whisperx.load_align_model(
+            language_code=target_lang, device="cuda"
+        )
+
+        result = whisperx.align(
+            result["segments"], model_a, metadata, audio, "cuda", return_char_alignments=False
+        )
+
+        print(result["segments"])
+
+        return {
+            "code": 200,
+            "message": "Speech generated successfully.",
+            "chunks": result["segments"],
+            # "text": full_text,
+        }
 
     except Exception as e:
         print(e)
