@@ -74,7 +74,7 @@ def convert_to_mono_16k(input_file: str, output_file: str) -> None:
 
 # Define the Docker image configuration for the processing environment
 image = (
-    Image.from_registry("nvidia/cuda:12.2.0-devel-ubuntu20.04", add_python="3.10")
+    Image.from_registry("nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu22.04", add_python="3.10")
     .apt_install("git", "ffmpeg")
     .pip_install(
         "fairseq2==0.2.*",
@@ -84,6 +84,7 @@ image = (
         "torch==2.1.1",
         "seamless_communication @ git+https://github.com/facebookresearch/seamless_communication.git",  # torchaudio already included in seamless_communication
         "faster-whisper",
+        "whisperx @ git+https://github.com/m-bain/whisperX.git@e906be9688334b4ae7d3a23f69734ac901a255ee"
     )
     .run_function(download_models, gpu=GPU_TYPE)
 )
