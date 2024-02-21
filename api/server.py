@@ -128,7 +128,7 @@ def generate_seamlessm4t_speech(item: Dict):
     #         return duration
 
     try:
-        print(f"Payload: {item}")
+        # print(f"Payload: {item}")
         USE_ONNX = False
         model, utils = torch.hub.load(
             repo_or_dir="snakers4/silero-vad", model="silero_vad", onnx=USE_ONNX
@@ -145,11 +145,10 @@ def generate_seamlessm4t_speech(item: Dict):
         # Decode the base64 audio and convert it for processing
         b64 = item["wav_base64"]
         # source_lang = item["source"]
-        print(f"Target_lang: {item.get('target')}")
+        # print(f"Target_lang: {item.get('target')}")
         target_lang = item["target"]
 
         fname = base64_to_audio_file(b64_contents=b64)
-        print(fname)
         convert_to_mono_16k(fname, "output.wav")
 
         # Perform voice activity detection on the processed audio
@@ -202,7 +201,7 @@ def generate_seamlessm4t_speech(item: Dict):
             resampled_waveform = resampler(waveform)
             torchaudio.save("resampled.wav", resampled_waveform, resample_rate)
             translated_text, _ = translator.predict("resampled.wav", "s2tt", target_lang)
-            print(translated_text)
+            # print(translated_text)
             text.append(str(translated_text[0]))
             os.remove(new_audio_name)
             os.remove("resampled.wav")
@@ -247,14 +246,14 @@ def generate_faster_whisper_speech(item: Dict):
     from faster_whisper import WhisperModel
 
     try:
-        print(f"Payload: {item}")
+        # print(f"Payload: {item}")
         # Decode the base64 audio and convert it for processing
         b64 = item["wav_base64"]
         # source_lang = item["source"]
-        print(f"Target_lang: {item.get('target')}")
+        # print(f"Target_lang: {item.get('target')}")
         target_lang = item["target"]
 
-        print(torch.cuda.is_available())
+        # print(torch.cuda.is_available())
         fname = base64_to_audio_file(b64_contents=b64)
         print(fname)
         convert_to_mono_16k(fname, "output.wav")
@@ -311,7 +310,7 @@ def generate_whisperx_speech(item: Dict):
         # Decode the base64 audio and convert it for processing
         b64 = item["wav_base64"]
         # source_lang = item["source"]
-        print(f"Target_lang: {item.get('target')}")
+        # print(f"Target_lang: {item.get('target')}")
         target_lang = item["target"]
 
         fname = base64_to_audio_file(b64_contents=b64)
