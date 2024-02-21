@@ -17,9 +17,11 @@ export default function Gallery() {
           }`}
           key={index}
         >
-          <img
+          <Image
+            className="lg:w-[20%] md:w-[30%] w-[60%]  aspect-w-4 aspect-h-3 rounded-2xl self-center"
             src={element.img}
-            className="lg:w-[20%] md:w-[30%] aspect-w-4 aspect-h-3 rounded-2xl self-center"
+            width={500}
+            height={300}
             alt={`Picture of ${element.name}`}
           />
           <div className="md:w-[40%] mt-2 md:mt-0">

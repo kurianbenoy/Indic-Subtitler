@@ -13,7 +13,9 @@ def download_models():
     Downloads and initializes models required for speech processing, including a translator model and a VAD (Voice Activity Detection) model.
     """
     from seamless_communication.inference import Translator
+    from faster_whisper import WhisperModel
     import torch
+    import whisperx
 
     # Define model names for the translator and vocoder
     model_name = "seamlessM4T_v2_large"
@@ -30,6 +32,14 @@ def download_models():
     # Load the silero-VAD model from the specified repository
     USE_ONNX = False
     torch.hub.load(repo_or_dir="snakers4/silero-vad", model="silero_vad", onnx=USE_ONNX)
+
+    # Download faster-whisper
+    model_size = "large-v3"
+    # Run on GPU with FP16
+    WhisperModel(model_size, device="cuda", compute_type="float16")
+
+    # Download whisperX model
+    whisperx.load_model(model_size, "cuda", compute_type="float16")
 
 
 def base64_to_audio_file(b64_contents: str):
@@ -68,7 +78,7 @@ def convert_to_mono_16k(input_file: str, output_file: str) -> None:
 
 # Define the Docker image configuration for the processing environment
 image = (
-    Image.from_registry("nvidia/cuda:12.2.0-devel-ubuntu20.04", add_python="3.10")
+    Image.from_registry("nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu22.04", add_python="3.10")
     .apt_install("git", "ffmpeg")
     .pip_install(
         "fairseq2==0.2.*",
@@ -78,6 +88,7 @@ image = (
         "torch==2.1.1",
         "seamless_communication @ git+https://github.com/facebookresearch/seamless_communication.git",  # torchaudio already included in seamless_communication
         "faster-whisper",
+        "whisperx @ git+https://github.com/m-bain/whisperX.git@e906be9688334b4ae7d3a23f69734ac901a255ee",
     )
     .run_function(download_models, gpu=GPU_TYPE)
 )
@@ -86,7 +97,8 @@ image = (
 stub = Stub(name="seamless_m4t_speech", image=image)
 
 
-@stub.function(gpu=GPU_TYPE, timeout=600)
+# Timeout in 20 minutes
+@stub.function(gpu=GPU_TYPE, timeout=1200)
 @web_endpoint(method="POST")
 def generate_seamlessm4t_speech(item: Dict):
     """
@@ -116,7 +128,7 @@ def generate_seamlessm4t_speech(item: Dict):
     #         return duration
 
     try:
-        print(f"Payload: {item}")
+        # print(f"Payload: {item}")
         USE_ONNX = False
         model, utils = torch.hub.load(
             repo_or_dir="snakers4/silero-vad", model="silero_vad", onnx=USE_ONNX
@@ -133,11 +145,10 @@ def generate_seamlessm4t_speech(item: Dict):
         # Decode the base64 audio and convert it for processing
         b64 = item["wav_base64"]
         # source_lang = item["source"]
-        print(f"Target_lang: {item.get('target')}")
+        # print(f"Target_lang: {item.get('target')}")
         target_lang = item["target"]
 
         fname = base64_to_audio_file(b64_contents=b64)
-        print(fname)
         convert_to_mono_16k(fname, "output.wav")
 
         # Perform voice activity detection on the processed audio
@@ -190,7 +201,7 @@ def generate_seamlessm4t_speech(item: Dict):
             resampled_waveform = resampler(waveform)
             torchaudio.save("resampled.wav", resampled_waveform, resample_rate)
             translated_text, _ = translator.predict("resampled.wav", "s2tt", target_lang)
-            print(translated_text)
+            # print(translated_text)
             text.append(str(translated_text[0]))
             os.remove(new_audio_name)
             os.remove("resampled.wav")
@@ -211,6 +222,118 @@ def generate_seamlessm4t_speech(item: Dict):
             "message": "Speech generated successfully.",
             "chunks": chunks,
             "text": full_text,
+        }
+
+    except Exception as e:
+        print(e)
+        logging.critical(e, exc_info=True)
+        return {"message": "Internal server error", "code": 500}
+
+
+@stub.function(gpu=GPU_TYPE, timeout=600)
+@web_endpoint(method="POST")
+def generate_faster_whisper_speech(item: Dict):
+    """
+    Processes the input speech audio and translates the speech to the target language using faster-whisper.
+
+    Parameters:
+    - item (Dict): A dictionary containing the base64 encoded audio data and target language.
+
+    Returns:
+    - Dict: A dictionary containing the status code, message, detected speech chunks, and the translated text.
+    """
+    from faster_whisper import WhisperModel
+
+    try:
+        # print(f"Payload: {item}")
+        # Decode the base64 audio and convert it for processing
+        b64 = item["wav_base64"]
+        # source_lang = item["source"]
+        # print(f"Target_lang: {item.get('target')}")
+        target_lang = item["target"]
+
+        # print(torch.cuda.is_available())
+        fname = base64_to_audio_file(b64_contents=b64)
+        print(fname)
+        convert_to_mono_16k(fname, "output.wav")
+
+        model = WhisperModel("large-v3", device="cuda", compute_type="float16")
+
+        segments, info = model.transcribe(
+            "output.wav",
+            beam_size=5,
+            language=target_lang,
+        )
+
+        print(
+            "Detected language '%s' with probability %f"
+            % (info.language, info.language_probability)
+        )
+
+        chunks = [
+            {"start": segment.start, "end": segment.end, "text": segment.text}
+            for segment in segments
+        ]
+
+        full_text = " ".join([x["text"] for x in chunks])
+
+        return {
+            "code": 200,
+            "message": "Speech generated successfully.",
+            "chunks": chunks,
+            "text": full_text,
+        }
+
+    except Exception as e:
+        print(e)
+        logging.critical(e, exc_info=True)
+        return {"message": "Internal server error", "code": 500}
+
+
+@stub.function(gpu=GPU_TYPE, timeout=600)
+@web_endpoint(method="POST")
+def generate_whisperx_speech(item: Dict):
+    """
+    Processes the input speech audio and translates the speech to the target language using faster-whisper.
+
+    Parameters:
+    - item (Dict): A dictionary containing the base64 encoded audio data and target language.
+
+    Returns:
+    - Dict: A dictionary containing the status code, message, detected speech chunks, and the translated text.
+    """
+    import whisperx
+
+    try:
+        # print(f"Payload: {item}")
+        # Decode the base64 audio and convert it for processing
+        b64 = item["wav_base64"]
+        # source_lang = item["source"]
+        # print(f"Target_lang: {item.get('target')}")
+        target_lang = item["target"]
+
+        fname = base64_to_audio_file(b64_contents=b64)
+        print(fname)
+        convert_to_mono_16k(fname, "output.wav")
+
+        model = whisperx.load_model("large-v3", "cuda", compute_type="float16")
+
+        audio = whisperx.load_audio("output.wav")
+        result = model.transcribe(audio, batch_size=16)
+
+        model_a, metadata = whisperx.load_align_model(language_code=target_lang, device="cuda")
+
+        result = whisperx.align(
+            result["segments"], model_a, metadata, audio, "cuda", return_char_alignments=False
+        )
+
+        print(result["segments"])
+
+        return {
+            "code": 200,
+            "message": "Speech generated successfully.",
+            "chunks": result["segments"],
+            # "text": full_text,
         }
 
     except Exception as e:
