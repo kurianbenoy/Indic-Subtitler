@@ -13,6 +13,7 @@ def download_models():
     Downloads and initializes models required for speech processing, including a translator model and a VAD (Voice Activity Detection) model.
     """
     from seamless_communication.inference import Translator
+    from faster_whisper import WhisperModel
     import torch
 
     # Define model names for the translator and vocoder
@@ -30,6 +31,11 @@ def download_models():
     # Load the silero-VAD model from the specified repository
     USE_ONNX = False
     torch.hub.load(repo_or_dir="snakers4/silero-vad", model="silero_vad", onnx=USE_ONNX)
+    
+    # Download faster-whisper
+    model_size = "large-v3"
+    # Run on GPU with FP16
+    model = WhisperModel(model_size, device="cuda", compute_type="float16")
 
 
 def base64_to_audio_file(b64_contents: str):
