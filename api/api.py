@@ -5,9 +5,43 @@ import logging
 from typing import Dict
 from modal import Image, Stub, web_endpoint
 from fastapi.responses import StreamingResponse
+import torch
+import torchaudio
+from pydub import AudioSegment
+from seamless_communication.inference import Translator
+import json
+
 
 # Define the GPU type to be used for processing
 GPU_TYPE = "T4"
+
+USE_ONNX = False
+model, utils = torch.hub.load(
+    repo_or_dir="snakers4/silero-vad", model="silero_vad", onnx=USE_ONNX
+)
+
+(
+    get_speech_timestamps,
+    save_audio,
+    read_audio,
+    VADIterator,
+    collect_chunks,
+) = utils
+
+model_name = "seamlessM4T_v2_large"
+vocoder_name = (
+    "vocoder_v2" if model_name == "seamlessM4T_v2_large" else "vocoder_36langs"
+)
+
+
+translator = Translator(
+    model_name,
+    vocoder_name,
+    device=torch.device("cuda:0"),
+    dtype=torch.float16,
+)
+
+resample_rate = 16000
 
 
 def download_models():
@@ -103,27 +137,7 @@ async def generate_seamlessm4t_speech(item: Dict):
     - Dict: A dictionary containing the status code, message, detected speech chunks, and the translated text.
     """
     # import wave
-
-    import torch
-    import torchaudio
-    from pydub import AudioSegment
-    from seamless_communication.inference import Translator
-    import json
-
     try:
-        USE_ONNX = False
-        model, utils = torch.hub.load(
-            repo_or_dir="snakers4/silero-vad", model="silero_vad", onnx=USE_ONNX
-        )
-
-        (
-            get_speech_timestamps,
-            save_audio,
-            read_audio,
-            VADIterator,
-            collect_chunks,
-        ) = utils
-
         # Decode the base64 audio and convert it for processing
         b64 = item["wav_base64"]
         # source_lang = item["source"]
@@ -144,22 +158,6 @@ async def generate_seamlessm4t_speech(item: Dict):
         )
         print(speech_timestamps_seconds)
         # translator = download_models()
-        model_name = "seamlessM4T_v2_large"
-        vocoder_name = (
-            "vocoder_v2" if model_name == "seamlessM4T_v2_large" else "vocoder_36langs"
-        )
-
-        translator = Translator(
-            model_name,
-            vocoder_name,
-            device=torch.device("cuda:0"),
-            dtype=torch.float16,
-        )
-
-        # duration = get_duration_wave(fname)
-        # print(f"Duration: {duration:.2f} seconds")
-
-        resample_rate = 16000
 
         # Replace t1, t2 with VAD time
         timestamps_start = []
@@ -198,31 +196,10 @@ async def generate_seamlessm4t_speech(item: Dict):
                     "text": str(translated_text[0]),
                 }
                 print(obj)
-                time.sleep(0.5)
-
-                # yield json.dumps({"data": json.dumps(obj)})
                 yield json.dumps(obj)
 
         response = StreamingResponse(generate(), media_type="text/event-stream")
         return response
-
-        # chunks = []
-        # for i in range(len(text)):
-        #     chunks.append(
-        #         {
-        #             "start": timestamps_start[i],
-        #             "end": timestamps_end[i],
-        #             "text": text[i],
-        #         }
-        #     )
-
-        # full_text = " ".join([x["text"] for x in chunks])
-        # return {
-        #     "code": 200,
-        #     "message": "Speech generated successfully.",
-        #     "chunks": chunks,
-        #     "text": full_text,
-        # }
 
     except Exception as e:
         print(e)

@@ -1,12 +1,10 @@
-import Header from "@components/components/Header";
 import React, { useEffect, useState } from "react";
 import Dropzone from "@components/components/Dropzone";
 import Dropdown from "@components/components/Dropdown";
 import { SOURCE_LANGUAGES } from "@components/constants";
-import { handleTranscribe } from "@components/utils";
+import { fileToBase64 } from "@components/utils";
 import { ToastContainer, toast } from "react-toastify";
 import SubtitleEditor from "@components/components/SubtitleEditor";
-import useLocalStorage from "@components/hooks/useLocalStorage";
 import { useRouter } from "next/router";
 
 export default function dashboard() {
@@ -63,26 +61,64 @@ export default function dashboard() {
 
   async function handleSubmit() {
     reset(true);
-    const response = await handleTranscribe(uploadedFile, targetLanguage);
-    // if (response) {
-    //   reset(false);
-    //   if (response.data.code !== 200) {
-    //     console.log(response);
-    //     toast.error(response.data.message);
-    //   } else {
-    //     setTranscribed(response.data.chunks);
-    //     const file = {
-    //       filename: uploadedFile.path,
-    //       size: uploadedFile.size,
-    //       transcribedData: response.data.chunks,
-    //       uploadDate: new Date(),
-    //       sourceLanguage: sourceLanguage,
-    //       targetLanguage: targetLanguage,
-    //     };
-    //     storeFileToLocalStorage(file);
-    //   }
-    // }
+    const base64Data = await fileToBase64(uploadedFile);
+
+    const requestData = {
+      wav_base64: base64Data,
+      target: targetLanguage,
+    };
+
+    const toastId = toast.info("Uploading file..");
+
+    fetch("https://aldrinjenson--vllm-mixtral.modal.run", {
+      method: "POST",
+      body: JSON.stringify(requestData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then(async (res) => {
+        toast.update(toastId, { render: "Transcribing file..", type: "info" });
+        const decoder = new TextDecoder();
+        const reader = res.body.getReader();
+        setrequestSentToAPI(false);
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          try {
+            const decodedValue = decoder.decode(value);
+            console.log(decodedValue);
+            const jsonData = JSON.parse(decodedValue);
+            console.log(jsonData);
+            setTranscribed((transcribed) => [...transcribed, jsonData]);
+          } catch (error) {
+            console.log("error in transcribing: ", error);
+            console.log(value);
+          }
+        }
+      })
+      .then(() => {
+        toast.update(toastId, {
+          render: "Succesfully transcribed",
+          type: "success",
+        });
+        console.log(transcribed);
+
+        const file = {
+          filename: uploadedFile.path,
+          size: uploadedFile.size,
+          transcribedData: transcribed,
+          uploadDate: new Date(),
+          sourceLanguage: sourceLanguage,
+          targetLanguage: targetLanguage,
+        };
+        storeFileToLocalStorage(file);
+        reset(false);
+      })
+      .catch((err) => console.log("error: ", err));
   }
+  console.log(transcribed);
 
   return (
     <>

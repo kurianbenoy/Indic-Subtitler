@@ -29,40 +29,39 @@ export function transitionToCollection(router) {
   router.push("/collection");
 }
 
-export const handleTranscribe = async (file, targetLang) => {
-  const base64Data = await fileToBase64(file);
+// export const handleTranscribe = async (file, targetLang) => {
+//   const base64Data = await fileToBase64(file);
 
-  const requestData = {
-    wav_base64: base64Data,
-    target: targetLang,
-  };
-  let finalData = [];
+//   const requestData = {
+//     wav_base64: base64Data,
+//     target: targetLang,
+//   };
+//   let finalData = [];
 
-  fetch("https://aldrinjenson--vllm-mixtral.modal.run", {
-    method: "POST",
-    body: JSON.stringify(requestData),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then(async (res) => {
-      console.log(res);
-      console.log(res.body);
-      const decoder = new TextDecoder();
-      const reader = res.body.getReader();
+//   fetch("https://aldrinjenson--vllm-mixtral.modal.run", {
+//     method: "POST",
+//     body: JSON.stringify(requestData),
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//   })
+//     .then(async (res) => {
+//       console.log(res);
+//       console.log(res.body);
+//       const decoder = new TextDecoder();
+//       const reader = res.body.getReader();
 
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        const decodedValue = decoder.decode(value, { stream: true });
-        const jsonData = JSON.parse(decodedValue);
-        console.log(jsonData);
-        finalData.push(jsonData);
-      }
-    })
-    .catch((err) => console.log("error: ", err));
-  // return finalData;
-};
+//       while (true) {
+//         const { done, value } = await reader.read();
+//         if (done) break;
+//         const decodedValue = decoder.decode(value, { stream: true });
+//         const jsonData = JSON.parse(decodedValue);
+//         console.log(jsonData);
+//         finalData.push(jsonData);
+//       }
+//     })
+//     .catch((err) => console.log("error: ", err));
+// };
 
 // export const handleTranscribe = async (file, targetLang) => {
 //   const base64Data = await fileToBase64(file);
