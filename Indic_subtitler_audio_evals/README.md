@@ -80,8 +80,16 @@ git clone https://huggingface.co/datasets/kurianbenoy/Indic-subtitler-audio_eval
 1. [Mamata Banerjee Questions Change to 'Bharat' in G20 Summit Dinner Invitations | India Name Change](https://www.youtube.com/watch?v=JbjcgzTMbn0)
 2. [STEVE JOBS: Stanford Speech In Bangla by Nagar Bioscope](https://www.youtube.com/watch?v=EaGBd4proc4)
 
+
 #### Telgu
 
 1. [JAYALALITHA amma Superb TELUGU Speech in Taminadu assembly | Soul Of Bharat](https://www.youtube.com/watch?v=nTFqsTPArRk)
 2. [Dhanush Superb Telugu Speech @ #SIR - #Vaathi Trailer Launch Event | Manastars](https://www.youtube.com/watch?v=zBFlmJNj8xU)
 3. [Revanth Reddy Speech at Rythu Sangharshana Sabha Live | Telangna Congress Party Live | Ntv](https://www.youtube.com/watch?v=B5s3E9LtYwM)
+
+
+
+## Thanks
+
+1. Mayank kumar for allowing using his private video for benchmarking purpose in Hindi.
+2. All other youtube sources which we used for benchmarking.

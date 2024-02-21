@@ -71,6 +71,7 @@ B. faster-whisper
 | Marathi   | mr |
 | Punjabi   | pa |
 | Tamil     | ta |
+| Telgu     | te |
 | Urdu      | ur |
 
 C. WhisperX
