@@ -242,7 +242,6 @@ def generate_faster_whisper_speech(item: Dict):
     Returns:
     - Dict: A dictionary containing the status code, message, detected speech chunks, and the translated text.
     """
-    import torch
     from faster_whisper import WhisperModel
 
     try:
