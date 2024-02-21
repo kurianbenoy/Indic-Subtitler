@@ -31,9 +31,12 @@ export default function Header() {
         Indic Subtitler
       </h1>
       {isHome && (
-        <div className="space-x-4 ">
+        <div className="flex flex-wrap gap-4 ">
           <PrimaryBtn accent={true} fn={() => router.push("/about")}>
             Team
+          </PrimaryBtn>
+          <PrimaryBtn accent={true} fn={() => router.push("/term")}>
+            Terms & Licenses
           </PrimaryBtn>
           <SecondaryBtn fn={() => transitionToCollection(router)}>
             Dashboard
