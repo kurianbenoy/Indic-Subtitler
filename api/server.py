@@ -32,7 +32,7 @@ def download_models():
     # Load the silero-VAD model from the specified repository
     USE_ONNX = False
     torch.hub.load(repo_or_dir="snakers4/silero-vad", model="silero_vad", onnx=USE_ONNX)
-    
+
     # Download faster-whisper
     model_size = "large-v3"
     # Run on GPU with FP16
@@ -88,7 +88,7 @@ image = (
         "torch==2.1.1",
         "seamless_communication @ git+https://github.com/facebookresearch/seamless_communication.git",  # torchaudio already included in seamless_communication
         "faster-whisper",
-        "whisperx @ git+https://github.com/m-bain/whisperX.git@e906be9688334b4ae7d3a23f69734ac901a255ee"
+        "whisperx @ git+https://github.com/m-bain/whisperX.git@e906be9688334b4ae7d3a23f69734ac901a255ee",
     )
     .run_function(download_models, gpu=GPU_TYPE)
 )
@@ -229,7 +229,7 @@ def generate_seamlessm4t_speech(item: Dict):
         print(e)
         logging.critical(e, exc_info=True)
         return {"message": "Internal server error", "code": 500}
-    
+
 
 @stub.function(gpu=GPU_TYPE, timeout=600)
 @web_endpoint(method="POST")
@@ -272,7 +272,10 @@ def generate_faster_whisper_speech(item: Dict):
             % (info.language, info.language_probability)
         )
 
-        chunks = [{"start": segment.start, "end": segment.end, "text": segment.text} for segment in segments]
+        chunks = [
+            {"start": segment.start, "end": segment.end, "text": segment.text}
+            for segment in segments
+        ]
 
         full_text = " ".join([x["text"] for x in chunks])
 
@@ -282,7 +285,6 @@ def generate_faster_whisper_speech(item: Dict):
             "chunks": chunks,
             "text": full_text,
         }
-
 
     except Exception as e:
         print(e)
@@ -303,6 +305,7 @@ def generate_whisperx_speech(item: Dict):
     - Dict: A dictionary containing the status code, message, detected speech chunks, and the translated text.
     """
     import whisperx
+
     try:
         # print(f"Payload: {item}")
         # Decode the base64 audio and convert it for processing
@@ -320,9 +323,7 @@ def generate_whisperx_speech(item: Dict):
         audio = whisperx.load_audio("output.wav")
         result = model.transcribe(audio, batch_size=16)
 
-        model_a, metadata = whisperx.load_align_model(
-            language_code=target_lang, device="cuda"
-        )
+        model_a, metadata = whisperx.load_align_model(language_code=target_lang, device="cuda")
 
         result = whisperx.align(
             result["segments"], model_a, metadata, audio, "cuda", return_char_alignments=False
