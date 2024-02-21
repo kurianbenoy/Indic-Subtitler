@@ -16,19 +16,6 @@ export const SOURCE_LANGUAGES = [
 
 export const TEAM = [
   {
-    name: "Kurain Benoy",
-    img: "/kurain.jpg",
-    description: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni
-    blanditiis voluptate repellendus unde, tempora perferendis
-    quisquam quidem, saepe at autem harum maxime sequi praesentium
-    aliquam dignissimos quasi nemo nam obcaecati ratione porro?
-    Doloremque commodi, facilis ratione amet qui recusandae? Illo
-    nostrum esse tenetur.`,
-    github: "https://github.com/kurianbenoy",
-    linkedin: "https://www.linkedin.com/in/kurianbenoy/",
-    twitter: "https://twitter.com/kurianbenoy2",
-  },
-  {
     name: "Aldrin",
     img: "/aldrin.jpeg",
     description: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni
@@ -41,6 +28,20 @@ export const TEAM = [
     linkedin: "https://www.linkedin.com/in/aldrinjenson/",
     twitter: "https://twitter.com/aldrinjenson",
   },
+  {
+    name: "Kurain Benoy",
+    img: "/kurain.jpg",
+    description: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni
+    blanditiis voluptate repellendus unde, tempora perferendis
+    quisquam quidem, saepe at autem harum maxime sequi praesentium
+    aliquam dignissimos quasi nemo nam obcaecati ratione porro?
+    Doloremque commodi, facilis ratione amet qui recusandae? Illo
+    nostrum esse tenetur.`,
+    github: "https://github.com/kurianbenoy",
+    linkedin: "https://www.linkedin.com/in/kurianbenoy/",
+    twitter: "https://twitter.com/kurianbenoy2",
+  },
+
   {
     name: "Nabeel Boda",
     img: "/nabeel.jpeg",
