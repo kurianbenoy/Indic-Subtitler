@@ -3,10 +3,8 @@ import time
 import tempfile
 import logging
 from typing import Dict
-from modal import Image, Stub, web_endpoint, asgi_app
-from fastapi import FastAPI, Response
+from modal import Image, Stub, web_endpoint
 from fastapi.responses import StreamingResponse
-from fastapi.middleware.cors import CORSMiddleware
 
 # Define the GPU type to be used for processing
 GPU_TYPE = "T4"
@@ -105,7 +103,6 @@ async def generate_seamlessm4t_speech(item: Dict):
     - Dict: A dictionary containing the status code, message, detected speech chunks, and the translated text.
     """
     # import wave
-    import os
 
     import torch
     import torchaudio
