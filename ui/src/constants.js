@@ -14,9 +14,47 @@ export const SOURCE_LANGUAGES = [
   { id: "urd", name: "Urdu" },
 ];
 
-// export const TARGET_LANGUAGES = [
-// ]
-
+export const TEAM = [
+  {
+    name: "Kurain Benoy",
+    img: "/kurain.jpg",
+    description: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni
+    blanditiis voluptate repellendus unde, tempora perferendis
+    quisquam quidem, saepe at autem harum maxime sequi praesentium
+    aliquam dignissimos quasi nemo nam obcaecati ratione porro?
+    Doloremque commodi, facilis ratione amet qui recusandae? Illo
+    nostrum esse tenetur.`,
+    github: "https://github.com/kurianbenoy",
+    linkedin: "https://www.linkedin.com/in/kurianbenoy/",
+    twitter: "https://twitter.com/kurianbenoy2",
+  },
+  {
+    name: "Aldrin",
+    img: "/aldrin.jpeg",
+    description: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni
+    blanditiis voluptate repellendus unde, tempora perferendis
+    quisquam quidem, saepe at autem harum maxime sequi praesentium
+    aliquam dignissimos quasi nemo nam obcaecati ratione porro?
+    Doloremque commodi, facilis ratione amet qui recusandae? Illo
+    nostrum esse tenetur.`,
+    github: "https://github.com/aldrinjenson",
+    linkedin: "https://www.linkedin.com/in/aldrinjenson/",
+    twitter: "https://twitter.com/aldrinjenson",
+  },
+  {
+    name: "Nabeel Boda",
+    img: "/nabeel.jpeg",
+    description: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni
+    blanditiis voluptate repellendus unde, tempora perferendis
+    quisquam quidem, saepe at autem harum maxime sequi praesentium
+    aliquam dignissimos quasi nemo nam obcaecati ratione porro?
+    Doloremque commodi, facilis ratione amet qui recusandae? Illo
+    nostrum esse tenetur.`,
+    github: "https://github.com/BodaNabeel",
+    linkedin: "https://www.linkedin.com/in/nabeel-boda-0858b2234",
+    twitter: "https://twitter.com/BodaNabeel",
+  },
+];
 export const translation = [
   {
     start: 0.1,

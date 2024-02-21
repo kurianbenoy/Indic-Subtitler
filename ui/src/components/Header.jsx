@@ -22,7 +22,7 @@ export default function Header() {
     <header
       className={`
     ${isHome && "top-0"}
-    flex md:flex-row flex-col space-y-4 flex-wrap md:space-y-0 justify-between pt-5 items-center sticky  py-5 z-20 bg-white md:px-20 px-2 `}
+    flex md:flex-row flex-col space-y-4 flex-wrap md:space-y-0 justify-between pt-5 md:items-center sticky  py-5 z-20 bg-white md:px-20 px-2 `}
     >
       <h1
         onClick={scrollToTop}
