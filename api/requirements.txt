@@ -1,5 +1,5 @@
 fastapi
-modal==0.56.4822
+modal==0.57.67
 # dev-requirements
 pre-commit==3.6.2
 ruff==0.2.2
