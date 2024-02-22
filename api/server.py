@@ -112,7 +112,7 @@ def generate_seamlessm4t_speech(item: Dict):
     """
     # import wave
     import os
-    from datetime import time
+    import time
 
     import torch
     import torchaudio
@@ -162,7 +162,7 @@ def generate_seamlessm4t_speech(item: Dict):
         )
         print(speech_timestamps_seconds)
         # translator = download_models()
-        start = time.time()
+        start = time.perf_counter()
         model_name = "seamlessM4T_v2_large"
         vocoder_name = "vocoder_v2" if model_name == "seamlessM4T_v2_large" else "vocoder_36langs"
 
@@ -173,7 +173,8 @@ def generate_seamlessm4t_speech(item: Dict):
             dtype=torch.float16,
         )
 
-        print(f"Time taken is: {time.time() - start}")
+        duration = time.perf_counter() - start
+        print(f"Duration is: {duration}")
 
         # duration = get_duration_wave(fname)
         # print(f"Duration: {duration:.2f} seconds")
