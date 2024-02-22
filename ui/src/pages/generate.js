@@ -1,18 +1,18 @@
-import Header from "@components/components/Header";
 import React, { useEffect, useState } from "react";
 import Dropzone from "@components/components/Dropzone";
 import Dropdown from "@components/components/Dropdown";
 import { SOURCE_LANGUAGES } from "@components/constants";
-import { handleTranscribe } from "@components/utils";
+import { getYouTubeVideoId, handleTranscribe } from "@components/utils";
 import { ToastContainer, toast } from "react-toastify";
 import SubtitleEditor from "@components/components/SubtitleEditor";
 import useLocalStorage from "@components/hooks/useLocalStorage";
 import { useRouter } from "next/router";
+import { IconLink } from "@tabler/icons-react";
 
 export default function dashboard() {
   const [uploadedFile, setUploadedFile] = useState();
-  const [sourceLanguage, setSourceLanguage] = useState();
   const [targetLanguage, setTargetLanguage] = useState();
+  const [youtubeLink, setYoutubeLink] = useState();
   const [disabled, setDisabled] = useState(true);
   const [transcribed, setTranscribed] = useState([]);
   const [requestSentToAPI, setrequestSentToAPI] = useState(false);
@@ -21,6 +21,10 @@ export default function dashboard() {
   const router = useRouter();
   const index = router.query.id;
 
+  const handleInputChange = (event) => {
+    const value = event.target.value;
+    setYoutubeLink(value);
+  };
   useEffect(() => {
     const items = JSON.parse(localStorage.getItem("file"));
     if (index && items) {
@@ -28,7 +32,6 @@ export default function dashboard() {
         const item = items[index];
         setDisabled(true);
         setUploadedFile(item.uploadedFile);
-        setSourceLanguage(item.sourceLanguage);
         setTargetLanguage(item.targetLanguage);
         setTranscribed(item.transcribedData);
         setUploadedFile({
@@ -41,10 +44,10 @@ export default function dashboard() {
   }, [index]);
 
   useEffect(() => {
-    if (uploadedFile && targetLanguage && !isLocalFile) {
+    if ((uploadedFile || youtubeLink) && targetLanguage && !isLocalFile) {
       setDisabled(false);
-    }
-  }, [uploadedFile, targetLanguage]);
+    } else setDisabled(true);
+  }, [uploadedFile, targetLanguage, youtubeLink]);
 
   function storeFileToLocalStorage(file) {
     const items = JSON.parse(localStorage.getItem("file"));
@@ -62,6 +65,11 @@ export default function dashboard() {
   }
 
   async function handleSubmit() {
+    // if (uploadedFile && youtubeLink)
+    //   return toast.error("Cannot upload both file and youtube link");
+    // const file = uploadedFile ?? youtubeLink;
+    // const response = await handleTranscribe(file, targetLanguage);
+
     reset(true);
     const response = await handleTranscribe(uploadedFile, targetLanguage);
     if (response) {
@@ -76,14 +84,12 @@ export default function dashboard() {
           size: uploadedFile.size,
           transcribedData: response.data.chunks,
           uploadDate: new Date(),
-          sourceLanguage: sourceLanguage,
           targetLanguage: targetLanguage,
         };
         storeFileToLocalStorage(file);
       }
     }
   }
-
   return (
     <>
       <ToastContainer />
@@ -101,13 +107,20 @@ export default function dashboard() {
               uploadedFile={uploadedFile}
             />
           </div>
+          {/* hidden for now, will be changed once API is ready*/}
+          <div className="hidden">
+            <div className="divider font-medium">OR</div>
+            <label className="flex border-2 rounded-lg gap-2 p-2 focus-visible:outline-none focus-visible:ring focus-visible:ring-primary-300 transition-all transition-75">
+              <IconLink color="grey" />
+              <input
+                onChange={handleInputChange}
+                type="text"
+                className="w-full outline-none"
+                placeholder="Paste YouTube Video Link"
+              />
+            </label>
+          </div>
           <div className="space-y-5">
-            {/* <Dropdown
-              onChange={(item) => setSourceLanguage(item)}
-              keyName="source-language"
-              label="Source"
-              options={SOURCE_LANGUAGES}
-            /> */}
             <Dropdown
               onChange={(item) => setTargetLanguage(item)}
               label="Subtitle Language"
