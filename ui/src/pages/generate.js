@@ -12,7 +12,7 @@ import { handleTranscribe } from "@components/utils";
 export default function dashboard() {
   const [uploadedFile, setUploadedFile] = useState();
   const [targetLanguage, setTargetLanguage] = useState();
-  const [selectedModel, setSelectedModel] = useState();
+  const [selectedModel, setSelectedModel] = useState("seamlessM4t"); // default model
   const [youtubeLink, setYoutubeLink] = useState();
   const [youtubeVideoTitle, setYoutubeVideoTitle] = useState();
   const [disabled, setDisabled] = useState(true);
@@ -136,7 +136,7 @@ export default function dashboard() {
 
         const file = {
           filename: uploadedFile?.path ?? filename,
-          size: uploadedFile.size,
+          size: uploadedFile?.size,
           transcribedData: transcribed,
           uploadDate: new Date(),
           model: selectedModel,
@@ -147,8 +147,6 @@ export default function dashboard() {
         reset(false);
       })
       .catch((err) => console.log("error: ", err));
-
-    console.log(transcribed);
   }
 
   return (
@@ -180,13 +178,13 @@ export default function dashboard() {
             />
           </label>
           <div className="space-y-5">
-            <Dropdown
+            {/* <Dropdown
               onChange={(item) => setSelectedModel(item)}
               label="Model"
               options={AVAILABLE_MODELS}
               keyName="llm-model"
               defaultOption="Select Model"
-            />
+            /> */}
             <Dropdown
               onChange={(item) => setTargetLanguage(item)}
               label="Subtitle Language"
