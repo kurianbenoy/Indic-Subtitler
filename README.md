@@ -94,13 +94,25 @@ C. WhisperX
 | Telgu     | te |
 | Urdu      | ur |
 
+D. fine-tuned Whisper model
+
+In certain languages, Whisper by default is not performing strongly. In your problem, the open source Whisper model doesn’t give good results.
+Then fine-tune your ASR model with examples like [Fine-Tune Whisper For Multilingual ASR with 🤗 Transformers](https://huggingface.co/blog/fine-tune-whisper).
+
+**Indic Languages supported with fine-tuned Whisper model**
+
+| Language  | Code |
+| --------- | ---- |
+| Malayalam | ml |
+
+
 ### 2. Backend API
 
 We plan to use FastAPI as the backend and deploy it on serveless platforms like [Modal.com](https://modal.com/) or any other alternatives.
 
 **API format**
 
-- POST request for the functions: `generate_seamlessm4t_speech`, `generate_faster_whisper_speech`, `generate_whisperx_speech` API with the following input format:
+- POST request for the webendpoints: `generate_seamlessm4t_speech`, `generate_faster_whisper_speech`, `generate_whisperx_speech` API with the following input format:
 
 ```
 {
@@ -109,7 +121,7 @@ We plan to use FastAPI as the backend and deploy it on serveless platforms like 
 }
 ```
 
-- POST request for the functions: `youtube_generate_seamlessm4t_speech` API with the following input format:
+- POST request for the functions: `youtube_generate_seamlessm4t_speech`, `youtube_generate_faster_whisper_speech`, `youtube_generate_whisperx_speech` API with the following input format:
 
 ```
 {
