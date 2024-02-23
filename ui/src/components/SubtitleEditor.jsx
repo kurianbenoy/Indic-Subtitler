@@ -73,7 +73,7 @@ export default function SubtitleEditor({
                   <td>
                     <textarea
                       className="w-full resize-none"
-                      rows={Math.ceil(element.text.length / 100)}
+                      rows={Math.ceil(element.text?.length / 100)}
                       type="text"
                       value={element.text}
                       onChange={(e) =>

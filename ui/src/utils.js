@@ -28,7 +28,7 @@ export function transitionToCollection(router) {
   router.push("/collection");
 }
 
-export const handleTranscribe = async (
+export const getRequestParamsForModel = async (
   uploadedFile,
   youtubeLink,
   targetLang,
@@ -81,15 +81,6 @@ export const handleTranscribe = async (
     ];
 
   return { url, requestData };
-  // try {
-  //   const response = await axios.post(
-
-  //     requestData
-  //   );
-  //   return response;
-  // } catch (error) {
-  //   return error;
-  // }
 };
 
 export function formatTime(time) {

@@ -54,7 +54,7 @@ export default function CollectionTable({ storedFiles, setStoredFiles }) {
               <th className="w-8">Name</th>
               <th className="">Date of Upload</th>
               <th>Size</th>
-              <th>Subtitle Language</th>
+              <th>Language</th>
               <th>Model</th>
               <th></th>
               <th></th>
@@ -105,7 +105,7 @@ export default function CollectionTable({ storedFiles, setStoredFiles }) {
                 <td>
                   <button
                     onClick={() => router.push(`/generate?id=${index}`)}
-                    className="flex items-center gap-2"
+                    className="flex items-center gap-1"
                   >
                     <IconEdit />
                     <p className="font-medium">Edit</p>

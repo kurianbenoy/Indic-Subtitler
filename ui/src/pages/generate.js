@@ -7,7 +7,7 @@ import SubtitleEditor from "@components/components/SubtitleEditor";
 import useLocalStorage from "@components/hooks/useLocalStorage";
 import { useRouter } from "next/router";
 import { IconLink } from "@tabler/icons-react";
-import { handleTranscribe } from "@components/utils";
+import { getRequestParamsForModel } from "@components/utils";
 
 export default function dashboard() {
   const [uploadedFile, setUploadedFile] = useState();
@@ -82,14 +82,14 @@ export default function dashboard() {
       return toast.error("Cannot upload both file and youtube link");
     reset(true);
 
-    const { url, requestData } = await handleTranscribe(
+    const { url, requestData } = await getRequestParamsForModel(
       uploadedFile,
       youtubeLink,
       targetLanguage,
       selectedModel
     );
 
-    const toastId = toast.info("Uploading file..");
+    const toastId = toast.info("Uploading..");
     fetch(url, {
       method: "POST",
       body: JSON.stringify(requestData),
@@ -98,7 +98,11 @@ export default function dashboard() {
       },
     })
       .then(async (res) => {
-        toast.update(toastId, { render: "Transcribing file..", type: "info" });
+        if (res?.code === 500) {
+          throw new Error("Internal Server Error");
+        }
+
+        toast.update(toastId, { render: "Transcribing..", type: "info" });
         const decoder = new TextDecoder();
         const reader = res.body.getReader();
         setrequestSentToAPI(false);
@@ -141,10 +145,17 @@ export default function dashboard() {
           targetLanguage: targetLanguage,
         };
         storeFileToLocalStorage(file);
-
-        reset(false);
       })
-      .catch((err) => console.log("error: ", err));
+      .catch((err) => {
+        console.log("error: ", err);
+        toast.update(toastId, {
+          type: "error",
+          render: "https://www.youtube.com/shorts/CW_2xaUVg6g",
+        });
+      })
+      .finally(() => {
+        reset(false);
+      });
   }
 
   return (
