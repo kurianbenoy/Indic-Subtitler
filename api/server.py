@@ -639,6 +639,7 @@ def youtube_generate_whisperx_speech(item: Dict):
         logging.critical(e, exc_info=True)
         return {"message": "Internal server error", "code": 500}
 
+
 @stub.function(gpu=GPU_TYPE, timeout=1200)
 @web_endpoint(method="POST")
 def vegam_faster_whisper(item: Dict):
@@ -652,7 +653,9 @@ def vegam_faster_whisper(item: Dict):
         fname = base64_to_audio_file(b64_contents=b64)
         convert_to_mono_16k(fname, "output.wav")
 
-        model = WhisperModel("kurianbenoy/vegam-whisper-medium-ml-fp16", device="cuda", compute_type="float16")
+        model = WhisperModel(
+            "kurianbenoy/vegam-whisper-medium-ml-fp16", device="cuda", compute_type="float16"
+        )
 
         segments, info = model.transcribe(
             "output.wav",
