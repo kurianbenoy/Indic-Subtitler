@@ -42,9 +42,7 @@ def download_models():
     whisperx.load_model(model_size, "cuda", compute_type="float16")
 
     # Download vegam-whisper
-    WhisperModel(
-        "kurianbenoy/vegam-whisper-medium-ml-fp16", device="cuda", compute_type="float16"
-    )
+    WhisperModel("kurianbenoy/vegam-whisper-medium-ml-fp16", device="cuda", compute_type="float16")
 
 
 def base64_to_audio_file(b64_contents: str):
