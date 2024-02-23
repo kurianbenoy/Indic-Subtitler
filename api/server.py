@@ -213,7 +213,7 @@ def generate_seamlessm4t_speech(item: Dict):
 
         # Initialize an empty list to store the speech chunks
         chunks = []
-        
+
         # Iterate over the length of the text list
         for i in range(len(text)):
             # For each iteration, append a dictionary to the chunks list
@@ -344,6 +344,156 @@ def generate_whisperx_speech(item: Dict):
             "message": "Speech generated successfully.",
             "chunks": result["segments"],
             # "text": full_text,
+        }
+
+    except Exception as e:
+        print(e)
+        logging.critical(e, exc_info=True)
+        return {"message": "Internal server error", "code": 500}
+
+
+# Timeout in 20 minutes
+@stub.function(gpu=GPU_TYPE, timeout=1200)
+@web_endpoint(method="POST")
+def youtube_generate_seamlessm4t_speech(item: Dict):
+    """
+    Processes the input speech audio, performs voice activity detection, and translates the speech from the source language to the target language.
+
+    Parameters:
+    - item (Dict): A dictionary containing the base64 encoded audio data, source language, and target language.
+
+    Returns:
+    - Dict: A dictionary containing the status code, message, detected speech chunks, and the translated text.
+    """
+    # import wave
+    import os
+    import time
+
+    import torch
+    import torchaudio
+    from pytube import YouTube
+    from pydub import AudioSegment
+    from seamless_communication.inference import Translator
+
+    try:
+        # print(f"Payload: {item}")
+        USE_ONNX = False
+        model, utils = torch.hub.load(
+            repo_or_dir="snakers4/silero-vad", model="silero_vad", onnx=USE_ONNX
+        )
+
+        (
+            get_speech_timestamps,
+            save_audio,
+            read_audio,
+            VADIterator,
+            collect_chunks,
+        ) = utils
+
+        # Decode the base64 audio and convert it for processing
+        yt_id = item["yt_id"]
+        # source_lang = item["source"]
+        # print(f"Target_lang: {item.get('target')}")
+        target_lang = item["target"]
+
+        # Download YouTube video
+        youtube_url = f"https://www.youtube.com/watch?v={yt_id}"
+        youtube = YouTube(youtube_url)
+        video = youtube.streams.filter(only_audio=True).first()
+        video.download(filename="temp_video")
+
+        # Convert video to wav
+        audio = AudioSegment.from_file("temp_video.mp4", format="mp4")
+        audio.export("temp_audio.wav", format="wav")
+
+        # Convert audio to mono channel with 16K frequency
+        audio = AudioSegment.from_wav("temp_audio.wav")
+        audio = audio.set_channels(1).set_frame_rate(16000)
+        audio.export("output.wav", format="wav")
+
+        fname = base64_to_audio_file(b64_contents=b64)
+        convert_to_mono_16k(fname, "output.wav")
+
+        # Perform voice activity detection on the processed audio
+        SAMPLING_RATE = 16000
+        wav = read_audio("output.wav", sampling_rate=SAMPLING_RATE)
+
+        # get speech timestamps from full audio file
+        speech_timestamps_seconds = get_speech_timestamps(
+            wav, model, sampling_rate=SAMPLING_RATE, return_seconds=True
+        )
+        print(speech_timestamps_seconds)
+        # translator = download_models()
+        start = time.perf_counter()
+        model_name = "seamlessM4T_v2_large"
+        vocoder_name = "vocoder_v2" if model_name == "seamlessM4T_v2_large" else "vocoder_36langs"
+
+        translator = Translator(
+            model_name,
+            vocoder_name,
+            device=torch.device("cuda:0"),
+            dtype=torch.float16,
+        )
+
+        duration = time.perf_counter() - start
+        print(f"Duration is: {duration}")
+
+        # duration = get_duration_wave(fname)
+        # print(f"Duration: {duration:.2f} seconds")
+
+        resample_rate = 16000
+
+        # Replace t1, t2 with VAD time
+        timestamps_start = []
+        timestamps_end = []
+        text = []
+
+        # Logic for VAD based filtering
+        for item in speech_timestamps_seconds:
+            s = item["start"]
+            e = item["end"]
+
+            timestamps_start.append(s)
+            timestamps_end.append(e)
+            newAudio = AudioSegment.from_wav("output.wav")
+
+            # time in seconds should be multiplied by 1000.0 for AudioSegment array. So 20s = 20000
+            newAudio = newAudio[s * 1000 : e * 1000]
+            new_audio_name = "new_" + str(s) + ".wav"
+            newAudio.export(new_audio_name, format="wav")
+            waveform, sample_rate = torchaudio.load(new_audio_name)
+            resampler = torchaudio.transforms.Resample(
+                sample_rate, resample_rate, dtype=waveform.dtype
+            )
+            resampled_waveform = resampler(waveform)
+            torchaudio.save("resampled.wav", resampled_waveform, resample_rate)
+            translated_text, _ = translator.predict("resampled.wav", "s2tt", target_lang)
+            # print(translated_text)
+            text.append(str(translated_text[0]))
+            os.remove(new_audio_name)
+            os.remove("resampled.wav")
+
+        # Initialize an empty list to store the speech chunks
+        chunks = []
+
+        # Iterate over the length of the text list
+        for i in range(len(text)):
+            # For each iteration, append a dictionary to the chunks list
+            # Each dictionary contains the start time, end time, and the translated text of a speech chunk
+            chunks.append(
+                {
+                    "start": timestamps_start[i],  # Start time of the speech chunk
+                    "end": timestamps_end[i],  # End time of the speech chunk
+                    "text": text[i],  # Translated text of the speech chunk
+                }
+            )
+
+        full_text = " ".join([x["text"] for x in chunks])
+        return {
+            "code": 200,
+            "message": "Speech generated successfully.",
+            "chunks": chunks,
+            "text": full_text,
         }
 
     except Exception as e:
