@@ -638,3 +638,48 @@ def youtube_generate_whisperx_speech(item: Dict):
         print(e)
         logging.critical(e, exc_info=True)
         return {"message": "Internal server error", "code": 500}
+
+@stub.function(gpu=GPU_TYPE, timeout=1200)
+@web_endpoint(method="POST")
+def vegam_faster_whisper(item: Dict):
+    from faster_whisper import WhisperModel
+
+    try:
+        b64 = item["wav_base64"]
+        target_lang = item["target"]
+
+        # print(torch.cuda.is_available())
+        fname = base64_to_audio_file(b64_contents=b64)
+        convert_to_mono_16k(fname, "output.wav")
+
+        model = WhisperModel("kurianbenoy/vegam-whisper-medium-ml-fp16", device="cuda", compute_type="float16")
+
+        segments, info = model.transcribe(
+            "output.wav",
+            beam_size=5,
+            language=target_lang,
+        )
+
+        print(
+            "Detected language '%s' with probability %f"
+            % (info.language, info.language_probability)
+        )
+
+        chunks = [
+            {"start": segment.start, "end": segment.end, "text": segment.text}
+            for segment in segments
+        ]
+
+        full_text = " ".join([x["text"] for x in chunks])
+
+        return {
+            "code": 200,
+            "message": "Speech generated successfully.",
+            "chunks": chunks,
+            "text": full_text,
+        }
+
+    except Exception as e:
+        print(e)
+        logging.critical(e, exc_info=True)
+        return {"message": "Internal server error", "code": 500}
