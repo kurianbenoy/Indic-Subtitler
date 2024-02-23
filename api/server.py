@@ -211,13 +211,18 @@ def generate_seamlessm4t_speech(item: Dict):
             os.remove(new_audio_name)
             os.remove("resampled.wav")
 
+        # Initialize an empty list to store the speech chunks
         chunks = []
+        
+        # Iterate over the length of the text list
         for i in range(len(text)):
+            # For each iteration, append a dictionary to the chunks list
+            # Each dictionary contains the start time, end time, and the translated text of a speech chunk
             chunks.append(
                 {
-                    "start": timestamps_start[i],
-                    "end": timestamps_end[i],
-                    "text": text[i],
+                    "start": timestamps_start[i],  # Start time of the speech chunk
+                    "end": timestamps_end[i],  # End time of the speech chunk
+                    "text": text[i],  # Translated text of the speech chunk
                 }
             )
 
