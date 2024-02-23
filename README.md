@@ -91,13 +91,23 @@ C. WhisperX
 | --------- | ---- |
 | English   | en |
 | Hindi     | hi |
-| Malayalam | ml |
 | Telgu     | te |
 | Urdu      | ur |
 
 ### 2. Backend API
 
 We plan to use FastAPI as the backend and deploy it on serveless platforms like [Modal.com](https://modal.com/) or any other alternatives.
+
+**API format**
+
+- POST request for all the API with the following input format:
+
+```
+{
+ "wav_base64": "Audio in base64 format",
+ "target": "Your target lanugage you want to transcribe or translate your audio"
+}
+```
 
 ### 3. Frontend
 
