@@ -54,6 +54,12 @@ export const handleTranscribe = async (
       youtubeLinkedBased:
         "https://kurianbenoy--seamless-m4t-speech-youtube-generate-whispe-b29f2b.modal.run",
     },
+    fineTunedFasterWhisper: {
+      fileBased:
+        "https://kurianbenoy--seamless-m4t-speech-vegam-faster-whisper.modal.run/",
+      youtubeLinkedBased:
+        "https://kurianbenoy--seamless-m4t-speech-youtube-vegam-faster-whisper.modal.run/",
+    },
   };
   let requestData;
   if (youtubeLink) {
