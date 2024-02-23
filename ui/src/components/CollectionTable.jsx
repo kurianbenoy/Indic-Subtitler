@@ -11,17 +11,52 @@ export default function CollectionTable({ storedFiles, setStoredFiles }) {
     copyOfStoredFiles.splice(index, 1);
     setStoredFiles(copyOfStoredFiles);
   }
+  function getClassNames(model) {
+    let classNames = "rounded-lg text-center p-1 ";
+
+    switch (model) {
+      case "fasterWhisper":
+        classNames += "bg-blue-50 text-blue-900";
+        break;
+      case "whisperX":
+        classNames += "bg-pink-50 text-pink-900";
+        break;
+      case "seamlessM4t":
+        classNames += "bg-green-50 text-green-900";
+        break;
+      default:
+        classNames += "bg-green-50 text-green-900"; // Default to "seamless"
+    }
+
+    return classNames;
+  }
+  function getFullLanguageName(model, languageCode) {
+    console.log(model, languageCode);
+    const modelLanguages = SOURCE_LANGUAGES.find(
+      (item) => item.model === model
+    );
+    if (modelLanguages) {
+      const language = modelLanguages.languages.find(
+        (item) => item.id === languageCode
+      );
+      if (language) {
+        return language.name;
+      }
+    }
+    return languageCode;
+  }
   if (storedFiles?.length) {
     return (
-      <div className="overflow-x-auto min-h-[75vh]">
+      <div className="overflow-x-auto max-h-[75vh]">
         <table className="table md:text-lg ">
           <thead>
-            <tr className="text-lg text-gray-600">
+            <tr className="text-lg text-gray-600 ">
               <th></th>
               <th>Name</th>
-              <th>Date</th>
+              <th className="">Date of Upload</th>
               <th>Size</th>
               <th>Subtitle Language</th>
+              <th>Model</th>
               <th></th>
               <th></th>
             </tr>
@@ -31,17 +66,19 @@ export default function CollectionTable({ storedFiles, setStoredFiles }) {
               <tr key={index}>
                 <th>{index + 1}</th>
                 <td>{element.filename}</td>
-                <td>{formattedDate(element.uploadDate)}</td>
+                <td className="">{formattedDate(element.uploadDate)}</td>
                 <td>{formatFileSize(element?.size)}</td>
 
                 <td>
-                  {
-                    SOURCE_LANGUAGES.find(
-                      (lang) =>
-                        lang.id ===
-                        (element.targetLanguage ?? element.outputLanguage)
-                    )?.name
-                  }
+                  {getFullLanguageName(
+                    element.model ?? "seamlessM4t",
+                    element.targetLanguage ?? element.outputLanguage
+                  )}
+                </td>
+                <td className="">
+                  <p className={getClassNames(element.model)}>
+                    {element.model ?? "seamlessM4t"}
+                  </p>
                 </td>
                 <td>
                   <DownloadFileDropdown

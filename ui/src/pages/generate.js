@@ -31,6 +31,8 @@ export default function dashboard() {
     if (index && items) {
       if (items[index]) {
         const item = items[index];
+        // console.log(item.model, item.targetLanguage);
+
         setDisabled(true);
         setUploadedFile(item.uploadedFile);
         setTargetLanguage(item.targetLanguage);
@@ -40,6 +42,8 @@ export default function dashboard() {
           size: item.size,
         });
         setIsLocalFile(true);
+        setSelectedModel(item.model);
+        setTargetLanguage(item.targetLanguage ?? item.outputLanguage);
       }
     }
   }, [index]);
@@ -69,10 +73,14 @@ export default function dashboard() {
     // if (uploadedFile && youtubeLink)
     //   return toast.error("Cannot upload both file and youtube link");
     // const file = uploadedFile ?? youtubeLink;
-    // const response = await handleTranscribe(file, targetLanguage);
-    console.log(selectedModel, uploadedFile, targetLanguage);
+    // const response = await handleTranscribe(
+    //   file,
+    //   targetLanguage,
+    //   selectedModel
+    // );
 
     reset(true);
+
     const response = await handleTranscribe(
       uploadedFile,
       targetLanguage,
@@ -91,6 +99,7 @@ export default function dashboard() {
           transcribedData: response.data.chunks,
           uploadDate: new Date(),
           targetLanguage: targetLanguage,
+          model: selectedModel,
         };
         storeFileToLocalStorage(file);
       }

@@ -1,21 +1,6 @@
-// export const SOURCE_LANGUAGES = [
-//   { id: "asm", name: "Assamese" },
-//   { id: "ben", name: "Bengali" },
-//   { id: "eng", name: "English" },
-//   { id: "guj", name: "Gujarati" },
-//   { id: "hin", name: "Hindi" },
-//   { id: "kan", name: "Kannada" },
-//   { id: "mal", name: "Malayalam" },
-//   { id: "mar", name: "Marathi" },
-//   { id: "ory", name: "Odia" },
-//   { id: "pan", name: "Punjabi" },
-//   { id: "tam", name: "Tamil" },
-//   { id: "tel", name: "Telugu" },
-//   { id: "urd", name: "Urdu" },
-// ];
 export const SOURCE_LANGUAGES = [
   {
-    model: "slm4t",
+    model: "seamlessM4t",
     languages: [
       { id: "asm", name: "Assamese" },
       { id: "ben", name: "Bengali" },
@@ -33,7 +18,7 @@ export const SOURCE_LANGUAGES = [
     ],
   },
   {
-    model: "fw",
+    model: "fasterWhisper",
     languages: [
       { id: "as", name: "Assamese" },
       { id: "bn", name: "Bengali" },
@@ -49,8 +34,9 @@ export const SOURCE_LANGUAGES = [
       { id: "ur", name: "Urdu" },
     ],
   },
+
   {
-    model: "wx",
+    model: "whisperX",
     languages: [
       { id: "en", name: "English" },
       { id: "hi", name: "Hindi" },
@@ -60,9 +46,9 @@ export const SOURCE_LANGUAGES = [
   },
 ];
 export const AVAILABLE_MODELS = [
-  { id: "slm4t", name: "SeamlessM4T" },
-  { id: "fw", name: "Faster-whisper" },
-  { id: "wx", name: "WhisperX" },
+  { id: "seamlessM4t", name: "SeamlessM4T" },
+  { id: "fasterWhisper", name: "Faster-whisper" },
+  { id: "whisperX", name: "WhisperX" },
 ];
 
 export const TEAM = [

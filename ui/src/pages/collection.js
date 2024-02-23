@@ -11,7 +11,7 @@ const Collection = () => {
 
   return (
     <section className="flex justify-center">
-      <main className=" w-full lg:w-[80%] border-2 rounded-md">
+      <main className=" w-full lg:w-[90%] xl:w-[80%] border-2 rounded-md">
         <div className="flex justify-between items-center border-b-[2px] py-2 px-2">
           <p className="text-lg text-gray-500 font-medium">
             {storedFiles.length}

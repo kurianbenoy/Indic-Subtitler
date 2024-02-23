@@ -30,10 +30,12 @@ export function transitionToCollection(router) {
 
 export const handleTranscribe = async (file, targetLang, selectedModel) => {
   const modelEndPoints = {
-    slm4t:
+    seamlessM4t:
       "https://kurianbenoy--seamless-m4t-speech-generate-seamlessm4t-speech.modal.run/",
-    fw: "https://kurianbenoy--seamless-m4t-speech-generate-faster-whisper-speech.modal.run/",
-    wx: "https://kurianbenoy--seamless-m4t-speech-generate-whisperx-speech.modal.run/",
+    fasterWhisper:
+      "https://kurianbenoy--seamless-m4t-speech-generate-faster-whisper-speech.modal.run/",
+    whisperX:
+      "https://kurianbenoy--seamless-m4t-speech-generate-whisperx-speech.modal.run/",
   };
   const base64Data = await fileToBase64(file);
 
