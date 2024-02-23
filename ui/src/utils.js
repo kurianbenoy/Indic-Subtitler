@@ -1,6 +1,7 @@
 import axios from "axios";
 
 export function formatFileSize(size) {
+  if (!size) return null;
   const units = ["B", "KB", "MB", "GB", "TB"];
   let i = 0;
   while (size >= 1024 && i < units.length - 1) {

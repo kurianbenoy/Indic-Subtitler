@@ -83,7 +83,7 @@ export default function CollectionTable({ storedFiles, setStoredFiles }) {
                   )}
                 </td>
                 <td className="">{formattedDate(element.uploadDate)}</td>
-                <td> {element.size ? formatFileSize(element.size) : "-"}</td>
+                <td> {formatFileSize(element.size) || "-"}</td>
 
                 <td>
                   {getFullLanguageName(

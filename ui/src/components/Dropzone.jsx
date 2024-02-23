@@ -42,9 +42,12 @@ export default function Dropzone({ setUploadedFile, uploadedFile }) {
       {uploadedFile ? (
         <div>
           <p className="text-lg font-medium text-center">{uploadedFile.path}</p>
-          <p className="text-center text-gray-500">
-            ( {formatFileSize(uploadedFile.size)} )
-          </p>
+
+          {uploadedFile.size ? (
+            <p className="text-center text-gray-500">
+              ( {formatFileSize(uploadedFile.size)} )
+            </p>
+          ) : null}
         </div>
       ) : (
         modalText(isDragActive)
