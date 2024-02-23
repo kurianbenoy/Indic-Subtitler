@@ -502,6 +502,7 @@ def youtube_generate_seamlessm4t_speech(item: Dict):
         logging.critical(e, exc_info=True)
         return {"message": "Internal server error", "code": 500}
 
+
 # Timeout in 20 minutes
 @stub.function(gpu=GPU_TYPE, timeout=1200)
 @web_endpoint(method="POST")
@@ -568,11 +569,12 @@ def youtube_generate_faster_whisper_speech(item: Dict):
             "chunks": chunks,
             "text": full_text,
         }
-    
+
     except Exception as e:
         print(e)
         logging.critical(e, exc_info=True)
         return {"message": "Internal server error", "code": 500}
+
 
 @stub.function(gpu=GPU_TYPE, timeout=1200)
 @web_endpoint(method="POST")
@@ -612,7 +614,6 @@ def youtube_generate_whisperx_speech(item: Dict):
         audio = audio.set_channels(1).set_frame_rate(16000)
         audio.export("output.wav", format="wav")
 
-
         model = whisperx.load_model("large-v3", "cuda", compute_type="float16")
 
         audio = whisperx.load_audio("output.wav")
@@ -637,5 +638,3 @@ def youtube_generate_whisperx_speech(item: Dict):
         print(e)
         logging.critical(e, exc_info=True)
         return {"message": "Internal server error", "code": 500}
-
-
