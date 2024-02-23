@@ -501,3 +501,141 @@ def youtube_generate_seamlessm4t_speech(item: Dict):
         print(e)
         logging.critical(e, exc_info=True)
         return {"message": "Internal server error", "code": 500}
+
+# Timeout in 20 minutes
+@stub.function(gpu=GPU_TYPE, timeout=1200)
+@web_endpoint(method="POST")
+def youtube_generate_faster_whisper_speech(item: Dict):
+    """
+    Processes the input speech audio, performs voice activity detection, and translates the speech from the source language to the target language.
+
+    Parameters:
+    - item (Dict): A dictionary containing the base64 encoded audio data, source language, and target language.
+
+    Returns:
+    - Dict: A dictionary containing the status code, message, detected speech chunks, and the translated text.
+    """
+    from pytube import YouTube
+    from pydub import AudioSegment
+    from faster_whisper import WhisperModel
+    # from seamless_communication.inference import Translator
+
+    try:
+        # Decode the base64 audio and convert it for processing
+        yt_id = item["yt_id"]
+        # source_lang = item["source"]
+        # print(f"Target_lang: {item.get('target')}")
+        target_lang = item["target"]
+
+        # Download YouTube video
+        youtube_url = f"https://www.youtube.com/watch?v={yt_id}"
+        youtube = YouTube(youtube_url)
+        video = youtube.streams.filter(only_audio=True).first()
+        video.download(filename="temp_video.mp4")
+
+        # Convert video to wav
+        audio = AudioSegment.from_file("temp_video.mp4", format="mp4")
+        audio.export("temp_audio.wav", format="wav")
+
+        # Convert audio to mono channel with 16K frequency
+        audio = AudioSegment.from_wav("temp_audio.wav")
+        audio = audio.set_channels(1).set_frame_rate(16000)
+        audio.export("output.wav", format="wav")
+
+        model = WhisperModel("large-v3", device="cuda", compute_type="float16")
+
+        segments, info = model.transcribe(
+            "output.wav",
+            beam_size=5,
+            language=target_lang,
+        )
+
+        print(
+            "Detected language '%s' with probability %f"
+            % (info.language, info.language_probability)
+        )
+
+        chunks = [
+            {"start": segment.start, "end": segment.end, "text": segment.text}
+            for segment in segments
+        ]
+
+        full_text = " ".join([x["text"] for x in chunks])
+
+        return {
+            "code": 200,
+            "message": "Speech generated successfully.",
+            "chunks": chunks,
+            "text": full_text,
+        }
+    
+    except Exception as e:
+        print(e)
+        logging.critical(e, exc_info=True)
+        return {"message": "Internal server error", "code": 500}
+
+@stub.function(gpu=GPU_TYPE, timeout=1200)
+@web_endpoint(method="POST")
+def youtube_generate_whisperx_speech(item: Dict):
+    """
+    Processes the input speech audio and translates the speech to the target language using faster-whisper.
+
+    Parameters:
+    - item (Dict): A dictionary containing the base64 encoded audio data and target language.
+
+    Returns:
+    - Dict: A dictionary containing the status code, message, detected speech chunks, and the translated text.
+    """
+    import whisperx
+    from pytube import YouTube
+    from pydub import AudioSegment
+
+    try:
+        # Decode the base64 audio and convert it for processing
+        yt_id = item["yt_id"]
+        # source_lang = item["source"]
+        # print(f"Target_lang: {item.get('target')}")
+        target_lang = item["target"]
+
+        # Download YouTube video
+        youtube_url = f"https://www.youtube.com/watch?v={yt_id}"
+        youtube = YouTube(youtube_url)
+        video = youtube.streams.filter(only_audio=True).first()
+        video.download(filename="temp_video.mp4")
+
+        # Convert video to wav
+        audio = AudioSegment.from_file("temp_video.mp4", format="mp4")
+        audio.export("temp_audio.wav", format="wav")
+
+        # Convert audio to mono channel with 16K frequency
+        audio = AudioSegment.from_wav("temp_audio.wav")
+        audio = audio.set_channels(1).set_frame_rate(16000)
+        audio.export("output.wav", format="wav")
+
+
+        model = whisperx.load_model("large-v3", "cuda", compute_type="float16")
+
+        audio = whisperx.load_audio("output.wav")
+        result = model.transcribe(audio, batch_size=16)
+
+        model_a, metadata = whisperx.load_align_model(language_code=target_lang, device="cuda")
+
+        result = whisperx.align(
+            result["segments"], model_a, metadata, audio, "cuda", return_char_alignments=False
+        )
+
+        print(result["segments"])
+
+        return {
+            "code": 200,
+            "message": "Speech generated successfully.",
+            "chunks": result["segments"],
+            # "text": full_text,
+        }
+
+    except Exception as e:
+        print(e)
+        logging.critical(e, exc_info=True)
+        return {"message": "Internal server error", "code": 500}
+
+
