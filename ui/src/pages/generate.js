@@ -12,7 +12,7 @@ import { handleTranscribe } from "@components/utils";
 export default function dashboard() {
   const [uploadedFile, setUploadedFile] = useState();
   const [targetLanguage, setTargetLanguage] = useState();
-  const [selectedModel, setSelectedModel] = useState("seamlessM4t"); // default model
+  const [selectedModel, setSelectedModel] = useState("seamlessM4t"); // default model ; To be changed later
   const [youtubeLink, setYoutubeLink] = useState();
   const [youtubeVideoTitle, setYoutubeVideoTitle] = useState();
   const [disabled, setDisabled] = useState(true);
@@ -129,8 +129,6 @@ export default function dashboard() {
           render: "Succesfully transcribed",
           type: "success",
         });
-
-        console.log(transcribed);
 
         const filename = await getYoutubeLinkTitle();
 
