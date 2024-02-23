@@ -401,7 +401,7 @@ def youtube_generate_seamlessm4t_speech(item: Dict):
         youtube_url = f"https://www.youtube.com/watch?v={yt_id}"
         youtube = YouTube(youtube_url)
         video = youtube.streams.filter(only_audio=True).first()
-        video.download(filename="temp_video")
+        video.download(filename="temp_video.mp4")
 
         # Convert video to wav
         audio = AudioSegment.from_file("temp_video.mp4", format="mp4")
