@@ -52,7 +52,7 @@ export default function CollectionTable({ storedFiles, setStoredFiles }) {
           <thead>
             <tr className="text-lg text-gray-600 ">
               <th></th>
-              <th>Name</th>
+              <th className="w-8">Name</th>
               <th className="">Date of Upload</th>
               <th>Size</th>
               <th>Subtitle Language</th>
@@ -65,9 +65,26 @@ export default function CollectionTable({ storedFiles, setStoredFiles }) {
             {storedFiles.map((element, index) => (
               <tr key={index}>
                 <th>{index + 1}</th>
-                <td>{element.filename}</td>
+                <td>
+                  {element.size ? (
+                    element.filename
+                  ) : (
+                    <span className="flex flex-col">
+                      <div
+                        className="tooltip self-start"
+                        data-tip="File imported from Youtube"
+                      >
+                        <button className="text-sm bg-black text-white w-fit px-2 py-1 rounded-md">
+                          Youtube
+                        </button>
+                      </div>
+
+                      {element.filename}
+                    </span>
+                  )}
+                </td>
                 <td className="">{formattedDate(element.uploadDate)}</td>
-                <td>{formatFileSize(element?.size)}</td>
+                <td> {element.size ? formatFileSize(element.size) : "-"}</td>
 
                 <td>
                   {getFullLanguageName(
