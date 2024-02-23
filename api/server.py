@@ -690,6 +690,7 @@ def vegam_faster_whisper(item: Dict):
         logging.critical(e, exc_info=True)
         return {"message": "Internal server error", "code": 500}
 
+
 @stub.function(gpu=GPU_TYPE, timeout=1200)
 @web_endpoint(method="POST")
 def youtube_vegam_faster_whisper(item: Dict):
@@ -725,7 +726,6 @@ def youtube_vegam_faster_whisper(item: Dict):
             beam_size=5,
             language=target_lang,
         )
-
 
         chunks = [
             {"start": segment.start, "end": segment.end, "text": segment.text}
