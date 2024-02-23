@@ -89,7 +89,6 @@ export default function dashboard() {
     if (response) {
       reset(false);
       if (response.data.code !== 200) {
-        console.log(response);
         toast.error(response.data.message);
       } else {
         const filename = await getYoutubeLinkTitle();

@@ -69,7 +69,6 @@ export const handleTranscribe = async (
     };
   }
   try {
-    console.log("hey");
     const response = await axios.post(
       modelEndPoints[selectedModel][
         uploadedFile ? "fileBased" : "youtubeLinkedBased"

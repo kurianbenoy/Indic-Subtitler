@@ -31,7 +31,6 @@ export default function CollectionTable({ storedFiles, setStoredFiles }) {
     return classNames;
   }
   function getFullLanguageName(model, languageCode) {
-    console.log(model, languageCode);
     const modelLanguages = SOURCE_LANGUAGES.find(
       (item) => item.model === model
     );
