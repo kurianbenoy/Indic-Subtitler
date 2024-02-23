@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Dropzone from "@components/components/Dropzone";
 import Dropdown from "@components/components/Dropdown";
-import { SOURCE_LANGUAGES } from "@components/constants";
+import { AVAILABLE_MODELS, SOURCE_LANGUAGES } from "@components/constants";
 import { getYouTubeVideoId, handleTranscribe } from "@components/utils";
 import { ToastContainer, toast } from "react-toastify";
 import SubtitleEditor from "@components/components/SubtitleEditor";
@@ -12,6 +12,7 @@ import { IconLink } from "@tabler/icons-react";
 export default function dashboard() {
   const [uploadedFile, setUploadedFile] = useState();
   const [targetLanguage, setTargetLanguage] = useState();
+  const [selectedModel, setSelectedModel] = useState();
   const [youtubeLink, setYoutubeLink] = useState();
   const [disabled, setDisabled] = useState(true);
   const [transcribed, setTranscribed] = useState([]);
@@ -69,9 +70,14 @@ export default function dashboard() {
     //   return toast.error("Cannot upload both file and youtube link");
     // const file = uploadedFile ?? youtubeLink;
     // const response = await handleTranscribe(file, targetLanguage);
+    console.log(selectedModel, uploadedFile, targetLanguage);
 
     reset(true);
-    const response = await handleTranscribe(uploadedFile, targetLanguage);
+    const response = await handleTranscribe(
+      uploadedFile,
+      targetLanguage,
+      selectedModel
+    );
     if (response) {
       reset(false);
       if (response.data.code !== 200) {
@@ -90,6 +96,7 @@ export default function dashboard() {
       }
     }
   }
+
   return (
     <>
       <ToastContainer />
@@ -122,10 +129,19 @@ export default function dashboard() {
           </div>
           <div className="space-y-5">
             <Dropdown
+              onChange={(item) => setSelectedModel(item)}
+              label="Model"
+              options={AVAILABLE_MODELS}
+              keyName="llm-model"
+              defaultOption="Select Model"
+            />
+            <Dropdown
               onChange={(item) => setTargetLanguage(item)}
               label="Subtitle Language"
               options={SOURCE_LANGUAGES}
               keyName="target-language"
+              defaultOption="Select Language"
+              selectedModel={selectedModel}
             />
           </div>
           <button

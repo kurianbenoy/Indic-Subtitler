@@ -1,5 +1,4 @@
 import axios from "axios";
-import { toast } from "react-toastify";
 
 export function formatFileSize(size) {
   const units = ["B", "KB", "MB", "GB", "TB"];
@@ -29,7 +28,13 @@ export function transitionToCollection(router) {
   router.push("/collection");
 }
 
-export const handleTranscribe = async (file, targetLang) => {
+export const handleTranscribe = async (file, targetLang, selectedModel) => {
+  const modelEndPoints = {
+    slm4t:
+      "https://kurianbenoy--seamless-m4t-speech-generate-seamlessm4t-speech.modal.run/",
+    fw: "https://kurianbenoy--seamless-m4t-speech-generate-faster-whisper-speech.modal.run/",
+    wx: "https://kurianbenoy--seamless-m4t-speech-generate-whisperx-speech.modal.run/",
+  };
   const base64Data = await fileToBase64(file);
 
   const requestData = {
@@ -39,11 +44,14 @@ export const handleTranscribe = async (file, targetLang) => {
 
   try {
     const response = await axios.post(
-      "https://kurianbenoy--seamless-m4t-speech-generate-seamlessm4t-speech.modal.run/",
+      modelEndPoints[selectedModel],
       requestData
     );
+    console.log(response);
+
     return response;
   } catch (error) {
+    console.log(error);
     return error;
   }
 };
