@@ -53,14 +53,9 @@ export const AVAILABLE_MODELS = [
 
 export const TEAM = [
   {
-    name: "Aldrin",
+    name: "Aldrin Jenson",
     img: "/aldrin.jpeg",
-    description: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni
-    blanditiis voluptate repellendus unde, tempora perferendis
-    quisquam quidem, saepe at autem harum maxime sequi praesentium
-    aliquam dignissimos quasi nemo nam obcaecati ratione porro?
-    Doloremque commodi, facilis ratione amet qui recusandae? Illo
-    nostrum esse tenetur.`,
+    description: `Aldrin Jensen is a highly skilled and adaptable software engineer with over 5 years of experience. He excels in developing, deploying, and maintaining diverse applications across various industries. Notably, he developed an impactful Issue and Risk Management system used in the Kerala construction industry, alongside contributing to a wide range of projects in startups, showcasing his versatility and expertise in various technologies.`,
     github: "https://github.com/aldrinjenson",
     linkedin: "https://www.linkedin.com/in/aldrinjenson/",
     twitter: "https://twitter.com/aldrinjenson",
@@ -68,12 +63,7 @@ export const TEAM = [
   {
     name: "Kurain Benoy",
     img: "/kurain.jpg",
-    description: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni
-    blanditiis voluptate repellendus unde, tempora perferendis
-    quisquam quidem, saepe at autem harum maxime sequi praesentium
-    aliquam dignissimos quasi nemo nam obcaecati ratione porro?
-    Doloremque commodi, facilis ratione amet qui recusandae? Illo
-    nostrum esse tenetur.`,
+    description: `Kurian Benoy is a data scientist and software engineer currently working as a Team Lead, Science and Research team, at Sentient.io. He has a background in computer science and machine learning, with experience in natural language processing, computer vision, and business analytics. Kurian is also involved in open-source projects.`,
     github: "https://github.com/kurianbenoy",
     linkedin: "https://www.linkedin.com/in/kurianbenoy/",
     twitter: "https://twitter.com/kurianbenoy2",
@@ -82,12 +72,7 @@ export const TEAM = [
   {
     name: "Nabeel Boda",
     img: "/nabeel.jpeg",
-    description: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni
-    blanditiis voluptate repellendus unde, tempora perferendis
-    quisquam quidem, saepe at autem harum maxime sequi praesentium
-    aliquam dignissimos quasi nemo nam obcaecati ratione porro?
-    Doloremque commodi, facilis ratione amet qui recusandae? Illo
-    nostrum esse tenetur.`,
+    description: `Nabeel Boda is a dedicated software developer with a passion for crafting dynamic web applications. With a wealth of experience across diverse web technologies such as  such as React, Next.js, and Tailwind CSS, etc. He has successfully engineered several products that have garnered user adoption. Currently pursuing a BTech in Computer Science, Nabeel's expertise in web development elevates every project he undertakes.`,
     github: "https://github.com/BodaNabeel",
     linkedin: "https://www.linkedin.com/in/nabeel-boda-0858b2234",
     twitter: "https://twitter.com/BodaNabeel",
