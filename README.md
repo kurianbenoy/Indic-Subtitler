@@ -96,7 +96,7 @@ C. WhisperX
 
 D. fine-tuned Whisper model
 
-In certain languages, Whisper by default is not performing strongly. In your problem, the open source Whisper model doesn’t give good results. 
+In certain languages, Whisper by default is not performing strongly. In your problem, the open source Whisper model doesn’t give good results.
 Then fine-tune your ASR model with examples like [Fine-Tune Whisper For Multilingual ASR with 🤗 Transformers](https://huggingface.co/blog/fine-tune-whisper).
 
 **Indic Languages supported with fine-tuned Whisper model**
