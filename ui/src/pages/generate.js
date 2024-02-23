@@ -19,6 +19,8 @@ export default function dashboard() {
   const [transcribed, setTranscribed] = useState([]);
   const [requestSentToAPI, setrequestSentToAPI] = useState(false);
   const [isLocalFile, setIsLocalFile] = useState(false);
+  const [isSubtitleBeingGenerated, setIsSubtitleBeingGenerated] =
+    useState(false);
 
   const router = useRouter();
   const index = router.query.id;
@@ -80,30 +82,73 @@ export default function dashboard() {
       return toast.error("Cannot upload both file and youtube link");
     reset(true);
 
-    const response = await handleTranscribe(
+    const { url, requestData } = await handleTranscribe(
       uploadedFile,
       youtubeLink,
       targetLanguage,
       selectedModel
     );
-    if (response) {
-      reset(false);
-      if (response.data.code !== 200) {
-        toast.error(response.data.message);
-      } else {
+
+    const toastId = toast.info("Uploading file..");
+    fetch(url, {
+      method: "POST",
+      body: JSON.stringify(requestData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then(async (res) => {
+        toast.update(toastId, { render: "Transcribing file..", type: "info" });
+        const decoder = new TextDecoder();
+        const reader = res.body.getReader();
+        setrequestSentToAPI(false);
+
+        while (true) {
+          const { done, value } = await reader.read();
+          setIsSubtitleBeingGenerated(!done);
+          if (done) break;
+          try {
+            const decodedValue = decoder.decode(value);
+            const jsonData = JSON.parse(decodedValue);
+            console.log(jsonData);
+            setTranscribed((transcribed) => [...transcribed, jsonData]);
+          } catch (error) {
+            console.log("error in transcribing: ", error);
+            const jsonString = decoder.decode(value);
+            const jsonObjects = jsonString.match(/({[^{}]+})/g);
+            const parsedObjects = jsonObjects.map((objString) =>
+              JSON.parse(objString)
+            );
+            console.log("error handled");
+            setTranscribed((transcribed) => [...transcribed, ...parsedObjects]);
+          }
+        }
+      })
+      .then(async () => {
+        toast.update(toastId, {
+          render: "Succesfully transcribed",
+          type: "success",
+        });
+
+        console.log(transcribed);
+
         const filename = await getYoutubeLinkTitle();
-        setTranscribed(response.data.chunks);
+
         const file = {
           filename: uploadedFile?.path ?? filename,
-          size: uploadedFile?.size,
-          transcribedData: response.data.chunks,
+          size: uploadedFile.size,
+          transcribedData: transcribed,
           uploadDate: new Date(),
-          targetLanguage: targetLanguage,
           model: selectedModel,
+          targetLanguage: targetLanguage,
         };
         storeFileToLocalStorage(file);
-      }
-    }
+
+        reset(false);
+      })
+      .catch((err) => console.log("error: ", err));
+
+    console.log(transcribed);
   }
 
   return (
@@ -164,6 +209,7 @@ export default function dashboard() {
           </button>
         </aside>
         <SubtitleEditor
+          isBeingGenerated={isSubtitleBeingGenerated}
           transcribed={transcribed}
           setTranscribed={setTranscribed}
           filename={uploadedFile?.path}

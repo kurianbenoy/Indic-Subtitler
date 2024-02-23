@@ -3,6 +3,7 @@ import { formatTime, removeFileExtension } from "@components/utils";
 import DownloadFileDropdown from "./DownloadFileDropdown";
 
 export default function SubtitleEditor({
+  isBeingGenerated,
   transcribed = [],
   setTranscribed,
   filename,
@@ -40,7 +41,13 @@ export default function SubtitleEditor({
   return (
     <aside className="w-full lg:w-[75%] md:mt-0 md:border-l-2 ">
       <div className="flex md:flex-row flex-col md:justify-end md:text-lg text-white gap-4 md:px-4 md:p-2 md:py-4">
-        <DownloadFileDropdown file={transcribed} filename={filename} />
+        {isBeingGenerated ? (
+          <div className="btn m-1 bg-secondary-100 disabled">
+            Generating ...
+          </div>
+        ) : (
+          <DownloadFileDropdown file={transcribed} filename={filename} />
+        )}
       </div>
       <div>
         <div className="overflow-x-auto h-[680px]">

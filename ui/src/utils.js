@@ -37,9 +37,9 @@ export const handleTranscribe = async (
   const modelEndPoints = {
     seamlessM4t: {
       fileBased:
-        "https://kurianbenoy--seamless-m4t-speech-generate-seamlessm4t-speech.modal.run/",
+        "https://aldrinjenson--seamless-m4t-speech-generate-seamlessm4t-speech.modal.run",
       youtubeLinkedBased:
-        "https://kurianbenoy--seamless-m4t-speech-youtube-generate-seamle-f8f6a7.modal.run",
+        "https://aldrinjenson--seamless-m4t-speech-youtube-generate-seaml-237e9d.modal.run",
     },
 
     fasterWhisper: {
@@ -68,17 +68,22 @@ export const handleTranscribe = async (
       target: targetLang,
     };
   }
-  try {
-    const response = await axios.post(
-      modelEndPoints[selectedModel][
-        uploadedFile ? "fileBased" : "youtubeLinkedBased"
-      ],
-      requestData
-    );
-    return response;
-  } catch (error) {
-    return error;
-  }
+
+  const url =
+    modelEndPoints[selectedModel][
+      uploadedFile ? "fileBased" : "youtubeLinkedBased"
+    ];
+
+  return { url, requestData };
+  // try {
+  //   const response = await axios.post(
+
+  //     requestData
+  //   );
+  //   return response;
+  // } catch (error) {
+  //   return error;
+  // }
 };
 
 export function formatTime(time) {
