@@ -22,7 +22,7 @@ export default function SubtitleEditor({
 
           <div className="flex justify-center items-center h-[70vh]">
             <h5 className="text-xl font-medium">
-              Upload a file to start editing subtitles
+              Upload a file or link a youtube video to start editing subtitles
             </h5>
           </div>
         </aside>

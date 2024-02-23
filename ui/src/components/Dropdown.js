@@ -10,7 +10,6 @@ export default function Dropdown({
   selectedModel,
 }) {
   function Options(options) {
-    console.log(options.option);
     const model = options.option.find((item) => item.model === selectedModel);
     return model.languages.map((lang, index) => (
       <option key={index} id={lang.id} value={lang.id}>
@@ -29,7 +28,7 @@ export default function Dropdown({
   }, [selectedOption]);
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col ">
       <label className="font-medium text-wrap">{label}:</label>
       <select
         onChange={handleSelectChange}
