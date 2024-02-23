@@ -90,6 +90,7 @@ image = (
         "faster-whisper",
         "whisperx @ git+https://github.com/m-bain/whisperX.git@e906be9688334b4ae7d3a23f69734ac901a255ee",
     )
+    .pip_install("pytube==15.0.0")
     .run_function(download_models, gpu=GPU_TYPE)
 )
 
@@ -411,8 +412,8 @@ def youtube_generate_seamlessm4t_speech(item: Dict):
         audio = audio.set_channels(1).set_frame_rate(16000)
         audio.export("output.wav", format="wav")
 
-        fname = base64_to_audio_file(b64_contents=b64)
-        convert_to_mono_16k(fname, "output.wav")
+        # fname = base64_to_audio_file(b64_contents=b64)
+        # convert_to_mono_16k(fname, "output.wav")
 
         # Perform voice activity detection on the processed audio
         SAMPLING_RATE = 16000
