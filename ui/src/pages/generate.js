@@ -2,18 +2,19 @@ import React, { useEffect, useState } from "react";
 import Dropzone from "@components/components/Dropzone";
 import Dropdown from "@components/components/Dropdown";
 import { AVAILABLE_MODELS, SOURCE_LANGUAGES } from "@components/constants";
-import { getYouTubeVideoId, handleTranscribe } from "@components/utils";
 import { ToastContainer, toast } from "react-toastify";
 import SubtitleEditor from "@components/components/SubtitleEditor";
 import useLocalStorage from "@components/hooks/useLocalStorage";
 import { useRouter } from "next/router";
 import { IconLink } from "@tabler/icons-react";
+import { handleTranscribe } from "@components/utils";
 
 export default function dashboard() {
   const [uploadedFile, setUploadedFile] = useState();
   const [targetLanguage, setTargetLanguage] = useState();
   const [selectedModel, setSelectedModel] = useState();
   const [youtubeLink, setYoutubeLink] = useState();
+  const [youtubeVideoTitle, setYoutubeVideoTitle] = useState();
   const [disabled, setDisabled] = useState(true);
   const [transcribed, setTranscribed] = useState([]);
   const [requestSentToAPI, setrequestSentToAPI] = useState(false);
@@ -31,8 +32,6 @@ export default function dashboard() {
     if (index && items) {
       if (items[index]) {
         const item = items[index];
-        // console.log(item.model, item.targetLanguage);
-
         setDisabled(true);
         setUploadedFile(item.uploadedFile);
         setTargetLanguage(item.targetLanguage);
@@ -68,21 +67,22 @@ export default function dashboard() {
     setDisabled(state);
     setrequestSentToAPI(state);
   }
-
+  async function getYoutubeLinkTitle() {
+    const title = fetch(
+      `https://noembed.com/embed?dataType=json&url=${youtubeLink}`
+    )
+      .then((res) => res.json())
+      .then((data) => data.title);
+    return title;
+  }
   async function handleSubmit() {
-    // if (uploadedFile && youtubeLink)
-    //   return toast.error("Cannot upload both file and youtube link");
-    // const file = uploadedFile ?? youtubeLink;
-    // const response = await handleTranscribe(
-    //   file,
-    //   targetLanguage,
-    //   selectedModel
-    // );
-
+    if (uploadedFile && youtubeLink)
+      return toast.error("Cannot upload both file and youtube link");
     reset(true);
 
     const response = await handleTranscribe(
       uploadedFile,
+      youtubeLink,
       targetLanguage,
       selectedModel
     );
@@ -92,10 +92,11 @@ export default function dashboard() {
         console.log(response);
         toast.error(response.data.message);
       } else {
+        const filename = await getYoutubeLinkTitle();
         setTranscribed(response.data.chunks);
         const file = {
-          filename: uploadedFile.path,
-          size: uploadedFile.size,
+          filename: uploadedFile?.path ?? filename,
+          size: uploadedFile?.size,
           transcribedData: response.data.chunks,
           uploadDate: new Date(),
           targetLanguage: targetLanguage,
@@ -109,7 +110,7 @@ export default function dashboard() {
   return (
     <>
       <ToastContainer />
-      <main className="mt-8 flex flex-col md:flex-row md:mb-8 xl:mx-14 mx-4 gap-4">
+      <main className="flex flex-col md:flex-row md:mb-8 xl:mx-14 mx-4 gap-4">
         <aside className="w-full md:w-[30%] lg:w-[25%] flex flex-col space-y-10 p-2">
           <div>
             <h2 className="text-3xl font-medium">Upload a File</h2>
@@ -117,25 +118,23 @@ export default function dashboard() {
               Upload an audio file to generate subtitles
             </p>
           </div>
-          <div className="h-80">
+          <div className="h-60">
             <Dropzone
               setUploadedFile={setUploadedFile}
               uploadedFile={uploadedFile}
             />
           </div>
-          {/* hidden for now, will be changed once API is ready*/}
-          <div className="hidden">
-            <div className="divider font-medium">OR</div>
-            <label className="flex border-2 rounded-lg gap-2 p-2 focus-visible:outline-none focus-visible:ring focus-visible:ring-primary-300 transition-all transition-75">
-              <IconLink color="grey" />
-              <input
-                onChange={handleInputChange}
-                type="text"
-                className="w-full outline-none"
-                placeholder="Paste YouTube Video Link"
-              />
-            </label>
-          </div>
+
+          <div className="divider font-medium">OR</div>
+          <label className="flex border-2 rounded-lg gap-2 p-2 ">
+            <IconLink color="grey" />
+            <input
+              onChange={handleInputChange}
+              type="text"
+              className="w-full outline-none "
+              placeholder="Paste YouTube Video Link"
+            />
+          </label>
           <div className="space-y-5">
             <Dropdown
               onChange={(item) => setSelectedModel(item)}

@@ -28,32 +28,56 @@ export function transitionToCollection(router) {
   router.push("/collection");
 }
 
-export const handleTranscribe = async (file, targetLang, selectedModel) => {
+export const handleTranscribe = async (
+  uploadedFile,
+  youtubeLink,
+  targetLang,
+  selectedModel
+) => {
   const modelEndPoints = {
-    seamlessM4t:
-      "https://kurianbenoy--seamless-m4t-speech-generate-seamlessm4t-speech.modal.run/",
-    fasterWhisper:
-      "https://kurianbenoy--seamless-m4t-speech-generate-faster-whisper-speech.modal.run/",
-    whisperX:
-      "https://kurianbenoy--seamless-m4t-speech-generate-whisperx-speech.modal.run/",
-  };
-  const base64Data = await fileToBase64(file);
+    seamlessM4t: {
+      fileBased:
+        "https://kurianbenoy--seamless-m4t-speech-generate-seamlessm4t-speech.modal.run/",
+      youtubeLinkedBased:
+        "https://kurianbenoy--seamless-m4t-speech-youtube-generate-seamle-f8f6a7.modal.run",
+    },
 
-  const requestData = {
-    wav_base64: base64Data,
-    target: targetLang,
+    fasterWhisper: {
+      fileBased:
+        "https://kurianbenoy--seamless-m4t-speech-generate-fasterWhisper-speech.modal.run/",
+      youtubeLinkedBased:
+        "https://kurianbenoy--seamless-m4t-speech-youtube-generate-faster-c295b9.modal.run",
+    },
+    whisperX: {
+      fileBased:
+        "https://kurianbenoy--seamless-m4t-speech-generate-whisperx-speech.modal.run/",
+      youtubeLinkedBased:
+        "https://kurianbenoy--seamless-m4t-speech-youtube-generate-whispe-b29f2b.modal.run",
+    },
   };
-
+  let requestData;
+  if (youtubeLink) {
+    requestData = {
+      yt_id: getYouTubeVideoId(youtubeLink),
+      target: targetLang,
+    };
+  } else if (uploadedFile) {
+    const base64Data = await fileToBase64(uploadedFile);
+    requestData = {
+      wav_base64: base64Data,
+      target: targetLang,
+    };
+  }
   try {
+    console.log("hey");
     const response = await axios.post(
-      modelEndPoints[selectedModel],
+      modelEndPoints[selectedModel][
+        uploadedFile ? "fileBased" : "youtubeLinkedBased"
+      ],
       requestData
     );
-    console.log(response);
-
     return response;
   } catch (error) {
-    console.log(error);
     return error;
   }
 };
