@@ -100,11 +100,20 @@ We plan to use FastAPI as the backend and deploy it on serveless platforms like 
 
 **API format**
 
-- POST request for all the API with the following input format:
+- POST request for the functions: `generate_seamlessm4t_speech`, `generate_faster_whisper_speech`, `generate_whisperx_speech` API with the following input format:
 
 ```
 {
  "wav_base64": "Audio in base64 format",
+ "target": "Your target lanugage you want to transcribe or translate your audio"
+}
+```
+
+- POST request for the functions: `youtube_generate_seamlessm4t_speech` API with the following input format:
+
+```
+{
+ "yt_id": "Youtube ID as input in string format",
  "target": "Your target lanugage you want to transcribe or translate your audio"
 }
 ```

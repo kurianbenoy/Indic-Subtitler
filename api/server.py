@@ -301,7 +301,7 @@ def generate_faster_whisper_speech(item: Dict):
         return {"message": "Internal server error", "code": 500}
 
 
-@stub.function(gpu=GPU_TYPE, timeout=600)
+@stub.function(gpu=GPU_TYPE, timeout=1200)
 @web_endpoint(method="POST")
 def generate_whisperx_speech(item: Dict):
     """
