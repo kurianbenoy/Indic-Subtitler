@@ -689,3 +689,59 @@ def vegam_faster_whisper(item: Dict):
         print(e)
         logging.critical(e, exc_info=True)
         return {"message": "Internal server error", "code": 500}
+
+@stub.function(gpu=GPU_TYPE, timeout=1200)
+@web_endpoint(method="POST")
+def youtube_vegam_faster_whisper(item: Dict):
+    from faster_whisper import WhisperModel
+    from pytube import YouTube
+    from pydub import AudioSegment
+
+    try:
+        yt_id = item["yt_id"]
+        target_lang = item["target"]
+
+        # Download YouTube video
+        youtube_url = f"https://www.youtube.com/watch?v={yt_id}"
+        youtube = YouTube(youtube_url)
+        video = youtube.streams.filter(only_audio=True).first()
+        video.download(filename="temp_video.mp4")
+
+        # Convert video to wav
+        audio = AudioSegment.from_file("temp_video.mp4", format="mp4")
+        audio.export("temp_audio.wav", format="wav")
+
+        # Convert audio to mono channel with 16K frequency
+        audio = AudioSegment.from_wav("temp_audio.wav")
+        audio = audio.set_channels(1).set_frame_rate(16000)
+        audio.export("output.wav", format="wav")
+
+        model = WhisperModel(
+            "kurianbenoy/vegam-whisper-medium-ml-fp16", device="cuda", compute_type="float16"
+        )
+
+        segments, info = model.transcribe(
+            "output.wav",
+            beam_size=5,
+            language=target_lang,
+        )
+
+
+        chunks = [
+            {"start": segment.start, "end": segment.end, "text": segment.text}
+            for segment in segments
+        ]
+
+        full_text = " ".join([x["text"] for x in chunks])
+
+        return {
+            "code": 200,
+            "message": "Speech generated successfully.",
+            "chunks": chunks,
+            "text": full_text,
+        }
+
+    except Exception as e:
+        print(e)
+        logging.critical(e, exc_info=True)
+        return {"message": "Internal server error", "code": 500}
