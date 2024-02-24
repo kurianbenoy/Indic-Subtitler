@@ -28,7 +28,6 @@ def gen_srt_file(input_chunks, output_file_path):
             startTime = get_srt_time(seg["start"])
             endTime = get_srt_time(seg["end"])
             text = seg["text"]
-            print(text)
             segment = (
                 f"{row}\n{startTime} --> {endTime}\n{text[1:] if text[0] == ' ' else text}\n\n"
             )
@@ -53,15 +52,14 @@ def audio_file_to_base64(file_path):
     return base64_encoded_str
 
 
-URL = "https://kurianbenoy--seamless-m4t-speech-vegam-faster-whisper.modal.run"
+URL = "https://kurianbenoy--seamless-m4t-speech-generate-seamlessm4t-speech.modal.run/"
 
-b64 = audio_file_to_base64("/home/kurian/git/Indic-Subtitler/api/mal_sample1.mp4")
+b64 = audio_file_to_base64("/home/kurian/git/Indic-Subtitler/api/vocals_arabic.mp3")
 # print(b64)
 # print({"wav_base64": b64, "target": "mal"})
-x = requests.post(URL, json={"wav_base64": b64, "target": "ml"})
+x = requests.post(URL, json={"wav_base64": b64, "target": "arb"})
 print(x)
 res = x.json()
 
-print(res["chunks"])
 
 gen_srt_file(res["chunks"], "output_mal_hin_sample1.srt")
