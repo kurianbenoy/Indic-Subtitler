@@ -15,11 +15,9 @@ def download_models():
     Downloads and initializes models required for speech processing, including a translator model and a VAD (Voice Activity Detection) model.
     """
     from seamless_communication.inference import Translator
-
-    # from faster_whisper import WhisperModel
+    from faster_whisper import WhisperModel
     import torch
-
-    # import whisperx
+    import whisperx
 
     # Define model names for the translator and vocoder
     model_name = "seamlessM4T_v2_large"
@@ -38,19 +36,19 @@ def download_models():
     torch.hub.load(repo_or_dir="snakers4/silero-vad", model="silero_vad", onnx=USE_ONNX)
 
     # Download faster-whisper
-    # model_size = "large-v3"
+    model_size = "large-v3"
     # Run on GPU with FP16
-    # WhisperModel(model_size, device="cuda", compute_type="float16")
+    WhisperModel(model_size, device="cuda", compute_type="float16")
 
     # Download whisperX model
-    # whisperx.load_model(model_size, "cuda", compute_type="float16")
+    whisperx.load_model(model_size, "cuda", compute_type="float16")
 
     # Download vegam-whisper
-    # WhisperModel(
-    #     "kurianbenoy/vegam-whisper-medium-ml-fp16",
-    #     device="cuda",
-    #     compute_type="float16",
-    # )
+    WhisperModel(
+        "kurianbenoy/vegam-whisper-medium-ml-fp16",
+        device="cuda",
+        compute_type="float16",
+    )
 
 
 def base64_to_audio_file(b64_contents: str):
@@ -99,7 +97,7 @@ image = (
         "torch==2.1.1",
         "seamless_communication @ git+https://github.com/facebookresearch/seamless_communication.git",  # torchaudio already included in seamless_communication
         "faster-whisper",
-        # "whisperx @ git+https://github.com/m-bain/whisperX.git@e906be9688334b4ae7d3a23f69734ac901a255ee",
+        "whisperx @ git+https://github.com/m-bain/whisperX.git@e906be9688334b4ae7d3a23f69734ac901a255ee",
     )
     .pip_install("pytube==15.0.0")
     .run_function(download_models, gpu=GPU_TYPE)
@@ -130,15 +128,6 @@ def generate_seamlessm4t_speech(item: Dict):
     import torchaudio
     from pydub import AudioSegment
     from seamless_communication.inference import Translator
-
-    # removed because of error in mp4 & mp3 files because of wave
-    # # function to calculate the duration of the input audio clip
-    # def get_duration_wave(file_path):
-    #     with wave.open(file_path, "r") as audio_file:
-    #         frame_rate = audio_file.getframerate()
-    #         n_frames = audio_file.getnframes()
-    #         duration = n_frames / float(frame_rate)
-    #         return duration
 
     try:
         # print(f"Payload: {item}")
@@ -232,28 +221,6 @@ def generate_seamlessm4t_speech(item: Dict):
                 yield json.dumps(obj)
 
         return StreamingResponse(generate(), media_type="text/event-stream")
-        # Initialize an empty list to store the speech chunks
-        chunks = []
-
-        # Iterate over the length of the text list
-        for i in range(len(text)):
-            # For each iteration, append a dictionary to the chunks list
-            # Each dictionary contains the start time, end time, and the translated text of a speech chunk
-            chunks.append(
-                {
-                    "start": timestamps_start[i],  # Start time of the speech chunk
-                    "end": timestamps_end[i],  # End time of the speech chunk
-                    "text": text[i],  # Translated text of the speech chunk
-                }
-            )
-
-        # full_text = " ".join([x["text"] for x in chunks])
-        # return {
-        #     "code": 200,
-        #     "message": "Speech generated successfully.",
-        #     "chunks": chunks,
-        #     "text": full_text,
-        # }
 
     except Exception as e:
         print(e)
