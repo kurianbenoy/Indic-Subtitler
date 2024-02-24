@@ -194,7 +194,15 @@ Smaller chunks get very little context and becuase of this our model is sometime
 - Build Streaming API for Seamless M4T models
 - Incorporate frontend to make use of streaming API endpoints for Generative UI
 - In the Landing page include LICENSE of models; Also add an About us page.
+
+![image](https://github.com/kurianbenoy/Indic-Subtitler/assets/24592806/4be3cb81-0956-4a3e-af82-57b05cc5aa0b)
+![image](https://github.com/kurianbenoy/Indic-Subtitler/assets/24592806/a8015df1-a596-446c-a406-dab6880efc59)
+
+
 - Add a section on Projects to shows audios uploaded and it's associated results SRT files. Also show the name, created date, file size(optional)
+
+![image](https://github.com/kurianbenoy/Indic-Subtitler/assets/24592806/d84082d5-6d1c-4ce5-8394-d749fbf6c8f7)
+
 - Include more model families like faster-whisper, whisperX etc.
 - Evaluate the performance of models in Indic subtitler on custom videos.
 
