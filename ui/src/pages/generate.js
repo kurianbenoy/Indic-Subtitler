@@ -153,7 +153,8 @@ export default function dashboard() {
         console.log("error: ", err);
         toast.update(toastId, {
           type: "error",
-          render: "https://www.youtube.com/shorts/CW_2xaUVg6g",
+          render:
+            "There seems to be some error in transcribing. Please try again later with a different file or Youtube Link.",
         });
       })
       .finally(() => {
