@@ -9,8 +9,8 @@ export default function Dropdown({
   defaultOption,
   selectedModel,
 }) {
-  function Options(options) {
-    const model = options.option.find((item) => item.model === selectedModel);
+  function Options({ options }) {
+    const model = options.find((item) => item.model === selectedModel);
     return model.languages.map((lang, index) => (
       <option key={index} id={lang.id} value={lang.id}>
         {lang.name}
@@ -38,7 +38,7 @@ export default function Dropdown({
         <option value="">{defaultOption}</option>
 
         {selectedModel ? (
-          <Options option={options} />
+          <Options options={options} />
         ) : (
           options?.map((element, index) => (
             <option id={element.id} value={element.id} key={index}>
