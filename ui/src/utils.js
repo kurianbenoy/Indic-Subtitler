@@ -1,4 +1,5 @@
 import axios from "axios";
+import { SOURCE_LANGUAGES } from "./constants";
 
 export function formatFileSize(size) {
   if (!size) return null;
@@ -182,4 +183,16 @@ export function getYouTubeVideoId(url) {
   } else {
     return false;
   }
+}
+export function getFullLanguageName(model, languageCode) {
+  const modelLanguages = SOURCE_LANGUAGES.find((item) => item.model === model);
+  if (modelLanguages) {
+    const language = modelLanguages.languages.find(
+      (item) => item.id === languageCode
+    );
+    if (language) {
+      return language.name;
+    }
+  }
+  return languageCode;
 }
