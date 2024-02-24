@@ -1,4 +1,8 @@
-import { formatFileSize, formattedDate } from "@components/utils";
+import {
+  formatFileSize,
+  formattedDate,
+  getFullLanguageName,
+} from "@components/utils";
 import { useRouter } from "next/router";
 import DownloadFileDropdown from "./DownloadFileDropdown";
 import { IconEdit, IconTrash } from "@tabler/icons-react";
@@ -30,20 +34,6 @@ export default function CollectionTable({ storedFiles, setStoredFiles }) {
 
     return classNames;
   }
-  function getFullLanguageName(model, languageCode) {
-    const modelLanguages = SOURCE_LANGUAGES.find(
-      (item) => item.model === model
-    );
-    if (modelLanguages) {
-      const language = modelLanguages.languages.find(
-        (item) => item.id === languageCode
-      );
-      if (language) {
-        return language.name;
-      }
-    }
-    return languageCode;
-  }
   if (storedFiles?.length) {
     return (
       <div className="overflow-x-auto max-h-[75vh]">
@@ -61,63 +51,72 @@ export default function CollectionTable({ storedFiles, setStoredFiles }) {
             </tr>
           </thead>
           <tbody>
-            {storedFiles.map((element, index) => (
-              <tr key={index}>
-                <th>{index + 1}</th>
-                <td>
-                  {element.size ? (
-                    element.filename
-                  ) : (
-                    <span className="flex flex-col">
-                      <div
-                        className="tooltip self-start"
-                        data-tip="File imported from Youtube"
+            {storedFiles
+              .slice()
+              .reverse()
+              .map((element, index) => {
+                const localStorageIndex = storedFiles.length - 1 - index;
+
+                return (
+                  <tr key={index}>
+                    <th>{index + 1}</th>
+                    <td>
+                      {element.size ? (
+                        element.filename
+                      ) : (
+                        <span className="flex flex-col">
+                          <div
+                            className="tooltip self-start"
+                            data-tip="File imported from Youtube"
+                          >
+                            <button className="text-sm bg-black text-white w-fit px-2 py-1 rounded-md">
+                              Youtube
+                            </button>
+                          </div>
+
+                          {element.filename}
+                        </span>
+                      )}
+                    </td>
+                    <td className="">{formattedDate(element.uploadDate)}</td>
+                    <td> {formatFileSize(element.size) || "-"}</td>
+
+                    <td>
+                      {getFullLanguageName(
+                        element.model ?? "seamlessM4t",
+                        element.targetLanguage ?? element.outputLanguage
+                      )}
+                    </td>
+                    <td className="">
+                      <p className={getClassNames(element.model)}>
+                        {element.model ?? "seamlessM4t"}
+                      </p>
+                    </td>
+                    <td>
+                      <DownloadFileDropdown
+                        file={element.transcribedData}
+                        filename={element.filename}
+                      />
+                    </td>
+                    <td>
+                      <button
+                        onClick={() =>
+                          router.push(`/generate?id=${localStorageIndex}`)
+                        }
+                        className="flex items-center gap-1"
                       >
-                        <button className="text-sm bg-black text-white w-fit px-2 py-1 rounded-md">
-                          Youtube
-                        </button>
-                      </div>
-
-                      {element.filename}
-                    </span>
-                  )}
-                </td>
-                <td className="">{formattedDate(element.uploadDate)}</td>
-                <td> {formatFileSize(element.size) || "-"}</td>
-
-                <td>
-                  {getFullLanguageName(
-                    element.model ?? "seamlessM4t",
-                    element.targetLanguage ?? element.outputLanguage
-                  )}
-                </td>
-                <td className="">
-                  <p className={getClassNames(element.model)}>
-                    {element.model ?? "seamlessM4t"}
-                  </p>
-                </td>
-                <td>
-                  <DownloadFileDropdown
-                    file={element.transcribedData}
-                    filename={element.filename}
-                  />
-                </td>
-                <td>
-                  <button
-                    onClick={() => router.push(`/generate?id=${index}`)}
-                    className="flex items-center gap-1"
-                  >
-                    <IconEdit />
-                    <p className="font-medium">Edit</p>
-                  </button>
-                </td>
-                <td>
-                  <button onClick={() => handleDelete(index)}>
-                    <IconTrash />
-                  </button>
-                </td>
-              </tr>
-            ))}
+                        <IconEdit />
+                        <p className="font-medium">Edit</p>
+                      </button>
+                    </td>
+                    <td>
+                      <button onClick={() => handleDelete(localStorageIndex)}>
+                        <IconTrash />
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
           </tbody>
         </table>
       </div>
