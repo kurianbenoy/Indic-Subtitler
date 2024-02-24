@@ -23,9 +23,7 @@ def download_models():
 
     # Define model names for the translator and vocoder
     model_name = "seamlessM4T_v2_large"
-    vocoder_name = (
-        "vocoder_v2" if model_name == "seamlessM4T_v2_large" else "vocoder_36langs"
-    )
+    vocoder_name = "vocoder_v2" if model_name == "seamlessM4T_v2_large" else "vocoder_36langs"
 
     # Initialize the translator model with specified parameters
     Translator(
@@ -40,7 +38,7 @@ def download_models():
     torch.hub.load(repo_or_dir="snakers4/silero-vad", model="silero_vad", onnx=USE_ONNX)
 
     # Download faster-whisper
-    model_size = "large-v3"
+    # model_size = "large-v3"
     # Run on GPU with FP16
     # WhisperModel(model_size, device="cuda", compute_type="float16")
 
@@ -91,9 +89,7 @@ def convert_to_mono_16k(input_file: str, output_file: str) -> None:
 
 # Define the Docker image configuration for the processing environment
 image = (
-    Image.from_registry(
-        "nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu22.04", add_python="3.10"
-    )
+    Image.from_registry("nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu22.04", add_python="3.10")
     .apt_install("git", "ffmpeg")
     .pip_install(
         "fairseq2==0.2.*",
@@ -180,9 +176,7 @@ def generate_seamlessm4t_speech(item: Dict):
         # translator = download_models()
         start = time.perf_counter()
         model_name = "seamlessM4T_v2_large"
-        vocoder_name = (
-            "vocoder_v2" if model_name == "seamlessM4T_v2_large" else "vocoder_36langs"
-        )
+        vocoder_name = "vocoder_v2" if model_name == "seamlessM4T_v2_large" else "vocoder_36langs"
 
         translator = Translator(
             model_name,
@@ -224,9 +218,7 @@ def generate_seamlessm4t_speech(item: Dict):
                 )
                 resampled_waveform = resampler(waveform)
                 torchaudio.save("resampled.wav", resampled_waveform, resample_rate)
-                translated_text, _ = translator.predict(
-                    "resampled.wav", "s2tt", target_lang
-                )
+                translated_text, _ = translator.predict("resampled.wav", "s2tt", target_lang)
                 # print(translated_text)
                 text.append(str(translated_text[0]))
                 os.remove(new_audio_name)
@@ -462,9 +454,7 @@ def youtube_generate_seamlessm4t_speech(item: Dict):
         # translator = download_models()
         start = time.perf_counter()
         model_name = "seamlessM4T_v2_large"
-        vocoder_name = (
-            "vocoder_v2" if model_name == "seamlessM4T_v2_large" else "vocoder_36langs"
-        )
+        vocoder_name = "vocoder_v2" if model_name == "seamlessM4T_v2_large" else "vocoder_36langs"
 
         translator = Translator(
             model_name,
@@ -505,9 +495,7 @@ def youtube_generate_seamlessm4t_speech(item: Dict):
                 )
                 resampled_waveform = resampler(waveform)
                 torchaudio.save("resampled.wav", resampled_waveform, resample_rate)
-                translated_text, _ = translator.predict(
-                    "resampled.wav", "s2tt", target_lang
-                )
+                translated_text, _ = translator.predict("resampled.wav", "s2tt", target_lang)
                 # print(translated_text)
                 text.append(str(translated_text[0]))
                 os.remove(new_audio_name)
