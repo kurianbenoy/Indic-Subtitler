@@ -13,8 +13,6 @@ const uploadHandler = async (req, res) => {
 
     const file = files.file;
     const uploadedFile = file[0];
-    console.log(uploadedFile);
-    console.log(typeof uploadedFile);
   } catch (err) {
     console.log("Error: ", err);
   }

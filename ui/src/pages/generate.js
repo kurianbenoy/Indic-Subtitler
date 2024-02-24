@@ -98,9 +98,9 @@ export default function dashboard() {
       },
     })
       .then(async (res) => {
-        if (res?.code === 500) {
-          throw new Error("Internal Server Error");
-        }
+        if (res?.code === 500) throw new Error("Internal Server Error");
+
+        let transcription = [];
 
         toast.update(toastId, { render: "Transcribing..", type: "info" });
         const decoder = new TextDecoder();
@@ -116,6 +116,7 @@ export default function dashboard() {
             const jsonData = JSON.parse(decodedValue);
             console.log(jsonData);
             setTranscribed((transcribed) => [...transcribed, jsonData]);
+            transcription.push(jsonData);
           } catch (error) {
             console.log("error in transcribing: ", error);
             const jsonString = decoder.decode(value);
@@ -125,10 +126,12 @@ export default function dashboard() {
             );
             console.log("error handled");
             setTranscribed((transcribed) => [...transcribed, ...parsedObjects]);
+            transcription.push(...parsedObjects);
           }
         }
+        return transcription;
       })
-      .then(async () => {
+      .then(async (transcription) => {
         toast.update(toastId, {
           render: "Succesfully transcribed",
           type: "success",
@@ -139,7 +142,7 @@ export default function dashboard() {
         const file = {
           filename: uploadedFile?.path ?? filename,
           size: uploadedFile?.size,
-          transcribedData: transcribed,
+          transcribedData: transcription,
           uploadDate: new Date(),
           model: selectedModel,
           targetLanguage: targetLanguage,
