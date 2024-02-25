@@ -9,6 +9,7 @@ import json
 # Define the GPU type to be used for processing
 GPU_TYPE = "T4"
 SAMPLING_RATE = 16000
+MODEL_SIZE = "large-v3"
 # resample_rate = 16000
 
 
@@ -38,12 +39,11 @@ def download_models():
     torch.hub.load(repo_or_dir="snakers4/silero-vad", model="silero_vad", onnx=USE_ONNX)
 
     # Download faster-whisper
-    model_size = "large-v3"
     # Run on GPU with FP16
-    WhisperModel(model_size, device="cuda", compute_type="float16")
+    WhisperModel(MODEL_SIZE, device="cuda", compute_type="float16")
 
     # Download whisperX model
-    whisperx.load_model(model_size, "cuda", compute_type="float16")
+    whisperx.load_model(MODEL_SIZE, "cuda", compute_type="float16")
 
     # Download vegam-whisper
     WhisperModel(
@@ -306,7 +306,7 @@ def generate_faster_whisper_speech(item: Dict):
         grouped_timestamps = sliding_window_approch_timestamps(speech_timestamps_seconds)
         print(grouped_timestamps)
 
-        model = WhisperModel("large-v3", device="cuda", compute_type="float16")
+        model = WhisperModel(MODEL_SIZE, device="cuda", compute_type="float16")
 
         async def generate():
             for segment in grouped_timestamps:
@@ -442,71 +442,100 @@ def generate_vegam_faster_whisper(item: Dict):
         return {"message": "Internal server error", "code": 500}
 
 
-# @stub.function(gpu=GPU_TYPE, timeout=1200)
-# @web_endpoint(method="POST")
-# def generate_whisperx_speech(item: Dict):
-#     """
-#     Processes the input speech audio and translates the speech to the target language using faster-whisper.
+@stub.function(gpu=GPU_TYPE, timeout=1200)
+@web_endpoint(method="POST")
+def generate_whisperx_speech(item: Dict):
+    """
+    Processes the input speech audio and translates the speech to the target language using faster-whisper.
 
-#     Parameters:
-#     - item (Dict): A dictionary containing the base64 encoded audio data and target language.
+    Parameters:
+    - item (Dict): A dictionary containing the base64 encoded audio data and target language.
 
-#     Returns:
-#     - Dict: A dictionary containing the status code, message, detected speech chunks, and the translated text.
-#     """
-#     import whisperx
+    Returns:
+    - Dict: A dictionary containing the status code, message, detected speech chunks, and the translated text.
+    """
+    import os
+    import torch
+    import torchaudio
+    import whisperx
+    from pydub import AudioSegment
 
-#     try:
-#         b64 = item["wav_base64"]
-#         target_lang = item["target"]
+    try:
+        b64 = item["wav_base64"]
+        target_lang = item["target"]
 
-#         fname = base64_to_audio_file(b64_contents=b64)
-#         print(fname)
-#         convert_to_mono_16k(fname, "output.wav")
+        fname = base64_to_audio_file(b64_contents=b64)
+        print(fname)
+        convert_to_mono_16k(fname, "output.wav")
 
-#         model = whisperx.load_model("large-v3", "cuda", compute_type="float16")
+        USE_ONNX = False
+        model, utils = torch.hub.load(
+            repo_or_dir="snakers4/silero-vad", model="silero_vad", onnx=USE_ONNX
+        )
 
-#         audio = whisperx.load_audio("output.wav")
-#         result = model.transcribe(audio, batch_size=16)
+        (
+            get_speech_timestamps,
+            save_audio,
+            read_audio,
+            VADIterator,
+            collect_chunks,
+        ) = utils
 
-#         model_a, metadata = whisperx.load_align_model(
-#             language_code=target_lang, device="cuda"
-#         )
+        # Perform voice activity detection on the processed audio
+        wav = read_audio("output.wav", sampling_rate=SAMPLING_RATE)
 
-#         result = whisperx.align(
-#             result["segments"],
-#             model_a,
-#             metadata,
-#             audio,
-#             "cuda",
-#             return_char_alignments=False,
-#         )
+        # get speech timestamps from full audio file
+        speech_timestamps_seconds = get_speech_timestamps(
+            wav, model, sampling_rate=SAMPLING_RATE, return_seconds=True
+        )
+        print(speech_timestamps_seconds)
 
-#         print(result["segments"])
+        grouped_timestamps = sliding_window_approch_timestamps(speech_timestamps_seconds)
+        print(grouped_timestamps)
 
-#         async def generate():
-#             for segment in result["segments"]:
-#                 obj = {
-#                     "start": segment.start,
-#                     "end": segment.end,
-#                     "text": segment.text,
-#                 }
-#                 print(obj)
-#                 yield json.dumps(obj)
+        model = whisperx.load_model(MODEL_SIZE, "cuda", compute_type="float16")
 
-#         return StreamingResponse(generate(), media_type="text/event-stream")
+        # audio = whisperx.load_audio("output.wav")
+        # result = model.transcribe(audio, batch_size=16)
 
-# #         return {
-# #             "code": 200,
-# #             "message": "Speech generated successfully.",
-# #             "chunks": result["segments"],
-# #             # "text": full_text,
-# #         }
+        # model_a, metadata = whisperx.load_align_model(
+        #     language_code=target_lang, device="cuda"
+        # )
 
-#     except Exception as e:
-#         print(e)
-#         logging.critical(e, exc_info=True)
-#         return {"message": "Internal server error", "code": 500}
+        # result = whisperx.align(
+        #     result["segments"],
+        #     model_a,
+        #     metadata,
+        #     audio,
+        #     "cuda",
+        #     return_char_alignments=False,
+        # )
+
+        # print(result["segments"])
+
+        # async def generate():
+        #     for segment in result["segments"]:
+        #         obj = {
+        #             "start": segment.start,
+        #             "end": segment.end,
+        #             "text": segment.text,
+        #         }
+        #         print(obj)
+        #         yield json.dumps(obj)
+
+        return StreamingResponse(generate(), media_type="text/event-stream")
+
+#         return {
+#             "code": 200,
+#             "message": "Speech generated successfully.",
+#             "chunks": result["segments"],
+#             # "text": full_text,
+#         }
+
+    except Exception as e:
+        print(e)
+        logging.critical(e, exc_info=True)
+        return {"message": "Internal server error", "code": 500}
 
 
 # Timeout in 20 minutes
@@ -706,8 +735,7 @@ def youtube_generate_faster_whisper_speech(item: Dict):
         grouped_timestamps = sliding_window_approch_timestamps(speech_timestamps_seconds)
         print(grouped_timestamps)
 
-        # model = WhisperModel("large-v3", device="cuda", compute_type="float16")
-        model = WhisperModel("large-v3", device="cuda", compute_type="float16")
+        model = WhisperModel(MODEL_SIZE, device="cuda", compute_type="float16")
         print(model)
 
         async def generate():
