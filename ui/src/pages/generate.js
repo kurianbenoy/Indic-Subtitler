@@ -287,6 +287,15 @@ export default function dashboard() {
               </label>
               <div className="space-y-5">
                 <Dropdown
+                  onChange={(item) => setSelectedModel(item)}
+                  label="Generation Model"
+                  options={AVAILABLE_MODELS}
+                  keyName="llm-model"
+                  defaultOption="Select Model"
+                  isForModelDropdown={true}
+                  selectedModel={selectedModel}
+                />
+                <Dropdown
                   onChange={(item) => setTargetLanguage(item)}
                   label="Subtitle Language"
                   options={SOURCE_LANGUAGES}

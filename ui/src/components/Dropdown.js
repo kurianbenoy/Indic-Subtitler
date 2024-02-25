@@ -8,10 +8,11 @@ export default function Dropdown({
   onChange,
   defaultOption,
   selectedModel,
+  isForModelDropdown = false,
 }) {
   function Options({ options }) {
     const model = options.find((item) => item.model === selectedModel);
-    return model.languages.map((lang, index) => (
+    return model?.languages.map((lang, index) => (
       <option key={index} id={lang.id} value={lang.id}>
         {lang.name}
       </option>
@@ -33,11 +34,11 @@ export default function Dropdown({
       <select
         onChange={handleSelectChange}
         className="mt-1 border-2 w-full text-lg px-2 py-2 rounded-md cursor-pointer focus-visible:outline-none focus-visible:ring focus-visible:ring-primary-300 transition-all transition-75"
-        value={selectedOption} // Set the value to the selectedOption
+        value={selectedOption}
       >
         <option value="">{defaultOption}</option>
 
-        {selectedModel ? (
+        {selectedModel && !isForModelDropdown ? (
           <Options options={options} />
         ) : (
           options?.map((element, index) => (

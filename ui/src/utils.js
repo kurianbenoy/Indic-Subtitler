@@ -46,21 +46,21 @@ export const getRequestParamsForModel = async (
 
     fasterWhisper: {
       fileBased:
-        "https://kurianbenoy--seamless-m4t-speech-generate-fasterWhisper-speech.modal.run/",
+        "https://kurianbenoy--seamless-m4t-speech-generate-faster-whisper-speech.modal.run",
       youtubeLinkedBased:
         "https://kurianbenoy--seamless-m4t-speech-youtube-generate-faster-c295b9.modal.run",
     },
     whisperX: {
       fileBased:
-        "https://kurianbenoy--seamless-m4t-speech-generate-whisperx-speech.modal.run/",
+        "https://kurianbenoy--seamless-m4t-speech-generate-whisperx-speech.modal.run",
       youtubeLinkedBased:
         "https://kurianbenoy--seamless-m4t-speech-youtube-generate-whispe-b29f2b.modal.run",
     },
-    fineTunedFasterWhisper: {
+    vegamFasterWhisper: {
       fileBased:
-        "https://kurianbenoy--seamless-m4t-speech-vegam-faster-whisper.modal.run/",
+        "https://kurianbenoy--seamless-m4t-speech-generate-vegam-faster-whisper.modal.run",
       youtubeLinkedBased:
-        "https://kurianbenoy--seamless-m4t-speech-youtube-vegam-faster-whisper.modal.run/",
+        "https://kurianbenoy--seamless-m4t-speech-youtube-generate-vegam--4877d8.modal.run",
     },
   };
   let requestData;

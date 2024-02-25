@@ -45,7 +45,7 @@ export const SOURCE_LANGUAGES = [
     ],
   },
   {
-    model: "fineTunedFasterWhisper",
+    model: "vegamFasterWhisper",
     languages: [{ id: "ml", name: "Malayalam" }],
   },
 ];
@@ -53,7 +53,7 @@ export const AVAILABLE_MODELS = [
   { id: "seamlessM4t", name: "SeamlessM4T" },
   { id: "fasterWhisper", name: "Faster-whisper" },
   { id: "whisperX", name: "WhisperX" },
-  { id: "fineTunedFasterWhisper", name: "Fine Tuned faster-whisper" },
+  { id: "vegamFasterWhisper", name: "Vegam faster-whisper Malayalam" },
 ];
 
 export const TEAM = [
