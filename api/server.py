@@ -317,6 +317,8 @@ def generate_faster_whisper_speech(item: Dict):
             for segment in grouped_timestamps:
                 s = segment["start"]
                 e = segment["end"]
+                print(s, e)
+                print("ENTER loop")
                 newAudio = AudioSegment.from_wav("output.wav")
 
                 newAudio = newAudio[s * 1000 : e * 1000]
@@ -340,8 +342,8 @@ def generate_faster_whisper_speech(item: Dict):
 
                 for segment in segments:
                     obj = {
-                        "start": segment.start,
-                        "end": segment.end,
+                        "start": s + segment.start,
+                        "end": s + segment.end,
                         "text": segment.text,
                     }
                     print(obj)
@@ -626,12 +628,15 @@ def youtube_generate_faster_whisper_speech(item: Dict):
         grouped_timestamps = sliding_window_approch_timestamps(speech_timestamps_seconds)
         print(grouped_timestamps)
 
+        # model = WhisperModel("large-v3", device="cuda", compute_type="float16")
         model = WhisperModel("large-v3", device="cuda", compute_type="float16")
+        print(model)
 
         async def generate():
             for segment in grouped_timestamps:
                 s = segment["start"]
                 e = segment["end"]
+                print(s, e)
                 newAudio = AudioSegment.from_wav("output.wav")
 
                 newAudio = newAudio[s * 1000 : e * 1000]
@@ -655,8 +660,8 @@ def youtube_generate_faster_whisper_speech(item: Dict):
 
                 for segment in segments:
                     obj = {
-                        "start": segment.start,
-                        "end": segment.end,
+                        "start": s + segment.start,
+                        "end": s + segment.end,
                         "text": segment.text,
                     }
                     print(obj)
