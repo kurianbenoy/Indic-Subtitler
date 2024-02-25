@@ -755,7 +755,7 @@ def youtube_generate_faster_whisper_speech(item: Dict):
 
 @stub.function(gpu=GPU_TYPE, timeout=1200)
 @web_endpoint(method="POST")
-def youtube_vegam_faster_whisper(item: Dict):
+def youtube_generate_vegam_faster_whisper(item: Dict):
     import os
     import torch
     import torchaudio

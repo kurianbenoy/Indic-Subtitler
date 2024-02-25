@@ -36,7 +36,7 @@ def gen_srt_file(input_chunks, output_file_path):
             row += 1
 
 
-URL = "https://kurianbenoy--seamless-m4t-speech-youtube-generate-faster-c295b9.modal.run"
+URL = "https://kurianbenoy--seamless-m4t-speech-youtube-generate-vegam--4877d8.modal.run"
 
 # print(b64)
 print({"yt_id": "0A3iXLGYmHM", "target": "ml"})
