@@ -52,14 +52,14 @@ def audio_file_to_base64(file_path):
     return base64_encoded_str
 
 
-URL = "https://kurianbenoy--seamless-m4t-speech-generate-seamlessm4t-speech.modal.run/"
+URL = "https://kurianbenoy--seamless-m4t-speech-generate-whisperx-speech.modal.run"
 
-b64 = audio_file_to_base64("/home/kurian/git/Indic-Subtitler/api/vocals_arabic.mp3")
+b64 = audio_file_to_base64("/home/kurian/git/Indic-Subtitler/api/eng_sample0.wav")
 # print(b64)
 # print({"wav_base64": b64, "target": "mal"})
-x = requests.post(URL, json={"wav_base64": b64, "target": "arb"})
+x = requests.post(URL, json={"wav_base64": b64, "target": "en"})
 print(x)
-res = x.json()
+# res = x.json()
 
 
-gen_srt_file(res["chunks"], "output_mal_hin_sample1.srt")
+# gen_srt_file(res["chunks"], "output_mal_hin_sample1.srt")
