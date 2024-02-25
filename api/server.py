@@ -227,6 +227,38 @@ def generate_seamlessm4t_speech(item: Dict):
         logging.critical(e, exc_info=True)
         return {"message": "Internal server error", "code": 500}
 
+def group_speech_timestamps(speech_timestamps_seconds, max_duration=30):
+    """
+    Group speech timestamps into chunks of a specified maximum duration.
+
+    Parameters:
+    - speech_timestamps_seconds (list): List of speech timestamps in seconds.
+    - max_duration (int): Maximum duration of each chunk in seconds.
+
+    Returns:
+    - list: List of grouped speech timestamps.
+    """
+    grouped_timestamps = []
+    current_group = []
+    current_duration = 0
+
+    for timestamp in speech_timestamps_seconds:
+        start, end = timestamp["start"], timestamp["end"]
+        duration = end - start
+
+        if current_duration + duration <= max_duration:
+            current_group.append(timestamp)
+            current_duration += duration
+        else:
+            grouped_timestamps.append(current_group)
+            current_group = [timestamp]
+            current_duration = duration
+
+    if current_group:
+        grouped_timestamps.append(current_group)
+
+    return grouped_timestamps
+
 
 @stub.function(gpu=GPU_TYPE, timeout=600)
 @web_endpoint(method="POST")
@@ -240,6 +272,10 @@ def generate_faster_whisper_speech(item: Dict):
     Returns:
     - Dict: A dictionary containing the status code, message, detected speech chunks, and the translated text.
     """
+    import torch
+    import torchaudio
+
+    from pydub import AudioSegment
     from faster_whisper import WhisperModel
 
     try:
@@ -253,6 +289,32 @@ def generate_faster_whisper_speech(item: Dict):
         convert_to_mono_16k(fname, "output.wav")
 
         model = WhisperModel("large-v3", device="cuda", compute_type="float16")
+
+        model, utils = torch.hub.load(
+            repo_or_dir="snakers4/silero-vad", model="silero_vad", onnx=USE_ONNX
+        )
+
+        (
+            get_speech_timestamps,
+            save_audio,
+            read_audio,
+            VADIterator,
+            collect_chunks,
+        ) = utils
+
+        # Perform voice activity detection on the processed audio
+        SAMPLING_RATE = 16000
+        wav = read_audio("output.wav", sampling_rate=SAMPLING_RATE)
+
+        # get speech timestamps from full audio file
+        speech_timestamps_seconds = get_speech_timestamps(
+            wav, model, sampling_rate=SAMPLING_RATE, return_seconds=True
+        )
+        print(speech_timestamps_seconds)
+
+        grouped_timestamps = group_speech_timestamps(speech_timestamps_seconds)
+        print(grouped_timestamps)
+
 
         segments, info = model.transcribe(
             "output.wav",
@@ -296,70 +358,66 @@ def generate_faster_whisper_speech(item: Dict):
         return {"message": "Internal server error", "code": 500}
 
 
-@stub.function(gpu=GPU_TYPE, timeout=1200)
-@web_endpoint(method="POST")
-def generate_whisperx_speech(item: Dict):
-    """
-    Processes the input speech audio and translates the speech to the target language using faster-whisper.
+# @stub.function(gpu=GPU_TYPE, timeout=1200)
+# @web_endpoint(method="POST")
+# def generate_whisperx_speech(item: Dict):
+#     """
+#     Processes the input speech audio and translates the speech to the target language using faster-whisper.
 
-    Parameters:
-    - item (Dict): A dictionary containing the base64 encoded audio data and target language.
+#     Parameters:
+#     - item (Dict): A dictionary containing the base64 encoded audio data and target language.
 
-    Returns:
-    - Dict: A dictionary containing the status code, message, detected speech chunks, and the translated text.
-    """
-    import whisperx
+#     Returns:
+#     - Dict: A dictionary containing the status code, message, detected speech chunks, and the translated text.
+#     """
+#     import whisperx
 
-    try:
-        # print(f"Payload: {item}")
-        # Decode the base64 audio and convert it for processing
-        b64 = item["wav_base64"]
-        # source_lang = item["source"]
-        # print(f"Target_lang: {item.get('target')}")
-        target_lang = item["target"]
+#     try:
+#         b64 = item["wav_base64"]
+#         target_lang = item["target"]
 
-        fname = base64_to_audio_file(b64_contents=b64)
-        print(fname)
-        convert_to_mono_16k(fname, "output.wav")
+#         fname = base64_to_audio_file(b64_contents=b64)
+#         print(fname)
+#         convert_to_mono_16k(fname, "output.wav")
 
-        model = whisperx.load_model("large-v3", "cuda", compute_type="float16")
+#         model = whisperx.load_model("large-v3", "cuda", compute_type="float16")
 
-        audio = whisperx.load_audio("output.wav")
-        result = model.transcribe(audio, batch_size=16)
+#         audio = whisperx.load_audio("output.wav")
+#         result = model.transcribe(audio, batch_size=16)
 
-        model_a, metadata = whisperx.load_align_model(
-            language_code=target_lang, device="cuda"
-        )
+#         model_a, metadata = whisperx.load_align_model(
+#             language_code=target_lang, device="cuda"
+#         )
 
-        result = whisperx.align(
-            result["segments"],
-            model_a,
-            metadata,
-            audio,
-            "cuda",
-            return_char_alignments=False,
-        )
+#         result = whisperx.align(
+#             result["segments"],
+#             model_a,
+#             metadata,
+#             audio,
+#             "cuda",
+#             return_char_alignments=False,
+#         )
 
-        print(result["segments"])
+#         print(result["segments"])
 
-        async def generate():
-            for segment in result["segments"]:
-                obj = {
-                    "start": segment.start,
-                    "end": segment.end,
-                    "text": segment.text,
-                }
-                print(obj)
-                yield json.dumps(obj)
+#         async def generate():
+#             for segment in result["segments"]:
+#                 obj = {
+#                     "start": segment.start,
+#                     "end": segment.end,
+#                     "text": segment.text,
+#                 }
+#                 print(obj)
+#                 yield json.dumps(obj)
 
-        return StreamingResponse(generate(), media_type="text/event-stream")
+#         return StreamingResponse(generate(), media_type="text/event-stream")
 
-#         return {
-#             "code": 200,
-#             "message": "Speech generated successfully.",
-#             "chunks": result["segments"],
-#             # "text": full_text,
-#         }
+# #         return {
+# #             "code": 200,
+# #             "message": "Speech generated successfully.",
+# #             "chunks": result["segments"],
+# #             # "text": full_text,
+# #         }
 
 #     except Exception as e:
 #         print(e)
