@@ -518,7 +518,7 @@ def youtube_generate_seamlessm4t_speech(item: Dict):
         timestamps_end = []
         text = []
 
-        def generate():
+        async def generate():
             for item in speech_timestamps_seconds:
                 s = item["start"]
                 e = item["end"]
@@ -572,9 +572,14 @@ def youtube_generate_faster_whisper_speech(item: Dict):
     Returns:
     - Dict: A dictionary containing the status code, message, detected speech chunks, and the translated text.
     """
-    from pytube import YouTube
-    from pydub import AudioSegment
+    import os
+
+    import torch
+    import torchaudio
+
     from faster_whisper import WhisperModel
+    from pydub import AudioSegment
+    from pytube import YouTube
 
     try:
         yt_id = item["yt_id"]
@@ -595,32 +600,92 @@ def youtube_generate_faster_whisper_speech(item: Dict):
         audio = audio.set_channels(1).set_frame_rate(16000)
         audio.export("output.wav", format="wav")
 
+        USE_ONNX = False
+        model, utils = torch.hub.load(
+            repo_or_dir="snakers4/silero-vad", model="silero_vad", onnx=USE_ONNX
+        )
+
+        (
+            get_speech_timestamps,
+            save_audio,
+            read_audio,
+            VADIterator,
+            collect_chunks,
+        ) = utils
+
+        # Perform voice activity detection on the processed audio
+        SAMPLING_RATE = 16000
+        wav = read_audio("output.wav", sampling_rate=SAMPLING_RATE)
+
+        # get speech timestamps from full audio file
+        speech_timestamps_seconds = get_speech_timestamps(
+            wav, model, sampling_rate=SAMPLING_RATE, return_seconds=True
+        )
+        print(speech_timestamps_seconds)
+
+        grouped_timestamps = sliding_window_approch_timestamps(speech_timestamps_seconds)
+        print(grouped_timestamps)
+
         model = WhisperModel("large-v3", device="cuda", compute_type="float16")
 
-        segments, info = model.transcribe(
-            "output.wav",
-            beam_size=5,
-            language=target_lang,
-        )
+        async def generate():
+            for segment in grouped_timestamps:
+                s = segment["start"]
+                e = segment["end"]
+                newAudio = AudioSegment.from_wav("output.wav")
 
-        print(
-            "Detected language '%s' with probability %f"
-            % (info.language, info.language_probability)
-        )
+                newAudio = newAudio[s * 1000 : e * 1000]
+                new_audio_name = "new_" + str(s) + ".wav"
+                newAudio.export(new_audio_name, format="wav")
+                waveform, sample_rate = torchaudio.load(new_audio_name)
+                resampler = torchaudio.transforms.Resample(
+                    sample_rate, resample_rate, dtype=waveform.dtype
+                )
+                resampled_waveform = resampler(waveform)
+                torchaudio.save("resampled.wav", resampled_waveform, resample_rate)
 
-        chunks = [
-            {"start": segment.start, "end": segment.end, "text": segment.text}
-            for segment in segments
-        ]
+                segments, info = model.transcribe(
+                    "resampled.wav",
+                    beam_size=5,
+                    language=target_lang,
+                )
 
-        full_text = " ".join([x["text"] for x in chunks])
+                os.remove(new_audio_name)
+                os.remove("resampled.wav")
 
-        return {
-            "code": 200,
-            "message": "Speech generated successfully.",
-            "chunks": chunks,
-            "text": full_text,
-        }
+                for segment in segments:
+                    obj = {
+                        "start": segment.start,
+                        "end": segment.end,
+                        "text": segment.text,
+                    }
+                    print(obj)
+                    yield json.dumps(obj)
+
+        # segments, info = model.transcribe(
+        #     "output.wav",
+        #     beam_size=5,
+        #     language=target_lang,
+        # )
+
+        # print(
+        #     "Detected language '%s' with probability %f"
+        #     % (info.language, info.language_probability)
+        # )
+
+        # chunks = [
+        #     {"start": segment.start, "end": segment.end, "text": segment.text}
+        #     for segment in segments
+        # ]
+
+        # full_text = " ".join([x["text"] for x in chunks])
+
+        # return {
+        #     "code": 200,
+        #     "message": "Speech generated successfully.",
+        #     "chunks": chunks,
+        #     "text": full_text,
+        # }
 
     except Exception as e:
         print(e)

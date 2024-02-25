@@ -36,14 +36,9 @@ def gen_srt_file(input_chunks, output_file_path):
             row += 1
 
 
-URL = "https://kurianbenoy--seamless-m4t-speech-youtube-generate-seamle-f8f6a7.modal.run"
+URL = "https://kurianbenoy--seamless-m4t-speech-youtube-generate-faster-c295b9.modal.run"
 
 # print(b64)
 print({"yt_id": "uLQ-yIm-gvI", "target": "eng"})
 x = requests.post(URL, json={"yt_id": "uLQ-yIm-gvI", "target": "eng"})
 print(x)
-res = x.json()
-
-print(res["chunks"])
-
-gen_srt_file(res["chunks"], "output_mal_hin_sample1.srt")
