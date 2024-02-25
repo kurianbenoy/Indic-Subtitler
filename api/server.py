@@ -442,7 +442,7 @@ def generate_vegam_faster_whisper(item: Dict):
         return {"message": "Internal server error", "code": 500}
 
 
-@stub.function(gpu=GPU_TYPE, timeout=1200)
+@stub.function(gpu=GPU_TYPE, timeout=600)
 @web_endpoint(method="POST")
 def generate_whisperx_speech(item: Dict):
     """
@@ -454,7 +454,6 @@ def generate_whisperx_speech(item: Dict):
     Returns:
     - Dict: A dictionary containing the status code, message, detected speech chunks, and the translated text.
     """
-    import os
     import torch
     import torchaudio
     import whisperx
@@ -493,7 +492,9 @@ def generate_whisperx_speech(item: Dict):
         grouped_timestamps = sliding_window_approch_timestamps(speech_timestamps_seconds)
         print(grouped_timestamps)
 
-        model = whisperx.load_model(MODEL_SIZE, "cuda", compute_type="float16")
+        model = whisperx.load_model(
+            MODEL_SIZE, "cuda", compute_type="float16", language=target_lang
+        )
 
         async def generate():
             for segment in grouped_timestamps:
@@ -514,7 +515,7 @@ def generate_whisperx_speech(item: Dict):
                 torchaudio.save("resampled.wav", resampled_waveform, SAMPLING_RATE)
 
                 audio = whisperx.load_audio("resampled.wav")
-                result = model.transcribe(audio, batch_size=16, language=target_lang)
+                result = model.transcribe(audio, batch_size=16)
                 model_a, metadata = whisperx.load_align_model(
                     language_code=target_lang, device="cuda"
                 )
@@ -528,13 +529,13 @@ def generate_whisperx_speech(item: Dict):
                     return_char_alignments=False,
                 )
 
-                print(result["segments"])
+                # print(result["segments"])
 
                 for segment in result["segments"]:
                     obj = {
-                        "start": segment.start,
-                        "end": segment.end,
-                        "text": segment.text,
+                        "start": segment["start"] + s,
+                        "end": segment["end"] + s,
+                        "text": segment["text"],
                     }
                     print(obj)
                     yield json.dumps(obj)
