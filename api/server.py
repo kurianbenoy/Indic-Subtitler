@@ -8,6 +8,7 @@ import json
 
 # Define the GPU type to be used for processing
 GPU_TYPE = "T4"
+resample_rate = 16000
 
 
 def download_models():
@@ -179,9 +180,6 @@ def generate_seamlessm4t_speech(item: Dict):
 
         # duration = get_duration_wave(fname)
         # print(f"Duration: {duration:.2f} seconds")
-
-        resample_rate = 16000
-
         # Replace t1, t2 with VAD time
         timestamps_start = []
         timestamps_end = []
@@ -227,38 +225,34 @@ def generate_seamlessm4t_speech(item: Dict):
         logging.critical(e, exc_info=True)
         return {"message": "Internal server error", "code": 500}
 
-def group_speech_timestamps(speech_timestamps_seconds, max_duration=30):
+
+def sliding_window_approch_timestamps(speech_timestamps_seconds):
     """
-    Group speech timestamps into chunks of a specified maximum duration.
+    Groups speech timestamps into chunks using a sliding window approach.
 
     Parameters:
     - speech_timestamps_seconds (list): List of speech timestamps in seconds.
-    - max_duration (int): Maximum duration of each chunk in seconds.
 
     Returns:
     - list: List of grouped speech timestamps.
     """
-    grouped_timestamps = []
-    current_group = []
-    current_duration = 0
+    chunk_len = 3  # Define the length of each chunk
+    l = len(speech_timestamps_seconds)  # Get the total number of timestamps
+    group_chunks = []  # Initialize the list to store the grouped chunks
 
-    for timestamp in speech_timestamps_seconds:
-        start, end = timestamp["start"], timestamp["end"]
-        duration = end - start
+    # Loop over the timestamps with a step size equal to the chunk length
+    for i in range(0, l, chunk_len):
+        # Append the current chunk to the list of grouped chunks
+        group_chunks.append(speech_timestamps_seconds[i : i + chunk_len])
 
-        if current_duration + duration <= max_duration:
-            current_group.append(timestamp)
-            current_duration += duration
-        else:
-            grouped_timestamps.append(current_group)
-            current_group = [timestamp]
-            current_duration = duration
+    new_group_chunks = []  # Initialize the list to store the new grouped chunks
 
-    if current_group:
-        grouped_timestamps.append(current_group)
+    # Loop over the grouped chunks
+    for item in group_chunks:
+        # Append the start and end of each chunk to the list of new grouped chunks
+        new_group_chunks.append({"start": item[0]["start"], "end": item[len(item)-1]["end"]})
 
-    return grouped_timestamps
-
+    return new_group_chunks  # Return the list of new grouped chunks
 
 @stub.function(gpu=GPU_TYPE, timeout=600)
 @web_endpoint(method="POST")
@@ -288,8 +282,7 @@ def generate_faster_whisper_speech(item: Dict):
         print(fname)
         convert_to_mono_16k(fname, "output.wav")
 
-        model = WhisperModel("large-v3", device="cuda", compute_type="float16")
-
+        USE_ONNX = False
         model, utils = torch.hub.load(
             repo_or_dir="snakers4/silero-vad", model="silero_vad", onnx=USE_ONNX
         )
@@ -312,45 +305,62 @@ def generate_faster_whisper_speech(item: Dict):
         )
         print(speech_timestamps_seconds)
 
-        grouped_timestamps = group_speech_timestamps(speech_timestamps_seconds)
+        grouped_timestamps = sliding_window_approch_timestamps(speech_timestamps_seconds)
         print(grouped_timestamps)
 
 
-        segments, info = model.transcribe(
-            "output.wav",
-            beam_size=5,
-            language=target_lang,
-        )
-
-        print(
-            "Detected language '%s' with probability %f"
-            % (info.language, info.language_probability)
-        )
+        model = WhisperModel("large-v3", device="cuda", compute_type="float16")
 
         async def generate():
-            for segment in segments:
-                obj = {
-                    "start": segment.start,
-                    "end": segment.end,
-                    "text": segment.text,
-                }
-                print(obj)
-                yield json.dumps(obj)
+            for segment in grouped_timestamps:
+                s = segment["start"]
+                e = segment["end"]
+                newAudio = AudioSegment.from_wav("output.wav")
+                
+                newAudio = newAudio[s * 1000 : e * 1000]
+                new_audio_name = "new_" + str(s) + ".wav"
+                newAudio.export(new_audio_name, format="wav")
+                waveform, sample_rate = torchaudio.load(new_audio_name)
+                resampler = torchaudio.transforms.Resample(
+                    sample_rate, resample_rate, dtype=waveform.dtype
+                )
+                resampled_waveform = resampler(waveform)
+                torchaudio.save("resampled.wav", resampled_waveform, resample_rate)
+
+                segments, info = model.transcribe(
+                    "resampled.wav",
+                    beam_size=5,
+                    language=target_lang,
+                )
+
+                print(
+                    "Detected language '%s' with probability %f"
+                    % (info.language, info.language_probability)
+                )
+
+                for segment in segments:
+                    obj = {
+                        "start": segment.start,
+                        "end": segment.end,
+                        "text": segment.text,
+                    }
+                    print(obj)
+                    yield json.dumps(obj)
+                # chunks = [
+                #     {"start": segment.start, "end": segment.end, "text": segment.text}
+                #     for segment in segments
+                # ]
+
+
+            #     obj = {
+            #         "start": segment.start,
+            #         "end": segment.end,
+            #         "text": segment.text,
+            #     }
+            #     print(obj)
+            #     yield json.dumps(obj)
 
         return StreamingResponse(generate(), media_type="text/event-stream")
-        # chunks = [
-        #     {"start": segment.start, "end": segment.end, "text": segment.text}
-        #     for segment in segments
-        # ]
-
-        # full_text = " ".join([x["text"] for x in chunks])
-
-        # return {
-        #     "code": 200,
-        #     "message": "Speech generated successfully.",
-        #     "chunks": chunks,
-        #     "text": full_text,
-        # }
 
     except Exception as e:
         print(e)
