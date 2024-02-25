@@ -39,6 +39,6 @@ def gen_srt_file(input_chunks, output_file_path):
 URL = "https://kurianbenoy--seamless-m4t-speech-youtube-generate-faster-c295b9.modal.run"
 
 # print(b64)
-print({"yt_id": "uLQ-yIm-gvI", "target": "eng"})
-x = requests.post(URL, json={"yt_id": "uLQ-yIm-gvI", "target": "eng"})
+print({"yt_id": "0A3iXLGYmHM", "target": "ml"})
+x = requests.post(URL, json={"yt_id": "0A3iXLGYmHM", "target": "ml"})
 print(x)

@@ -57,7 +57,7 @@ URL = "https://kurianbenoy--seamless-m4t-speech-generate-faster-whisper-speech.m
 b64 = audio_file_to_base64("/home/kurian/git/Indic-Subtitler/api/mal_sample1.wav")
 # print(b64)
 # print({"wav_base64": b64, "target": "mal"})
-x = requests.post(URL, json={"wav_base64": b64, "target": "ml"})
+x = requests.post(URL, json={"wav_base64": b64, "target": "en"})
 print(x)
 # res = x.json()
 
