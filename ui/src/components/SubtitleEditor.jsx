@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { formatTime, removeFileExtension } from "@components/utils";
 import DownloadFileDropdown from "./DownloadFileDropdown";
 
@@ -14,6 +14,12 @@ export default function SubtitleEditor({
     updateTranscribe[index][type] = newText;
     setTranscribed(updateTranscribe);
   }
+  const endDivRef = useRef();
+
+  useEffect(() => {
+    console.log("changing");
+    endDivRef?.current?.scrollIntoView({ behavior: "smooth" });
+  }, [transcribed]);
 
   if (!transcribed?.length && !requestSentToAPI) {
     return (
@@ -85,6 +91,7 @@ export default function SubtitleEditor({
               ))}
             </tbody>
           </table>
+          <div ref={endDivRef}></div>
         </div>
       </div>
     </aside>
