@@ -237,11 +237,11 @@ def sliding_window_approch_timestamps(speech_timestamps_seconds):
     - list: List of grouped speech timestamps.
     """
     chunk_len = 3  # Define the length of each chunk
-    l = len(speech_timestamps_seconds)  # Get the total number of timestamps
+    length_speech_timestamps = len(speech_timestamps_seconds)  # Get the total number of timestamps
     group_chunks = []  # Initialize the list to store the grouped chunks
 
     # Loop over the timestamps with a step size equal to the chunk length
-    for i in range(0, l, chunk_len):
+    for i in range(0, length_speech_timestamps, chunk_len):
         # Append the current chunk to the list of grouped chunks
         group_chunks.append(speech_timestamps_seconds[i : i + chunk_len])
 
@@ -250,9 +250,10 @@ def sliding_window_approch_timestamps(speech_timestamps_seconds):
     # Loop over the grouped chunks
     for item in group_chunks:
         # Append the start and end of each chunk to the list of new grouped chunks
-        new_group_chunks.append({"start": item[0]["start"], "end": item[len(item)-1]["end"]})
+        new_group_chunks.append({"start": item[0]["start"], "end": item[len(item) - 1]["end"]})
 
     return new_group_chunks  # Return the list of new grouped chunks
+
 
 @stub.function(gpu=GPU_TYPE, timeout=600)
 @web_endpoint(method="POST")
@@ -266,6 +267,8 @@ def generate_faster_whisper_speech(item: Dict):
     Returns:
     - Dict: A dictionary containing the status code, message, detected speech chunks, and the translated text.
     """
+    import os
+
     import torch
     import torchaudio
 
@@ -308,7 +311,6 @@ def generate_faster_whisper_speech(item: Dict):
         grouped_timestamps = sliding_window_approch_timestamps(speech_timestamps_seconds)
         print(grouped_timestamps)
 
-
         model = WhisperModel("large-v3", device="cuda", compute_type="float16")
 
         async def generate():
@@ -316,7 +318,7 @@ def generate_faster_whisper_speech(item: Dict):
                 s = segment["start"]
                 e = segment["end"]
                 newAudio = AudioSegment.from_wav("output.wav")
-                
+
                 newAudio = newAudio[s * 1000 : e * 1000]
                 new_audio_name = "new_" + str(s) + ".wav"
                 newAudio.export(new_audio_name, format="wav")
@@ -332,6 +334,9 @@ def generate_faster_whisper_speech(item: Dict):
                     beam_size=5,
                     language=target_lang,
                 )
+
+                os.remove(new_audio_name)
+                os.remove("resampled.wav")
 
                 for segment in segments:
                     obj = {
@@ -555,77 +560,72 @@ def youtube_generate_seamlessm4t_speech(item: Dict):
 
 
 # Timeout in 20 minutes
-# @stub.function(gpu=GPU_TYPE, timeout=1200)
-# @web_endpoint(method="POST")
-# def youtube_generate_faster_whisper_speech(item: Dict):
-#     """
-#     Processes the input speech audio, performs voice activity detection, and translates the speech from the source language to the target language.
+@stub.function(gpu=GPU_TYPE, timeout=1200)
+@web_endpoint(method="POST")
+def youtube_generate_faster_whisper_speech(item: Dict):
+    """
+    Processes the input speech audio, performs voice activity detection, and translates the speech from the source language to the target language.
 
-#     Parameters:
-#     - item (Dict): A dictionary containing the base64 encoded audio data, source language, and target language.
+    Parameters:
+    - item (Dict): A dictionary containing the base64 encoded audio data, source language, and target language.
 
-#     Returns:
-#     - Dict: A dictionary containing the status code, message, detected speech chunks, and the translated text.
-#     """
-#     from pytube import YouTube
-#     from pydub import AudioSegment
-#     from faster_whisper import WhisperModel
+    Returns:
+    - Dict: A dictionary containing the status code, message, detected speech chunks, and the translated text.
+    """
+    from pytube import YouTube
+    from pydub import AudioSegment
+    from faster_whisper import WhisperModel
 
-#     # from seamless_communication.inference import Translator
+    try:
+        yt_id = item["yt_id"]
+        target_lang = item["target"]
 
-#     try:
-#         # Decode the base64 audio and convert it for processing
-#         yt_id = item["yt_id"]
-#         # source_lang = item["source"]
-#         # print(f"Target_lang: {item.get('target')}")
-#         target_lang = item["target"]
+        # Download YouTube video
+        youtube_url = f"https://www.youtube.com/watch?v={yt_id}"
+        youtube = YouTube(youtube_url)
+        video = youtube.streams.filter(only_audio=True).first()
+        video.download(filename="temp_video.mp4")
 
-#         # Download YouTube video
-#         youtube_url = f"https://www.youtube.com/watch?v={yt_id}"
-#         youtube = YouTube(youtube_url)
-#         video = youtube.streams.filter(only_audio=True).first()
-#         video.download(filename="temp_video.mp4")
+        # Convert video to wav
+        audio = AudioSegment.from_file("temp_video.mp4", format="mp4")
+        audio.export("temp_audio.wav", format="wav")
 
-#         # Convert video to wav
-#         audio = AudioSegment.from_file("temp_video.mp4", format="mp4")
-#         audio.export("temp_audio.wav", format="wav")
+        # Convert audio to mono channel with 16K frequency
+        audio = AudioSegment.from_wav("temp_audio.wav")
+        audio = audio.set_channels(1).set_frame_rate(16000)
+        audio.export("output.wav", format="wav")
 
-#         # Convert audio to mono channel with 16K frequency
-#         audio = AudioSegment.from_wav("temp_audio.wav")
-#         audio = audio.set_channels(1).set_frame_rate(16000)
-#         audio.export("output.wav", format="wav")
+        model = WhisperModel("large-v3", device="cuda", compute_type="float16")
 
-#         model = WhisperModel("large-v3", device="cuda", compute_type="float16")
+        segments, info = model.transcribe(
+            "output.wav",
+            beam_size=5,
+            language=target_lang,
+        )
 
-#         segments, info = model.transcribe(
-#             "output.wav",
-#             beam_size=5,
-#             language=target_lang,
-#         )
+        print(
+            "Detected language '%s' with probability %f"
+            % (info.language, info.language_probability)
+        )
 
-#         print(
-#             "Detected language '%s' with probability %f"
-#             % (info.language, info.language_probability)
-#         )
+        chunks = [
+            {"start": segment.start, "end": segment.end, "text": segment.text}
+            for segment in segments
+        ]
 
-#         chunks = [
-#             {"start": segment.start, "end": segment.end, "text": segment.text}
-#             for segment in segments
-#         ]
+        full_text = " ".join([x["text"] for x in chunks])
 
-#         full_text = " ".join([x["text"] for x in chunks])
+        return {
+            "code": 200,
+            "message": "Speech generated successfully.",
+            "chunks": chunks,
+            "text": full_text,
+        }
 
-#         return {
-#             "code": 200,
-#             "message": "Speech generated successfully.",
-#             "chunks": chunks,
-#             "text": full_text,
-#         }
-
-#     except Exception as e:
-#         print(e)
-#         logging.critical(e, exc_info=True)
-#         return {"message": "Internal server error", "code": 500}
+    except Exception as e:
+        print(e)
+        logging.critical(e, exc_info=True)
+        return {"message": "Internal server error", "code": 500}
 
 
 # @stub.function(gpu=GPU_TYPE, timeout=1200)
