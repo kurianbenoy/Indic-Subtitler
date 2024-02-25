@@ -8,7 +8,8 @@ import json
 
 # Define the GPU type to be used for processing
 GPU_TYPE = "T4"
-resample_rate = 16000
+SAMPLING_RATE = 16000
+# resample_rate = 16000
 
 
 def download_models():
@@ -155,7 +156,6 @@ def generate_seamlessm4t_speech(item: Dict):
         convert_to_mono_16k(fname, "output.wav")
 
         # Perform voice activity detection on the processed audio
-        SAMPLING_RATE = 16000
         wav = read_audio("output.wav", sampling_rate=SAMPLING_RATE)
 
         # get speech timestamps from full audio file
@@ -199,10 +199,10 @@ def generate_seamlessm4t_speech(item: Dict):
                 newAudio.export(new_audio_name, format="wav")
                 waveform, sample_rate = torchaudio.load(new_audio_name)
                 resampler = torchaudio.transforms.Resample(
-                    sample_rate, resample_rate, dtype=waveform.dtype
+                    sample_rate, SAMPLING_RATE, dtype=waveform.dtype
                 )
                 resampled_waveform = resampler(waveform)
-                torchaudio.save("resampled.wav", resampled_waveform, resample_rate)
+                torchaudio.save("resampled.wav", resampled_waveform, SAMPLING_RATE)
                 translated_text, _ = translator.predict("resampled.wav", "s2tt", target_lang)
                 # print(translated_text)
                 text.append(str(translated_text[0]))
@@ -266,10 +266,8 @@ def generate_faster_whisper_speech(item: Dict):
     - Dict: A dictionary containing the status code, message, detected speech chunks, and the translated text.
     """
     import os
-
     import torch
     import torchaudio
-
     from pydub import AudioSegment
     from faster_whisper import WhisperModel
 
@@ -297,7 +295,6 @@ def generate_faster_whisper_speech(item: Dict):
         ) = utils
 
         # Perform voice activity detection on the processed audio
-        SAMPLING_RATE = 16000
         wav = read_audio("output.wav", sampling_rate=SAMPLING_RATE)
 
         # get speech timestamps from full audio file
@@ -324,10 +321,10 @@ def generate_faster_whisper_speech(item: Dict):
                 newAudio.export(new_audio_name, format="wav")
                 waveform, sample_rate = torchaudio.load(new_audio_name)
                 resampler = torchaudio.transforms.Resample(
-                    sample_rate, resample_rate, dtype=waveform.dtype
+                    sample_rate, SAMPLING_RATE, dtype=waveform.dtype
                 )
                 resampled_waveform = resampler(waveform)
-                torchaudio.save("resampled.wav", resampled_waveform, resample_rate)
+                torchaudio.save("resampled.wav", resampled_waveform, SAMPLING_RATE)
 
                 segments, info = model.transcribe(
                     "resampled.wav",
@@ -353,6 +350,57 @@ def generate_faster_whisper_speech(item: Dict):
         print(e)
         logging.critical(e, exc_info=True)
         return {"message": "Internal server error", "code": 500}
+
+# @stub.function(gpu=GPU_TYPE, timeout=1200)
+# @web_endpoint(method="POST")
+# def generate_vegam_faster_whisper(item: Dict):
+#     import os
+#     import torch
+#     import torchaudio
+#     from pydub import AudioSegment
+#     from faster_whisper import WhisperModel
+
+#     try:
+#         b64 = item["wav_base64"]
+#         target_lang = item["target"]
+
+#         # print(torch.cuda.is_available())
+#         fname = base64_to_audio_file(b64_contents=b64)
+#         convert_to_mono_16k(fname, "output.wav")
+
+#         model = WhisperModel(
+#             "kurianbenoy/vegam-whisper-medium-ml-fp16", device="cuda", compute_type="float16"
+#         )
+
+#         segments, info = model.transcribe(
+#             "output.wav",
+#             beam_size=5,
+#             language=target_lang,
+#         )
+
+#         print(
+#             "Detected language '%s' with probability %f"
+#             % (info.language, info.language_probability)
+#         )
+
+#         chunks = [
+#             {"start": segment.start, "end": segment.end, "text": segment.text}
+#             for segment in segments
+#         ]
+
+#         full_text = " ".join([x["text"] for x in chunks])
+
+#         return {
+#             "code": 200,
+#             "message": "Speech generated successfully.",
+#             "chunks": chunks,
+#             "text": full_text,
+#         }
+
+#     except Exception as e:
+#         print(e)
+#         logging.critical(e, exc_info=True)
+#         return {"message": "Internal server error", "code": 500}
 
 
 # @stub.function(gpu=GPU_TYPE, timeout=1200)
@@ -485,7 +533,6 @@ def youtube_generate_seamlessm4t_speech(item: Dict):
         # convert_to_mono_16k(fname, "output.wav")
 
         # Perform voice activity detection on the processed audio
-        SAMPLING_RATE = 16000
         wav = read_audio("output.wav", sampling_rate=SAMPLING_RATE)
 
         # get speech timestamps from full audio file
@@ -528,10 +575,10 @@ def youtube_generate_seamlessm4t_speech(item: Dict):
                 newAudio.export(new_audio_name, format="wav")
                 waveform, sample_rate = torchaudio.load(new_audio_name)
                 resampler = torchaudio.transforms.Resample(
-                    sample_rate, resample_rate, dtype=waveform.dtype
+                    sample_rate, SAMPLING_RATE, dtype=waveform.dtype
                 )
                 resampled_waveform = resampler(waveform)
-                torchaudio.save("resampled.wav", resampled_waveform, resample_rate)
+                torchaudio.save("resampled.wav", resampled_waveform, SAMPLING_RATE)
                 translated_text, _ = translator.predict("resampled.wav", "s2tt", target_lang)
                 # print(translated_text)
                 text.append(str(translated_text[0]))
@@ -609,7 +656,6 @@ def youtube_generate_faster_whisper_speech(item: Dict):
         ) = utils
 
         # Perform voice activity detection on the processed audio
-        SAMPLING_RATE = 16000
         wav = read_audio("output.wav", sampling_rate=SAMPLING_RATE)
 
         # get speech timestamps from full audio file
@@ -637,10 +683,10 @@ def youtube_generate_faster_whisper_speech(item: Dict):
                 newAudio.export(new_audio_name, format="wav")
                 waveform, sample_rate = torchaudio.load(new_audio_name)
                 resampler = torchaudio.transforms.Resample(
-                    sample_rate, resample_rate, dtype=waveform.dtype
+                    sample_rate, SAMPLING_RATE, dtype=waveform.dtype
                 )
                 resampled_waveform = resampler(waveform)
-                torchaudio.save("resampled.wav", resampled_waveform, resample_rate)
+                torchaudio.save("resampled.wav", resampled_waveform, SAMPLING_RATE)
 
                 segments, info = model.transcribe(
                     "resampled.wav",
@@ -738,52 +784,6 @@ def youtube_generate_faster_whisper_speech(item: Dict):
 #         logging.critical(e, exc_info=True)
 #         return {"message": "Internal server error", "code": 500}
 
-# @stub.function(gpu=GPU_TYPE, timeout=1200)
-# @web_endpoint(method="POST")
-# def vegam_faster_whisper(item: Dict):
-#     from faster_whisper import WhisperModel
-
-#     try:
-#         b64 = item["wav_base64"]
-#         target_lang = item["target"]
-
-#         # print(torch.cuda.is_available())
-#         fname = base64_to_audio_file(b64_contents=b64)
-#         convert_to_mono_16k(fname, "output.wav")
-
-#         model = WhisperModel(
-#             "kurianbenoy/vegam-whisper-medium-ml-fp16", device="cuda", compute_type="float16"
-#         )
-
-#         segments, info = model.transcribe(
-#             "output.wav",
-#             beam_size=5,
-#             language=target_lang,
-#         )
-
-#         print(
-#             "Detected language '%s' with probability %f"
-#             % (info.language, info.language_probability)
-#         )
-
-#         chunks = [
-#             {"start": segment.start, "end": segment.end, "text": segment.text}
-#             for segment in segments
-#         ]
-
-#         full_text = " ".join([x["text"] for x in chunks])
-
-#         return {
-#             "code": 200,
-#             "message": "Speech generated successfully.",
-#             "chunks": chunks,
-#             "text": full_text,
-#         }
-
-#     except Exception as e:
-#         print(e)
-#         logging.critical(e, exc_info=True)
-#         return {"message": "Internal server error", "code": 500}
 
 
 # @stub.function(gpu=GPU_TYPE, timeout=1200)
