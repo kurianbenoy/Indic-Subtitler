@@ -176,10 +176,8 @@ def generate_seamlessm4t_speech(item: Dict):
         )
 
         duration = time.perf_counter() - start
-        print(f"Duration is: {duration}")
+        print(f"Duration to load model is: {duration}")
 
-        # duration = get_duration_wave(fname)
-        # print(f"Duration: {duration:.2f} seconds")
         # Replace t1, t2 with VAD time
         timestamps_start = []
         timestamps_end = []
@@ -317,8 +315,8 @@ def generate_faster_whisper_speech(item: Dict):
             for segment in grouped_timestamps:
                 s = segment["start"]
                 e = segment["end"]
-                print(s, e)
-                print("ENTER loop")
+                # print(s, e)
+                # print("ENTER loop")
                 newAudio = AudioSegment.from_wav("output.wav")
 
                 newAudio = newAudio[s * 1000 : e * 1000]
@@ -508,12 +506,7 @@ def youtube_generate_seamlessm4t_speech(item: Dict):
         )
 
         duration = time.perf_counter() - start
-        print(f"Duration is: {duration}")
-
-        # duration = get_duration_wave(fname)
-        # print(f"Duration: {duration:.2f} seconds")
-
-        resample_rate = 16000
+        print(f"Duration to load model is: {duration}")
 
         # Replace t1, t2 with VAD time
         timestamps_start = []
@@ -636,7 +629,7 @@ def youtube_generate_faster_whisper_speech(item: Dict):
             for segment in grouped_timestamps:
                 s = segment["start"]
                 e = segment["end"]
-                print(s, e)
+                # print(s, e)
                 newAudio = AudioSegment.from_wav("output.wav")
 
                 newAudio = newAudio[s * 1000 : e * 1000]
@@ -667,30 +660,7 @@ def youtube_generate_faster_whisper_speech(item: Dict):
                     print(obj)
                     yield json.dumps(obj)
 
-        # segments, info = model.transcribe(
-        #     "output.wav",
-        #     beam_size=5,
-        #     language=target_lang,
-        # )
-
-        # print(
-        #     "Detected language '%s' with probability %f"
-        #     % (info.language, info.language_probability)
-        # )
-
-        # chunks = [
-        #     {"start": segment.start, "end": segment.end, "text": segment.text}
-        #     for segment in segments
-        # ]
-
-        # full_text = " ".join([x["text"] for x in chunks])
-
-        # return {
-        #     "code": 200,
-        #     "message": "Speech generated successfully.",
-        #     "chunks": chunks,
-        #     "text": full_text,
-        # }
+        return StreamingResponse(generate(), media_type="text/event-stream")
 
     except Exception as e:
         print(e)
