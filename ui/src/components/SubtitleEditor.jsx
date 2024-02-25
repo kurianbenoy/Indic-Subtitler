@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { formatTime, removeFileExtension } from "@components/utils";
+import { formatTime } from "@components/utils";
 import DownloadFileDropdown from "./DownloadFileDropdown";
 
 export default function SubtitleEditor({
@@ -17,7 +17,6 @@ export default function SubtitleEditor({
   const endDivRef = useRef();
 
   useEffect(() => {
-    console.log("changing");
     endDivRef?.current?.scrollIntoView({ behavior: "smooth" });
   }, [transcribed]);
 
