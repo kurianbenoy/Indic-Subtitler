@@ -228,111 +228,131 @@ def generate_seamlessm4t_speech(item: Dict):
         return {"message": "Internal server error", "code": 500}
 
 
-# @stub.function(gpu=GPU_TYPE, timeout=600)
-# @web_endpoint(method="POST")
-# def generate_faster_whisper_speech(item: Dict):
-#     """
-#     Processes the input speech audio and translates the speech to the target language using faster-whisper.
+@stub.function(gpu=GPU_TYPE, timeout=600)
+@web_endpoint(method="POST")
+def generate_faster_whisper_speech(item: Dict):
+    """
+    Processes the input speech audio and translates the speech to the target language using faster-whisper.
 
-#     Parameters:
-#     - item (Dict): A dictionary containing the base64 encoded audio data and target language.
+    Parameters:
+    - item (Dict): A dictionary containing the base64 encoded audio data and target language.
 
-#     Returns:
-#     - Dict: A dictionary containing the status code, message, detected speech chunks, and the translated text.
-#     """
-#     from faster_whisper import WhisperModel
+    Returns:
+    - Dict: A dictionary containing the status code, message, detected speech chunks, and the translated text.
+    """
+    from faster_whisper import WhisperModel
 
-#     try:
-#         # print(f"Payload: {item}")
-#         # Decode the base64 audio and convert it for processing
-#         b64 = item["wav_base64"]
-#         # source_lang = item["source"]
-#         # print(f"Target_lang: {item.get('target')}")
-#         target_lang = item["target"]
+    try:
+        # Decode the base64 audio and convert it for processing
+        b64 = item["wav_base64"]
+        target_lang = item["target"]
 
-#         # print(torch.cuda.is_available())
-#         fname = base64_to_audio_file(b64_contents=b64)
-#         print(fname)
-#         convert_to_mono_16k(fname, "output.wav")
+        # print(torch.cuda.is_available())
+        fname = base64_to_audio_file(b64_contents=b64)
+        print(fname)
+        convert_to_mono_16k(fname, "output.wav")
 
-#         model = WhisperModel("large-v3", device="cuda", compute_type="float16")
+        model = WhisperModel("large-v3", device="cuda", compute_type="float16")
 
-#         segments, info = model.transcribe(
-#             "output.wav",
-#             beam_size=5,
-#             language=target_lang,
-#         )
+        segments, info = model.transcribe(
+            "output.wav",
+            beam_size=5,
+            language=target_lang,
+        )
 
-#         print(
-#             "Detected language '%s' with probability %f"
-#             % (info.language, info.language_probability)
-#         )
+        print(
+            "Detected language '%s' with probability %f"
+            % (info.language, info.language_probability)
+        )
 
-#         chunks = [
-#             {"start": segment.start, "end": segment.end, "text": segment.text}
-#             for segment in segments
-#         ]
+        async def generate():
+            for segment in segments:
+                obj = {
+                    "start": segment.start,
+                    "end": segment.end,
+                    "text": segment.text,
+                }
+                print(obj)
+                yield json.dumps(obj)
 
-#         full_text = " ".join([x["text"] for x in chunks])
+        return StreamingResponse(generate(), media_type="text/event-stream")
+        # chunks = [
+        #     {"start": segment.start, "end": segment.end, "text": segment.text}
+        #     for segment in segments
+        # ]
 
-#         return {
-#             "code": 200,
-#             "message": "Speech generated successfully.",
-#             "chunks": chunks,
-#             "text": full_text,
-#         }
+        # full_text = " ".join([x["text"] for x in chunks])
 
-#     except Exception as e:
-#         print(e)
-#         logging.critical(e, exc_info=True)
-#         return {"message": "Internal server error", "code": 500}
+        # return {
+        #     "code": 200,
+        #     "message": "Speech generated successfully.",
+        #     "chunks": chunks,
+        #     "text": full_text,
+        # }
+
+    except Exception as e:
+        print(e)
+        logging.critical(e, exc_info=True)
+        return {"message": "Internal server error", "code": 500}
 
 
-# @stub.function(gpu=GPU_TYPE, timeout=1200)
-# @web_endpoint(method="POST")
-# def generate_whisperx_speech(item: Dict):
-#     """
-#     Processes the input speech audio and translates the speech to the target language using faster-whisper.
+@stub.function(gpu=GPU_TYPE, timeout=1200)
+@web_endpoint(method="POST")
+def generate_whisperx_speech(item: Dict):
+    """
+    Processes the input speech audio and translates the speech to the target language using faster-whisper.
 
-#     Parameters:
-#     - item (Dict): A dictionary containing the base64 encoded audio data and target language.
+    Parameters:
+    - item (Dict): A dictionary containing the base64 encoded audio data and target language.
 
-#     Returns:
-#     - Dict: A dictionary containing the status code, message, detected speech chunks, and the translated text.
-#     """
-#     import whisperx
+    Returns:
+    - Dict: A dictionary containing the status code, message, detected speech chunks, and the translated text.
+    """
+    import whisperx
 
-#     try:
-#         # print(f"Payload: {item}")
-#         # Decode the base64 audio and convert it for processing
-#         b64 = item["wav_base64"]
-#         # source_lang = item["source"]
-#         # print(f"Target_lang: {item.get('target')}")
-#         target_lang = item["target"]
+    try:
+        # print(f"Payload: {item}")
+        # Decode the base64 audio and convert it for processing
+        b64 = item["wav_base64"]
+        # source_lang = item["source"]
+        # print(f"Target_lang: {item.get('target')}")
+        target_lang = item["target"]
 
-#         fname = base64_to_audio_file(b64_contents=b64)
-#         print(fname)
-#         convert_to_mono_16k(fname, "output.wav")
+        fname = base64_to_audio_file(b64_contents=b64)
+        print(fname)
+        convert_to_mono_16k(fname, "output.wav")
 
-#         model = whisperx.load_model("large-v3", "cuda", compute_type="float16")
+        model = whisperx.load_model("large-v3", "cuda", compute_type="float16")
 
-#         audio = whisperx.load_audio("output.wav")
-#         result = model.transcribe(audio, batch_size=16)
+        audio = whisperx.load_audio("output.wav")
+        result = model.transcribe(audio, batch_size=16)
 
-#         model_a, metadata = whisperx.load_align_model(
-#             language_code=target_lang, device="cuda"
-#         )
+        model_a, metadata = whisperx.load_align_model(
+            language_code=target_lang, device="cuda"
+        )
 
-#         result = whisperx.align(
-#             result["segments"],
-#             model_a,
-#             metadata,
-#             audio,
-#             "cuda",
-#             return_char_alignments=False,
-#         )
+        result = whisperx.align(
+            result["segments"],
+            model_a,
+            metadata,
+            audio,
+            "cuda",
+            return_char_alignments=False,
+        )
 
-#         print(result["segments"])
+        print(result["segments"])
+
+        async def generate():
+            for segment in result["segments"]:
+                obj = {
+                    "start": segment.start,
+                    "end": segment.end,
+                    "text": segment.text,
+                }
+                print(obj)
+                yield json.dumps(obj)
+
+        return StreamingResponse(generate(), media_type="text/event-stream")
 
 #         return {
 #             "code": 200,
