@@ -333,11 +333,6 @@ def generate_faster_whisper_speech(item: Dict):
                     language=target_lang,
                 )
 
-                print(
-                    "Detected language '%s' with probability %f"
-                    % (info.language, info.language_probability)
-                )
-
                 for segment in segments:
                     obj = {
                         "start": segment.start,
@@ -346,19 +341,6 @@ def generate_faster_whisper_speech(item: Dict):
                     }
                     print(obj)
                     yield json.dumps(obj)
-                # chunks = [
-                #     {"start": segment.start, "end": segment.end, "text": segment.text}
-                #     for segment in segments
-                # ]
-
-
-            #     obj = {
-            #         "start": segment.start,
-            #         "end": segment.end,
-            #         "text": segment.text,
-            #     }
-            #     print(obj)
-            #     yield json.dumps(obj)
 
         return StreamingResponse(generate(), media_type="text/event-stream")
 
