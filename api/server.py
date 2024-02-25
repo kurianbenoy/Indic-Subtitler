@@ -495,42 +495,51 @@ def generate_whisperx_speech(item: Dict):
 
         model = whisperx.load_model(MODEL_SIZE, "cuda", compute_type="float16")
 
-        # audio = whisperx.load_audio("output.wav")
-        # result = model.transcribe(audio, batch_size=16)
+        async def generate():
+            for segment in grouped_timestamps:
+                s = segment["start"]
+                e = segment["end"]
+                # print(s, e)
+                # print("ENTER loop")
+                newAudio = AudioSegment.from_wav("output.wav")
 
-        # model_a, metadata = whisperx.load_align_model(
-        #     language_code=target_lang, device="cuda"
-        # )
+                newAudio = newAudio[s * 1000 : e * 1000]
+                new_audio_name = "new_" + str(s) + ".wav"
+                newAudio.export(new_audio_name, format="wav")
+                waveform, sample_rate = torchaudio.load(new_audio_name)
+                resampler = torchaudio.transforms.Resample(
+                    sample_rate, SAMPLING_RATE, dtype=waveform.dtype
+                )
+                resampled_waveform = resampler(waveform)
+                torchaudio.save("resampled.wav", resampled_waveform, SAMPLING_RATE)
 
-        # result = whisperx.align(
-        #     result["segments"],
-        #     model_a,
-        #     metadata,
-        #     audio,
-        #     "cuda",
-        #     return_char_alignments=False,
-        # )
+                audio = whisperx.load_audio("resampled.wav")
+                result = model.transcribe(audio, batch_size=16, language=target_lang)
+                model_a, metadata = whisperx.load_align_model(
+                    language_code=target_lang, device="cuda"
+                )
 
-        # print(result["segments"])
+                result = whisperx.align(
+                    result["segments"],
+                    model_a,
+                    metadata,
+                    audio,
+                    "cuda",
+                    return_char_alignments=False,
+                )
 
-        # async def generate():
-        #     for segment in result["segments"]:
-        #         obj = {
-        #             "start": segment.start,
-        #             "end": segment.end,
-        #             "text": segment.text,
-        #         }
-        #         print(obj)
-        #         yield json.dumps(obj)
+                print(result["segments"])
+
+                for segment in result["segments"]:
+                    obj = {
+                        "start": segment.start,
+                        "end": segment.end,
+                        "text": segment.text,
+                    }
+                    print(obj)
+                    yield json.dumps(obj)
 
         return StreamingResponse(generate(), media_type="text/event-stream")
-
-#         return {
-#             "code": 200,
-#             "message": "Speech generated successfully.",
-#             "chunks": result["segments"],
-#             # "text": full_text,
-#         }
 
     except Exception as e:
         print(e)
