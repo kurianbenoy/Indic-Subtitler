@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Dropzone from "@components/components/Dropzone";
 import Dropdown from "@components/components/Dropdown";
 import { AVAILABLE_MODELS, SOURCE_LANGUAGES } from "@components/constants";
@@ -9,7 +9,6 @@ import { useRouter } from "next/router";
 import {
   IconCalendarMonth,
   IconDatabase,
-  IconFileDatabase,
   IconLanguage,
   IconLink,
   IconMovie,
@@ -45,11 +44,10 @@ export default function dashboard() {
   const [transcribed, setTranscribed] = useState([]);
   const [requestSentToAPI, setrequestSentToAPI] = useState(false);
   const [isLocalFile, setIsLocalFile] = useState(false);
-  // const [fileDetailsForLocal, setfileDetailsForLocal] = useState()
   const [uploadedFileInformation, setuploadedFileInformation] = useState();
   const [isSubtitleBeingGenerated, setIsSubtitleBeingGenerated] =
     useState(false);
-
+  const [turnOnAdvanceOptions, setTurnOnAdvanceOptions] = useState(false);
   const router = useRouter();
   const index = router.query.id;
 
@@ -57,6 +55,11 @@ export default function dashboard() {
     const value = event.target.value;
     setYoutubeLink(value);
   };
+  const optionsRef = useRef();
+  useEffect(() => {
+    optionsRef?.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+  }, [turnOnAdvanceOptions]);
+
   useEffect(() => {
     const items = JSON.parse(localStorage.getItem("file"));
     if (index && items) {
@@ -196,8 +199,11 @@ export default function dashboard() {
     <>
       <ToastContainer />
 
-      <main className="flex flex-col md:flex-row md:mb-8 xl:mx-14 mx-4 gap-4 ">
-        <aside className="w-full md:w-[30%] lg:w-[25%] flex flex-col space-y-10 p-2 ">
+      <main className="flex flex-col md:flex-row   xl:mx-14 mx-4 gap-4">
+        <aside
+          ref={optionsRef}
+          className="w-full md:w-[30%] lg:w-[25%] flex flex-col space-y-10 p-2"
+        >
           {isLocalFile ? (
             <div className="h-full ">
               <h2 className="text-3xl font-medium mb-5">File Information</h2>
@@ -261,14 +267,14 @@ export default function dashboard() {
               </div>
             </div>
           ) : (
-            <>
+            <div className=" pb-4">
               <div>
                 <h2 className="text-3xl font-medium">Upload a File</h2>
                 <p className="font-xl text-gray-500 font-medium mt-2">
                   Upload an audio file to generate subtitles
                 </p>
               </div>
-              <div className="h-60">
+              <div className="h-48">
                 <Dropzone
                   setUploadedFile={setUploadedFile}
                   uploadedFile={uploadedFile}
@@ -276,7 +282,7 @@ export default function dashboard() {
               </div>
 
               <div className="divider font-medium">OR</div>
-              <label className="flex border-2 rounded-lg gap-2 p-2 ">
+              <label className="flex border-2 rounded-lg gap-2 p-2">
                 <IconLink color="grey" />
                 <input
                   onChange={handleInputChange}
@@ -285,16 +291,58 @@ export default function dashboard() {
                   placeholder="Paste YouTube Video Link"
                 />
               </label>
-              <div className="space-y-5">
-                <Dropdown
-                  onChange={(item) => setSelectedModel(item)}
-                  label="Generation Model"
-                  options={AVAILABLE_MODELS}
-                  keyName="llm-model"
-                  defaultOption="Select Model"
-                  isForModelDropdown={true}
-                  selectedModel={selectedModel}
-                />
+              <div className="flex justify-end items-center">
+                <div className="form-control mt-5">
+                  <label className="label cursor-pointer">
+                    <span className="label-text mx-2 font-medium">
+                      Advance Options
+                    </span>
+                    <input
+                      type="checkbox"
+                      className="toggle toggle-primary"
+                      defaultValue={turnOnAdvanceOptions}
+                      onClick={() =>
+                        setTurnOnAdvanceOptions(!turnOnAdvanceOptions)
+                      }
+                    />
+                  </label>
+                </div>
+              </div>
+              {turnOnAdvanceOptions ? (
+                <div className="space-y-5">
+                  <Dropdown
+                    onChange={(item) => setSelectedModel(item)}
+                    label="Generation Model"
+                    options={AVAILABLE_MODELS}
+                    keyName="llm-model"
+                    defaultOption="Select Model"
+                    isForModelDropdown={true}
+                    selectedModel={selectedModel}
+                  />
+                  <Dropdown
+                    onChange={(item) => setTargetLanguage(item)}
+                    label="Subtitle Language"
+                    options={SOURCE_LANGUAGES}
+                    keyName="target-language"
+                    defaultOption="Select Language"
+                    selectedModel={selectedModel}
+                  />
+                  <div className="hidden">
+                    <p className="font-medium text-wrap">Prompt:</p>
+                    <p className="font-medium text-xs text-gray-500 mt-[-5px]">
+                      Optional
+                    </p>
+
+                    <textarea
+                      name=""
+                      id=""
+                      className="resize-none p-2 w-full border-2 rounded-md outline-none"
+                      rows="10"
+                      placeholder="enter your prompt here......"
+                    ></textarea>
+                  </div>
+                </div>
+              ) : (
                 <Dropdown
                   onChange={(item) => setTargetLanguage(item)}
                   label="Subtitle Language"
@@ -303,7 +351,7 @@ export default function dashboard() {
                   defaultOption="Select Language"
                   selectedModel={selectedModel}
                 />
-              </div>
+              )}
               <button
                 disabled={disabled}
                 onClick={handleSubmit}
@@ -311,11 +359,11 @@ export default function dashboard() {
                   disabled
                     ? "bg-gray-400 hover:cursor-not-allowed"
                     : "bg-primary-900 hover:cursor-pointer"
-                } text-white py-2 rounded-md text-lg font-medium transition-all duration-300 flex items-center justify-center`}
+                } w-full mt-5 text-white py-2 rounded-md text-lg font-medium transition-all duration-300 flex items-center justify-center`}
               >
                 Generate
               </button>
-            </>
+            </div>
           )}
         </aside>
 

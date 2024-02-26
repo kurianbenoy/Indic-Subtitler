@@ -30,7 +30,8 @@ export default function Dropdown({
 
   return (
     <div className="flex flex-col ">
-      <label className="font-medium text-wrap">{label}:</label>
+      <label className="font-medium text-wrap my-0">{label}:</label>
+      <p className="font-medium text-xs text-red-500 mt-[-5px]">Required</p>
       <select
         onChange={handleSelectChange}
         className="mt-1 border-2 w-full text-lg px-2 py-2 rounded-md cursor-pointer focus-visible:outline-none focus-visible:ring focus-visible:ring-primary-300 transition-all transition-75"
