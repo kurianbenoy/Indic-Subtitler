@@ -6,7 +6,7 @@ import { transitionToCollection } from "@components/utils";
 import { useRouter } from "next/router";
 
 export default function HeroSection() {
-  const listOfSupportedModels = ["SeamlessM4T", "faster-whisper", "WhisperX"];
+  const listOfSupportedModels = ["SeamlessM4T", "faster-whisper", "WhisperX", "Vegam-Whisper"];
   const router = useRouter();
   return (
     <section className="md:mt-44 mt-16 flex  justify-between lg:justify-center lg:gap-56 items-center md:px-0 px-4">
