@@ -4,7 +4,7 @@ const information = [
   {
     title: "1. Introduction",
     detail:
-      "The number of tools which are available in Indian languages to subitle audio and videos in Indian languages are almost none. Yet that shouldn't be the case, as now there are lot of open-source models supporting speech transcription in most of official Indian languages. This tool can be useful for subtitling audios and videos like Indian cinemas for Media Industry in general.",
+      "Indic-subtitler is an open source subtitling platform 💻 for transcribing and translating videos/audios in Indic languages. .The number of tools which are available in Indian languages to subitle audio and videos in Indian languages are almost none. Yet that shouldn't be the case, as now there are lot of open-source models supporting speech transcription in most of official Indian languages. This tool can be useful for subtitling audios and videos like Indian cinemas for Media Industry in general. With this tool now content-creators, can create youtube videos in their native language like Tamil and create captions in languages like English, Hindi, Malayalam etc. with our tool which will help them in reacing a diverse audience.",
     license: {
       name: "GNU General Public License v2.0",
       detail:
@@ -36,6 +36,26 @@ const information = [
         "A license that allows for sharing and remixing of creative works while requiring attribution and prohibiting commercial use",
     },
   },
+  {
+    title: "2c. WhisperX",
+    detail:
+      "WhisperX provides fast automatic speech recognition (70x realtime with large-v2) with word-level timestamps and speaker diarization. The features provided by WhisperX are: Batched inference for 70x realtime transcription using whisper large-v2, faster-whisper backend, requires <8GB gpu memory for large-v2 with beam_size=5, Accurate word-level timestamps using wav2vec2 alignment, Multispeaker ASR using speaker diarization from pyannote-audio (speaker ID labels) and VAD preprocessing, reduces hallucination & batching with no WER degradation.",
+    license: {
+      name: "BSD 4-Clause Original or Old License",
+      detail:
+        "A permissive license similar to the BSD 3-Clause License, but with an advertising clause, that requires an acknowledgment of the original source in all advertising material.",
+    },
+  },
+  {
+    title: "2d. Vegam-whisper",
+    detail:
+      "A faster-whisper fine-tuned version of Malayalam whisper, which performs decently.",
+    license: {
+      name: "MIT License",
+      detail:
+        "A short and simple permissive license with conditions only requiring preservation of copyright and license notices. Licensed works, modifications, and larger works may be distributed under different terms and without source code. ",
+    },
+  }
 ];
 
 export default function term() {
