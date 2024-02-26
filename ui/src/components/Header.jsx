@@ -24,12 +24,16 @@ export default function Header() {
     ${isHome && "top-0"}
     flex md:flex-row flex-col space-y-4 flex-wrap md:space-y-0 justify-between pt-5 md:items-center sticky  py-5 z-20 bg-white md:px-20 px-2 `}
     >
-      <h1
+      <div
         onClick={scrollToTop}
-        className="text-3xl font-semibold font-sans text-primary-900 cursor-pointer"
+        className="flex items-center cursor-pointer gap-3"
       >
-        Indic Subtitler
-      </h1>
+        <img src="/logo.png" width={70} alt="Logo of Indic Subtitler" />
+        <h1 className="text-3xl font-semibold font-sans text-primary-900 ">
+          Indic Subtitler
+        </h1>
+      </div>
+
       {isHome && (
         <div className="flex flex-wrap gap-4 ">
           <PrimaryBtn accent={true} fn={() => router.push("/about")}>
