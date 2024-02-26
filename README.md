@@ -21,6 +21,12 @@ The number of tools which are available in Indian languages to subitle audio and
 
 Due to advent of new technologies like Meta's seamless M4T model and Whisper fine-tuned models, you can do speech transcription to transcribe audio's from source audio to source text. With this a Hindi audio can be transcribed to Hindi text for generating subtitles. Meta's seamless M4T model also supports translation which can take Hindi audio and generate subtitle in languages like English, French, Malayalam etc.
 
+## 🎯 Impact of this project
+
+1. Breaks language barriers, making content accessible to diverse audiences
+2. Empowers content creators with easy-to-use subtitling in multiple Indian languages
+3. Enhances viewer experience with accurate, timely subtitles
+
 ## Use-cases
 
 1. Now content-creators, can create youtube videos in their native language like Tamil and create captions in languages like English, Hindi, Malayalam etc. with our tool.
