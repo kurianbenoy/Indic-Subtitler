@@ -153,7 +153,6 @@ export default function UploadFile({
     if (turnOnAdvanceOptions) {
       setSelectedModel("seamlessM4t");
       localStorage.setItem("llm-model", JSON.stringify("seamlessM4t"));
-      console.log("advance turned off");
     }
     setTurnOnAdvanceOptions(!turnOnAdvanceOptions);
   }
@@ -167,7 +166,7 @@ export default function UploadFile({
           Upload an audio file to generate subtitles
         </p>
       </div>
-      <div className="h-48">
+      <div className="h-64">
         <Dropzone
           setUploadedFile={setUploadedFile}
           uploadedFile={uploadedFile}
@@ -216,7 +215,7 @@ export default function UploadFile({
             defaultOption="Select Language"
             selectedModel={selectedModel}
           />
-          <div className="hidden">
+          <div className="">
             <p className="font-medium text-wrap">Prompt:</p>
             <p className="font-medium text-xs text-gray-500 mt-[-5px]">
               Optional
