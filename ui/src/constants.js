@@ -83,6 +83,42 @@ export const TEAM = [
     twitter: "https://twitter.com/BodaNabeel",
   },
 ];
+
+export const MENTORS = [
+  {
+    name: "Bharat Shetty Barkur",
+    img: "/path/to/bharat-image.jpg", // Placeholder image path
+    description: "Description of Bharat Shetty Barkur.",
+    github: "https://github.com/bharat", // Placeholder GitHub link
+    linkedin: "https://linkedin.com/in/bharat", // Placeholder LinkedIn link
+    twitter: "https://twitter.com/bharat", // Placeholder Twitter link
+  },
+  {
+    name: "Simrat Hanspal",
+    img: "/path/to/simrat-image.jpg", // Placeholder image path
+    description: "Description of Simrat Hanspal.",
+    github: "https://github.com/simrat", // Placeholder GitHub link
+    linkedin: "https://linkedin.com/in/simrat", // Placeholder LinkedIn link
+    twitter: "https://twitter.com/simrat", // Placeholder Twitter link
+  },
+  {
+    name: "AHM",
+    img: "/path/to/ahm-image.jpg", // Placeholder image path
+    description: "Description of AHM.",
+    github: "https://github.com/ahm", // Placeholder GitHub link
+    linkedin: "https://linkedin.com/in/ahm", // Placeholder LinkedIn link
+    twitter: "https://twitter.com/ahm", // Placeholder Twitter link
+  },
+  {
+    name: "Sumod K Mohan",
+    img: "/path/to/sumod-image.jpg", // Placeholder image path
+    description: "Description of Sumod K Mohan.",
+    github: "https://github.com/sumod", // Placeholder GitHub link
+    linkedin: "https://linkedin.com/in/sumod", // Placeholder LinkedIn link
+    twitter: "https://twitter.com/sumod", // Placeholder Twitter link
+  },
+];
+
 export const translation = [
   {
     start: 0.1,
