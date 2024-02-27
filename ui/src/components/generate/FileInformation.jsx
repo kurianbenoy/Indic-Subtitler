@@ -17,7 +17,7 @@ function FileDetail({ icon, label, value }) {
   return (
     <div className="flex gap-2">
       {icon}
-      <p>
+      <p className="break-all">
         {label}: {value}
       </p>
     </div>

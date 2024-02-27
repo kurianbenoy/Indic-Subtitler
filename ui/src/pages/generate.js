@@ -15,6 +15,8 @@ export default function dashboard() {
   const [isSubtitleBeingGenerated, setIsSubtitleBeingGenerated] =
     useState(false);
   const [youtubeTitle, setYoutubeTitle] = useState();
+  const [selectedModel, setSelectedModel] = useState("seamlessM4t");
+
   const router = useRouter();
   const index = router.query.id;
 
@@ -25,6 +27,8 @@ export default function dashboard() {
         setIsLocalFile(true);
         const item = items[index];
         setTranscribed(item.transcribedData);
+        setSelectedModel(item.model);
+        setYoutubeTitle(item.filename);
         setuploadedFileInformation({
           filename: item.filename,
           filesize: item.size,
@@ -60,6 +64,8 @@ export default function dashboard() {
               isLocalFile={isLocalFile}
               setYoutubeTitle={setYoutubeTitle}
               youtubeTitle={youtubeTitle}
+              selectedModel={selectedModel}
+              setSelectedModel={setSelectedModel}
             />
           )}
         </aside>
@@ -70,6 +76,7 @@ export default function dashboard() {
           setTranscribed={setTranscribed}
           filename={uploadedFile?.path ?? youtubeTitle}
           requestSentToAPI={requestSentToAPI}
+          selectedModel={selectedModel}
         />
       </main>
     </>

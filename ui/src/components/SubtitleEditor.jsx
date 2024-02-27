@@ -8,6 +8,7 @@ export default function SubtitleEditor({
   setTranscribed,
   filename,
   requestSentToAPI,
+  selectedModel,
 }) {
   function handleInputChange(index, newText, type) {
     const updateTranscribe = [...transcribed];
@@ -44,7 +45,11 @@ export default function SubtitleEditor({
               Generating ...
             </div>
           ) : (
-            <DownloadFileDropdown file={transcribed} filename={filename} />
+            <DownloadFileDropdown
+              file={transcribed}
+              filename={filename}
+              modelName={selectedModel}
+            />
           )}
         </div>
         <div>

@@ -6,7 +6,7 @@ import {
 } from "@components/utils";
 import React from "react";
 
-export default function DownloadFileDropdown({ file, filename }) {
+export default function DownloadFileDropdown({ file, filename, modelName }) {
   return (
     <div className="dropdown dropdown-left">
       <div
@@ -20,16 +20,16 @@ export default function DownloadFileDropdown({ file, filename }) {
         tabIndex={0}
         className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 text-black "
       >
-        <li onClick={() => downloadSRT(file, filename)}>
+        <li onClick={() => downloadSRT(file, filename, modelName)}>
           <a>.SRT</a>
         </li>
-        <li onClick={() => downloadVTT(file, filename)}>
+        <li onClick={() => downloadVTT(file, filename, modelName)}>
           <a>.VTT</a>
         </li>
-        <li onClick={() => downloadJSON(file, filename)}>
+        <li onClick={() => downloadJSON(file, filename, modelName)}>
           <a>.JSON</a>
         </li>
-        <li onClick={() => downloadTXT(file, filename)}>
+        <li onClick={() => downloadTXT(file, filename, modelName)}>
           <a>.TXT</a>
         </li>
       </ul>

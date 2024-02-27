@@ -108,17 +108,22 @@ export function removeFileExtension(filename) {
   }
 }
 
-export function triggerDownload(filename, blob, fileExtension) {
+export function triggerDownload(filename, modelName, blob, fileExtension) {
+  const formattedFileName = removeFileExtension(filename);
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
-  link.setAttribute("download", `${filename}.${fileExtension}`);
+  console.log(filename);
+  link.setAttribute(
+    "download",
+    `${formattedFileName}_${modelName}.${fileExtension}`
+  );
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
   URL.revokeObjectURL(url);
 }
-export function downloadSRT(transcribed, filename) {
+export function downloadSRT(transcribed, filename, modelName) {
   const srtContent = transcribed
     .map((entry, index) => {
       const { start, end, text } = entry;
@@ -128,15 +133,15 @@ export function downloadSRT(transcribed, filename) {
     })
     .join("");
   const blob = new Blob([srtContent], { type: "text/plain" });
-  triggerDownload(filename, blob, "srt");
+  triggerDownload(filename, modelName, blob, "srt");
 }
-export function downloadJSON(data, filename) {
+export function downloadJSON(data, filename, modelName) {
   const jsonData = JSON.stringify(data, null, 4);
   const blob = new Blob([jsonData], { type: "application/json" });
-  triggerDownload(filename, blob, "json");
+  triggerDownload(filename, modelName, blob, "json");
 }
 
-export function downloadVTT(data, filename) {
+export function downloadVTT(data, filename, modelName) {
   const vttHeader = "WEBVTT\n\n";
   let vttContent = "";
 
@@ -148,16 +153,16 @@ export function downloadVTT(data, filename) {
     }\n\n`;
   });
   const blob = new Blob([vttHeader, vttContent], { type: "text/vtt" });
-  triggerDownload(filename, blob, "vtt");
+  triggerDownload(filename, modelName, blob, "vtt");
 }
 
-export function downloadTXT(data, filename) {
+export function downloadTXT(data, filename, modelName) {
   let plainTextContent = "";
   data?.forEach((subtitle) => {
     plainTextContent += `${subtitle.text}\n`;
   });
   const blob = new Blob([plainTextContent], { type: "text/plain" });
-  triggerDownload(filename, blob, "txt");
+  triggerDownload(filename, modelName, blob, "txt");
 }
 
 export function formattedDate(date) {

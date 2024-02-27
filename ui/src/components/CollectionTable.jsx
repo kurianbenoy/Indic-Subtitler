@@ -97,6 +97,7 @@ export default function CollectionTable({ storedFiles, setStoredFiles }) {
                       <DownloadFileDropdown
                         file={element.transcribedData}
                         filename={element.filename}
+                        modelName={element.model}
                       />
                     </td>
                     <td>

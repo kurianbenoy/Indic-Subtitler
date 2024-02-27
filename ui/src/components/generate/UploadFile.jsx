@@ -16,10 +16,12 @@ export default function UploadFile({
   setrequestSentToAPI,
   isLocalFile,
   setYoutubeTitle,
+  selectedModel,
+  setSelectedModel,
 }) {
   const [turnOnAdvanceOptions, setTurnOnAdvanceOptions] = useState(false);
   const [targetLanguage, setTargetLanguage] = useState();
-  const [selectedModel, setSelectedModel] = useState("seamlessM4t");
+
   const [disabled, setDisabled] = useState(true);
   const [submitCounter, setSubmitCounter] = useState(0);
 
