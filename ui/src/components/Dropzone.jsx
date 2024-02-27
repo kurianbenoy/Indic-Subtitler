@@ -41,7 +41,9 @@ export default function Dropzone({ setUploadedFile, uploadedFile }) {
       <input {...getInputProps()} />
       {uploadedFile ? (
         <div>
-          <p className="text-lg font-medium text-center">{uploadedFile.path}</p>
+          <div className="text-lg font-medium text-center break-all max-h-36">
+            <p className=" truncate-custom">{uploadedFile.path}</p>
+          </div>
 
           {uploadedFile.size ? (
             <p className="text-center text-gray-500">

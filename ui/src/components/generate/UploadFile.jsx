@@ -247,7 +247,7 @@ export default function UploadFile({
           disabled
             ? "bg-gray-400 hover:cursor-not-allowed"
             : "bg-primary-900 hover:cursor-pointer"
-        } w-full mt-5 text-white py-2 rounded-md text-lg font-medium transition-all duration-300 flex items-center justify-center  pb-4`}
+        } w-full mt-5 text-white py-2 rounded-md text-lg font-medium transition-all duration-300 flex items-center justify-center`}
       >
         Generate
       </button>

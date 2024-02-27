@@ -36,12 +36,12 @@ export default function CollectionTable({ storedFiles, setStoredFiles }) {
   }
   if (storedFiles?.length) {
     return (
-      <div className="overflow-x-auto max-h-[75vh]">
+      <div className="overflow-x-auto h-[75vh]">
         <table className="table md:text-lg ">
           <thead>
             <tr className="text-lg text-gray-600 ">
-              <th></th>
-              <th className="w-8">Name</th>
+              <th className=""></th>
+              <th className=" ">Name</th>
               <th className="">Date of Upload</th>
               <th>Size</th>
               <th>Language</th>
@@ -60,11 +60,11 @@ export default function CollectionTable({ storedFiles, setStoredFiles }) {
                 return (
                   <tr key={index}>
                     <th>{index + 1}</th>
-                    <td>
+                    <td className="break-all max-w-48 max-h-32 py-2 px-0">
                       {element.size ? (
-                        element.filename
+                        <p className="truncate-custom">{element.filename}</p>
                       ) : (
-                        <span className="flex flex-col">
+                        <span className="flex flex-col break-all  max-w-48 max-h-32 py-2 px-0">
                           <div
                             className="tooltip self-start"
                             data-tip="File imported from Youtube"
@@ -73,8 +73,9 @@ export default function CollectionTable({ storedFiles, setStoredFiles }) {
                               Youtube
                             </button>
                           </div>
+                          <p className="truncate-custom">{element.filename}</p>
 
-                          {element.filename}
+                          {/* {element.filename} */}
                         </span>
                       )}
                     </td>
@@ -123,7 +124,7 @@ export default function CollectionTable({ storedFiles, setStoredFiles }) {
     );
   } else {
     return (
-      <div className="flex justify-center items-center min-h-48">
+      <div className="flex justify-center items-center h-[75vh]">
         <h5 className="text-xl font-medium">Upload a file to edit subtitles</h5>
       </div>
     );
