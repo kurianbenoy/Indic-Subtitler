@@ -41,7 +41,7 @@ export default function dashboard() {
     <>
       <ToastContainer />
       <main className="flex flex-col md:flex-row   xl:mx-14 mx-4 gap-4">
-        <aside className="w-full md:w-[30%] lg:w-[25%] flex flex-col space-y-10 p-2">
+        <aside className="w-full md:w-[50%] lg:w-[25%] flex flex-col space-y-10  md:h-[85vh]">
           {isLocalFile ? (
             <div className="h-full ">
               <FileInformation

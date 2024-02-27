@@ -38,7 +38,7 @@ export default function UploadFile({
   }, [uploadedFile, targetLanguage, youtubeLink]);
 
   useEffect(() => {
-    uploadContainerRef?.current?.scrollIntoView({
+    uploadButtonRef?.current?.scrollIntoView({
       behavior: "smooth",
       block: "end",
       inline: "nearest",
@@ -124,7 +124,6 @@ export default function UploadFile({
           type: "success",
         });
         const title = await youtubeVideoTitle();
-        console.log(title);
         const file = {
           filename: uploadedFile?.path ?? title,
           link: youtubeLink,
@@ -157,9 +156,9 @@ export default function UploadFile({
     setTurnOnAdvanceOptions(!turnOnAdvanceOptions);
   }
 
-  const uploadContainerRef = useRef();
+  const uploadButtonRef = useRef();
   return (
-    <div ref={uploadContainerRef} className=" pb-4">
+    <div className="overflow-hidden overflow-y-auto  lg:px-4">
       <div>
         <h2 className="text-3xl font-medium">Upload a File</h2>
         <p className="font-xl text-gray-500 font-medium mt-2">
@@ -215,7 +214,7 @@ export default function UploadFile({
             defaultOption="Select Language"
             selectedModel={selectedModel}
           />
-          <div className="">
+          <div className="hidden">
             <p className="font-medium text-wrap">Prompt:</p>
             <p className="font-medium text-xs text-gray-500 mt-[-5px]">
               Optional
@@ -241,13 +240,14 @@ export default function UploadFile({
         />
       )}
       <button
+        ref={uploadButtonRef}
         disabled={disabled}
         onClick={handleSubmit}
         className={` ${
           disabled
             ? "bg-gray-400 hover:cursor-not-allowed"
             : "bg-primary-900 hover:cursor-pointer"
-        } w-full mt-5 text-white py-2 rounded-md text-lg font-medium transition-all duration-300 flex items-center justify-center`}
+        } w-full mt-5 text-white py-2 rounded-md text-lg font-medium transition-all duration-300 flex items-center justify-center  pb-4`}
       >
         Generate
       </button>
