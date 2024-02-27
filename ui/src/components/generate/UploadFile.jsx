@@ -21,6 +21,7 @@ export default function UploadFile({
   const [targetLanguage, setTargetLanguage] = useState();
   const [selectedModel, setSelectedModel] = useState("seamlessM4t");
   const [disabled, setDisabled] = useState(true);
+  const [submitCounter, setSubmitCounter] = useState(0);
 
   function storeFileToLocalStorage(file) {
     const items = JSON.parse(localStorage.getItem("file"));
@@ -65,9 +66,12 @@ export default function UploadFile({
   }
 
   async function handleSubmit() {
-    if (uploadedFile && youtubeLink)
+    if (uploadedFile && youtubeLink) {
       return toast.error("Cannot upload both file and youtube link");
+    }
     reset(true);
+    setSubmitCounter(submitCounter + 1);
+    if (submitCounter > 0) setTranscribed([]);
 
     const { url, requestData } = await getRequestParamsForModel(
       uploadedFile,
@@ -92,7 +96,8 @@ export default function UploadFile({
         toast.update(toastId, { render: "Transcribing..", type: "info" });
         const decoder = new TextDecoder();
         const reader = res.body.getReader();
-        setrequestSentToAPI(false);
+        // setrequestSentToAPI(false);
+        let firstResponseRecieved = false;
 
         while (true) {
           const { done, value } = await reader.read();
@@ -101,8 +106,13 @@ export default function UploadFile({
           try {
             const decodedValue = decoder.decode(value);
             const jsonData = JSON.parse(decodedValue);
-            console.log(jsonData);
+            firstResponseRecieved = true;
+            if (firstResponseRecieved) {
+              setrequestSentToAPI(false);
+              firstResponseRecieved = false;
+            }
             setTranscribed((transcribed) => [...transcribed, jsonData]);
+
             transcription.push(jsonData);
           } catch (error) {
             console.log("error in transcribing: ", error);
@@ -178,6 +188,7 @@ export default function UploadFile({
         <input
           onChange={handleInputChange}
           type="text"
+          label="Paste Youtube Video Link"
           className="w-full outline-none "
           placeholder="Paste YouTube Video Link"
         />
