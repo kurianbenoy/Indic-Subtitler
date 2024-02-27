@@ -88,33 +88,30 @@ export const MENTORS = [
   {
     name: "Bharat Shetty Barkur",
     img: "/path/to/bharat-image.jpg", // Placeholder image path
-    description: "Description of Bharat Shetty Barkur.",
-    github: "https://github.com/bharat", // Placeholder GitHub link
-    linkedin: "https://linkedin.com/in/bharat", // Placeholder LinkedIn link
+    description: "Experienced Engineer with a demonstrated history of working across various domains in different roles. Skilled in Python, Java, NLP, Cloud and Data platforms and software, Data Structures and Algorithms, and Linux. Strong engineering professional with a Master's degree from the University of Florida and a Bachelors of Engineering focused in Computer Science and Engineering from Sri Jayachamarajendra College of Engineering. ",
+    linkedin: "https://in.linkedin.com/in/bharat-shetty-barkur-8111511", // Placeholder LinkedIn link
     twitter: "https://twitter.com/bharat", // Placeholder Twitter link
   },
   {
     name: "Simrat Hanspal",
     img: "/path/to/simrat-image.jpg", // Placeholder image path
-    description: "Description of Simrat Hanspal.",
-    github: "https://github.com/simrat", // Placeholder GitHub link
-    linkedin: "https://linkedin.com/in/simrat", // Placeholder LinkedIn link
+    description: "Data scientist with a curious engineering mind. Working with Large Language models.",
+    linkedin: "https://in.linkedin.com/in/simrat-hanspal-37683054", // Placeholder LinkedIn link
     twitter: "https://twitter.com/simrat", // Placeholder Twitter link
   },
   {
     name: "AHM",
     img: "/path/to/ahm-image.jpg", // Placeholder image path
     description: "Description of AHM.",
-    github: "https://github.com/ahm", // Placeholder GitHub link
     linkedin: "https://linkedin.com/in/ahm", // Placeholder LinkedIn link
     twitter: "https://twitter.com/ahm", // Placeholder Twitter link
   },
   {
     name: "Sumod K Mohan",
     img: "/path/to/sumod-image.jpg", // Placeholder image path
-    description: "Description of Sumod K Mohan.",
+    description: "Founder/C.E.O, AutoInfer. Experienced CTO & Grew a Business Unit from ground up",
     github: "https://github.com/sumod", // Placeholder GitHub link
-    linkedin: "https://linkedin.com/in/sumod", // Placeholder LinkedIn link
+    linkedin: "https://in.linkedin.com/in/sumodm", // Placeholder LinkedIn link
     twitter: "https://twitter.com/sumod", // Placeholder Twitter link
   },
 ];
