@@ -67,7 +67,6 @@ const LiveTranscribe = () => {
     const formData = new FormData();
     formData.append("file", audioBlob, "audio.wav");
     formData.append("model", "whisper-1");
-    formData.append("model", "whisper-1");
     // formData.append("language", "hi");
     formData.append("response_format", "verbose_json");
     formData.append("prompt", transcription);
