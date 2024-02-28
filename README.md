@@ -215,8 +215,16 @@ Smaller chunks get very little context and becuase of this our model is sometime
 
 ![image](https://github.com/kurianbenoy/Indic-Subtitler/assets/24592806/d84082d5-6d1c-4ce5-8394-d749fbf6c8f7)
 
-- Include more model families like faster-whisper, whisperX etc.
-- Evaluate the performance of models in Indic subtitler on custom videos.
+- Include more model families like faster-whisper, whisperX, vegam-Malayalam-whisper etc.
+
+![image](https://github.com/kurianbenoy/Indic-Subtitler/assets/24592806/57152204-c7df-4a0f-9cf7-105c8a60b666)
+
+![image](https://github.com/kurianbenoy/Indic-Subtitler/assets/24592806/77515f76-047a-4808-9c9f-67e838c29875)
+
+
+- Evaluate the performance of models in Indic subtitler on custom videos. 
+
+Made progress by adding ground truth to English audios
 
 ##### Few extra approaches to consider:
 
@@ -230,9 +238,18 @@ Smaller chunks get very little context and becuase of this our model is sometime
 
 </br>
 
-**Week 4 onwards 🌕**
+**Week 4 🌕**
 
 - Evaluate the performance of Indic subtitler on various languages
+- Audio quality enhancement with Demux
+
+https://github.com/kurianbenoy/Indic-Subtitler/issues/4
+
+- Information page about best set of models and when to use it.
+
+
+**Week 5 onwards 🌕**
+
 - Fine-tune ASR models based on performance for respective languages and integrate even whisper-based audio models.
 - Build a desktop app similar to webapp for using all the functionalities
 
