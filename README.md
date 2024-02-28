@@ -222,7 +222,7 @@ Smaller chunks get very little context and becuase of this our model is sometime
 ![image](https://github.com/kurianbenoy/Indic-Subtitler/assets/24592806/77515f76-047a-4808-9c9f-67e838c29875)
 
 
-- Evaluate the performance of models in Indic subtitler on custom videos. 
+- Evaluate the performance of models in Indic subtitler on custom videos.
 
 Made progress by adding ground truth to English audios
 
