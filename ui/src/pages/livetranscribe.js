@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 
 const LiveTranscribe = () => {
-  console.log("bro");
   const [isRecording, setIsRecording] = useState(false);
   const [transcription, setTranscription] = useState("");
   const mediaRecorderRef = useRef(null);
@@ -11,11 +10,9 @@ const LiveTranscribe = () => {
 
   const toggleRecording = () => {
     if (!streamRef.current || !mediaRecorderRef.current) {
-      console.log({ streamRef, mediaRecorderRef });
       console.log("stream or mediarecorder not defined");
       return;
     }
-    console.log({ state: mediaRecorderRef.current.state, isRecording });
     if (mediaRecorderRef.current.state === "recording") {
       mediaRecorderRef.current.stop();
     } else {
@@ -42,19 +39,26 @@ const LiveTranscribe = () => {
   useEffect(() => {
     let interval = null;
     if (!enableTranscription) {
-      interval && clearInterval(interval);
+      if (interval) {
+        clearInterval(interval);
+        toggleRecording();
+      }
       return;
     }
 
+    toggleRecording();
     interval = setInterval(() => {
       toggleRecording();
       setTimeout(() => {
         console.log("toggling back");
         toggleRecording();
-      }, 275);
+      }, 175);
     }, 3500);
 
-    return () => interval && clearInterval(interval);
+    return () => {
+      interval && clearInterval(interval);
+      toggleRecording();
+    };
   }, [enableTranscription]);
 
   const handleDataAvailable = (event) => {
@@ -64,7 +68,7 @@ const LiveTranscribe = () => {
     formData.append("file", audioBlob, "audio.wav");
     formData.append("model", "whisper-1");
     formData.append("model", "whisper-1");
-    formData.append("language", "en");
+    // formData.append("language", "hi");
     formData.append("response_format", "verbose_json");
     formData.append("prompt", transcription);
 
@@ -93,10 +97,6 @@ const LiveTranscribe = () => {
 
   return (
     <div className="prose mx-auto">
-      <btn className="btn btn-accent" onClick={handleEnableTranscription}>
-        {enableTranscription ? "Disable" : "Enable"} Transcription
-      </btn>
-
       <h1>Transcription</h1>
       <div className="h-80">
         {/* <textarea rows={10} cols={20} className="w-10"> */}
@@ -107,14 +107,11 @@ const LiveTranscribe = () => {
 
       <p>{isRecording ? "Recording in progress...." : "Ready"} </p>
 
-      <button className="btn btn-outline" onClick={toggleRecording}>
-        {isRecording ? "Stop Recording" : "Start Recording"}
-      </button>
+      <btn className="btn btn-accent mr-5" onClick={handleEnableTranscription}>
+        {enableTranscription ? "Disable" : "Enable"} Transcription
+      </btn>
 
-      <button
-        className="btn btn-error mx-5"
-        onClick={() => setTranscription("")}
-      >
+      <button className="btn btn-outline" onClick={() => setTranscription("")}>
         Clear Transcript
       </button>
     </div>
