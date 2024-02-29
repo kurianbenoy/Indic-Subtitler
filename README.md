@@ -205,6 +205,9 @@ Smaller chunks get very little context and becuase of this our model is sometime
 
 - Build Streaming API for Seamless M4T models
 - Incorporate frontend to make use of streaming API endpoints for Generative UI
+
+![image](https://github.com/kurianbenoy/Indic-Subtitler/assets/24592806/6d7a361f-b02c-413c-ab2c-9a6f9146d1c6)
+
 - In the Landing page include LICENSE of models; Also add an About us page.
 
 ![image](https://github.com/kurianbenoy/Indic-Subtitler/assets/24592806/4be3cb81-0956-4a3e-af82-57b05cc5aa0b)
