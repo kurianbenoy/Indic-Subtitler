@@ -53,7 +53,7 @@ export const AVAILABLE_MODELS = [
   { id: "seamlessM4t", name: "SeamlessM4T" },
   { id: "fasterWhisper", name: "Faster-whisper" },
   { id: "whisperX", name: "WhisperX" },
-  { id: "vegamFasterWhisper", name: "Vegam faster-whisper Malayalam" },
+  { id: "vegamFasterWhisper", name: "Vegam-whisper" },
 ];
 
 export const TEAM = [
