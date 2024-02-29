@@ -34,6 +34,7 @@ export default function Gallery() {
                 <a
                   target="_blank"
                   href={element.github}
+                  alt={`github profile link of ${element.name}`}
                   className="hover:text-primary-900 transition-all duration-300"
                 >
                   <IconBrandGithub />
@@ -42,6 +43,7 @@ export default function Gallery() {
                   target="_blank"
                   href={element.linkedin}
                   className="hover:text-primary-900 transition-all duration-300"
+                  alt={`linkedin profile link of ${element.name}`}
                 >
                   <IconBrandLinkedin />
                 </a>
@@ -49,6 +51,7 @@ export default function Gallery() {
                   target="_blank"
                   href={element.twitter}
                   className="hover:text-primary-900 transition-all duration-300"
+                  alt={`twitter profile link of ${element.name}`}
                 >
                   <IconBrandTwitter />
                 </a>
@@ -85,6 +88,7 @@ export default function Gallery() {
                   target="_blank"
                   href={mentor.linkedin}
                   className="hover:text-primary-900 transition-all duration-300"
+                  alt={`linkedin link of ${mentor.name}`}
                 >
                   <IconBrandLinkedin />
                 </a>
