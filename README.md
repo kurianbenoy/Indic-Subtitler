@@ -247,6 +247,17 @@ https://github.com/kurianbenoy/Indic-Subtitler/issues/4
 
 - Information page about best set of models and when to use it.
 
+##### Priority order of building things after discussion w/ Team
+
+- Live transcription (Aldrin will try and send a prototype soon)
+- Quality enhancing (parallelly)(using demux to remove background noise and improving the quality of audio t- hereby improving accuracy in transcription) 
+
+- Blog about model selection: (rather than adding complex logic and restrictive condition based on permutations in UI, why don't we add a small hyperlink near the model dropdown to a new page (blog/article) where we just say like: based on our testing, we found the following models give best results: seamless for x, whisperx for y etc.. We can title the blog as something like: "Tips and tricks" or maybe like: How to get the best out of Indic subtitler etc.. maybe. Later we can also go on adding benchmarks or graphs etc after doing evaluations. for now we just need to make a simple page with some text based on our observation. nothing too restrictive or enforcing.. just our gentle suggestions based on which they could try switching models to get best performance based on their audio. this way even if our suggestions does not exactly give best results for them, it'll still be cool since it's mostly open ended/gentle recommendations from our part.
+
+- Odiya language integration (cool to talk about during pitch, and mostly easy to implement as a new route since we already have access to pre-trained model). In fact we could even do this now since it'll be very quick to start off maybe.
+
+- GPT prompting(kept least priority because, if we get the quality part set using noice reduction, we won't even need gpt usage much since the accuracy would already be pretty good!)
+
 
 **Week 5 onwards 🌕**
 
