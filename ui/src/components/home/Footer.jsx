@@ -14,21 +14,17 @@ export default function Footer() {
         </p>
       </section>
       <section className="flex md:flex-row flex-col md:gap-60  md:mt-0 mt-10 space-y-4 md:space-y-0">
-        {/* <div className="">
-          <h3 className="font-semibold text-primary-900">Products</h3>
-          <ul className="text-gray-500 space-y-1">
-            <li>Pricing</li>
-            <li>FAQ</li>
-          </ul>
-        </div> */}
         <div>
           <h3 className="font-semibold text-primary-900">Company</h3>
           <ul className="text-gray-500 space-y-1">
             <li>
-              <Link href="/about">About us</Link>
+              <Link href="/blog">Blog</Link>
             </li>
             <li>
               <Link href="/terms">Terms</Link>
+            </li>
+            <li>
+              <Link href="/about">About us</Link>
             </li>
           </ul>
         </div>
