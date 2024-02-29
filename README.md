@@ -217,14 +217,12 @@ Smaller chunks get very little context and becuase of this our model is sometime
 
 - Include more model families like faster-whisper, whisperX, vegam-Malayalam-whisper etc.
 
-![image](https://github.com/kurianbenoy/Indic-Subtitler/assets/24592806/57152204-c7df-4a0f-9cf7-105c8a60b666)
+![image](https://github.com/kurianbenoy/Indic-Subtitler/assets/24592806/d529d41e-f9d2-4e7c-9ab0-c647ef37e3c4)
 
 ![image](https://github.com/kurianbenoy/Indic-Subtitler/assets/24592806/77515f76-047a-4808-9c9f-67e838c29875)
 
 
-- Evaluate the performance of models in Indic subtitler on custom videos.
-
-Made progress by adding ground truth to English audios
+- Evaluate the performance of models in Indic subtitler on custom videos. (Made progress by adding ground truth to English audios)
 
 ##### Few extra approaches to consider:
 
