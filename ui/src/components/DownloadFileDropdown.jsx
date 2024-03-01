@@ -8,7 +8,7 @@ import React from "react";
 
 export default function DownloadFileDropdown({ file, filename, modelName }) {
   return (
-    <div className="dropdown dropdown-left">
+    <div className="dropdown">
       <div
         tabIndex={0}
         role="button"
