@@ -1,4 +1,4 @@
-export const SOURCE_LANGUAGES = [
+export const LANGUAGES_PER_MODEL = [
   {
     model: "seamlessM4t",
     languages: [
@@ -58,20 +58,20 @@ export const AVAILABLE_MODELS = [
 
 export const TEAM = [
   {
-    name: "Aldrin Jenson",
-    img: "/aldrin.jpeg",
-    description: `Aldrin Jensen is a highly skilled and adaptable software engineer with over 5 years of experience. He excels in developing, deploying, and maintaining diverse applications across various industries. Notably, he developed an impactful Issue and Risk Management system used in the Kerala construction industry, alongside contributing to a wide range of projects in startups, showcasing his versatility and expertise in various technologies.`,
-    github: "https://github.com/aldrinjenson",
-    linkedin: "https://www.linkedin.com/in/aldrinjenson/",
-    twitter: "https://twitter.com/aldrinjenson",
-  },
-  {
     name: "Kurain Benoy",
     img: "/kurain.jpg",
     description: `Kurian Benoy is currently working as an ML Engineer. He has a background in computer science and machine learning, with experience in natural language processing, GenAI, computer vision, and Voice tech. Kurian have contributed to various open source organizations like Keras, DVC, HuggingFace, fast.ai, Swathanthra Malayalam Computing, CloudCV etc. He is the maintainer of whisper_normalizer python package which has monthly 30,000+ downloads and is creator of Vegam Whisper and MalWhisper.`,
     github: "https://github.com/kurianbenoy",
     linkedin: "https://www.linkedin.com/in/kurianbenoy/",
     twitter: "https://twitter.com/kurianbenoy2",
+  },
+  {
+    name: "Aldrin Jenson",
+    img: "/aldrin.jpeg",
+    description: `Aldrin Jensen is a highly skilled and adaptable software engineer with over 5 years of experience. He excels in developing, deploying, and maintaining diverse applications across various industries. Notably, he developed an impactful Issue and Risk Management system used in the Kerala construction industry, alongside contributing to a wide range of projects in startups, showcasing his versatility and expertise in various technologies.`,
+    github: "https://github.com/aldrinjenson",
+    linkedin: "https://www.linkedin.com/in/aldrinjenson/",
+    twitter: "https://twitter.com/aldrinjenson",
   },
 
   {
@@ -88,14 +88,16 @@ export const MENTORS = [
   {
     name: "Bharat Shetty Barkur",
     img: "/path/to/bharat-image.jpg", // Placeholder image path
-    description: "Experienced Engineer with a demonstrated history of working across various domains in different roles. Skilled in Python, Java, NLP, Cloud and Data platforms and software, Data Structures and Algorithms, and Linux. Strong engineering professional with a Master's degree from the University of Florida and a Bachelors of Engineering focused in Computer Science and Engineering from Sri Jayachamarajendra College of Engineering. ",
+    description:
+      "Experienced Engineer with a demonstrated history of working across various domains in different roles. Skilled in Python, Java, NLP, Cloud and Data platforms and software, Data Structures and Algorithms, and Linux. Strong engineering professional with a Master's degree from the University of Florida and a Bachelors of Engineering focused in Computer Science and Engineering from Sri Jayachamarajendra College of Engineering. ",
     linkedin: "https://in.linkedin.com/in/bharat-shetty-barkur-8111511", // Placeholder LinkedIn link
     twitter: "https://twitter.com/bharat", // Placeholder Twitter link
   },
   {
     name: "Simrat Hanspal",
     img: "/path/to/simrat-image.jpg", // Placeholder image path
-    description: "Data scientist with a curious engineering mind. Working with Large Language models.",
+    description:
+      "Data scientist with a curious engineering mind. Working with Large Language models.",
     linkedin: "https://in.linkedin.com/in/simrat-hanspal-37683054", // Placeholder LinkedIn link
     twitter: "https://twitter.com/simrat", // Placeholder Twitter link
   },
@@ -109,7 +111,8 @@ export const MENTORS = [
   {
     name: "Sumod K Mohan",
     img: "/path/to/sumod-image.jpg", // Placeholder image path
-    description: "Founder/C.E.O, AutoInfer. Experienced CTO & Grew a Business Unit from ground up",
+    description:
+      "Founder/C.E.O, AutoInfer. Experienced CTO & Grew a Business Unit from ground up",
     github: "https://github.com/sumod", // Placeholder GitHub link
     linkedin: "https://in.linkedin.com/in/sumodm", // Placeholder LinkedIn link
     twitter: "https://twitter.com/sumod", // Placeholder Twitter link
@@ -809,4 +812,4 @@ export const translation = [
   },
 ];
 
-export const TARGET_LANGUAGES = SOURCE_LANGUAGES;
+export const TARGET_LANGUAGES = LANGUAGES_PER_MODEL;

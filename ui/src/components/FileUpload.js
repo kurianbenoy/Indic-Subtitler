@@ -4,7 +4,7 @@
 // import { formatFileSize } from "@components/utils";
 // import { toast } from "react-toastify";
 // import Dropdown from "./Dropdown";
-// import { SOURCE_LANGUAGES, TARGET_LANGUAGES } from "@components/constants";
+// import { LANGUAGES_PER_MODEL, TARGET_LANGUAGES } from "@components/constants";
 
 // const FileUpload = ({ onSubmit }) => {
 //   const [uploadedFiles, setUploadedFiles] = useState([]);
@@ -109,7 +109,7 @@
 //           <Dropdown
 //             onChange={(item) => setSoruceLanguage(item.id)}
 //             label="Select Source Language"
-//             options={SOURCE_LANGUAGES}
+//             options={LANGUAGES_PER_MODEL}
 //           />
 //           <Dropdown
 //             onChange={(item) => setTargetLanguage(item.id)}

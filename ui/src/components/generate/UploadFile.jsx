@@ -1,12 +1,15 @@
+import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import Dropzone from "@components/components/Dropzone";
 import { IconLink } from "@tabler/icons-react";
 import Dropdown from "@components/components/Dropdown";
-import { AVAILABLE_MODELS, SOURCE_LANGUAGES } from "@components/constants";
+import { AVAILABLE_MODELS, LANGUAGES_PER_MODEL } from "@components/constants";
 import { getRequestParamsForModel } from "@components/utils";
+import { formatLanguagesForDropdownOptions } from "@components/dropdownUtils";
+import useLocalStorage from "@components/hooks/useLocalStorage";
 
-export default function UploadFile({
+const UploadFile = ({
   uploadedFile,
   setUploadedFile,
   setYoutubeLink,
@@ -18,9 +21,12 @@ export default function UploadFile({
   setYoutubeTitle,
   selectedModel,
   setSelectedModel,
-}) {
+}) => {
   const [turnOnAdvanceOptions, setTurnOnAdvanceOptions] = useState(false);
-  const [targetLanguage, setTargetLanguage] = useState();
+  const [targetLanguage, setTargetLanguage] = useLocalStorage(
+    "target-language",
+    ""
+  );
 
   const [disabled, setDisabled] = useState(true);
   const [submitCounter, setSubmitCounter] = useState(0);
@@ -163,11 +169,14 @@ export default function UploadFile({
   function toggleAdvanceMode() {
     if (turnOnAdvanceOptions) {
       setSelectedModel("seamlessM4t");
-      localStorage.setItem("llm-model", JSON.stringify("seamlessM4t"));
     }
     setTurnOnAdvanceOptions(!turnOnAdvanceOptions);
   }
 
+  const handleModelChange = (item) => {
+    console.log("changing model");
+    setSelectedModel(item);
+  };
   const uploadButtonRef = useRef();
   return (
     <div className="overflow-hidden overflow-y-auto  lg:px-4">
@@ -211,21 +220,20 @@ export default function UploadFile({
       {turnOnAdvanceOptions ? (
         <div className="space-y-5">
           <Dropdown
-            onChange={(item) => setSelectedModel(item)}
+            onChange={handleModelChange}
             label="Generation Model"
             options={AVAILABLE_MODELS}
-            keyName="llm-model"
             defaultOption="Select Model"
-            isForModelDropdown={true}
-            selectedModel={selectedModel}
+            selectedVal={selectedModel}
           />
+
           <Dropdown
             onChange={(item) => setTargetLanguage(item)}
             label="Subtitle Language"
-            options={SOURCE_LANGUAGES}
+            options={formatLanguagesForDropdownOptions(selectedModel)}
             keyName="target-language"
             defaultOption="Select Language"
-            selectedModel={selectedModel}
+            selectedVal={targetLanguage}
           />
           <div className="hidden">
             <p className="font-medium text-wrap">Prompt:</p>
@@ -243,14 +251,17 @@ export default function UploadFile({
           </div>
         </div>
       ) : (
-        <Dropdown
-          onChange={(item) => setTargetLanguage(item)}
-          label="Subtitle Language"
-          options={SOURCE_LANGUAGES}
-          keyName="target-language"
-          defaultOption="Select Language"
-          selectedModel={selectedModel}
-        />
+        <>
+          below
+          <Dropdown
+            onChange={(item) => setTargetLanguage(item)}
+            label="Subtitle Language"
+            options={formatLanguagesForDropdownOptions(selectedModel)}
+            keyName="target-language"
+            defaultOption="Select Language"
+            selectedVal={targetLanguage}
+          />
+        </>
       )}
       <button
         ref={uploadButtonRef}
@@ -266,4 +277,6 @@ export default function UploadFile({
       </button>
     </div>
   );
-}
+};
+
+export default dynamic(() => Promise.resolve(UploadFile), { ssr: false });
