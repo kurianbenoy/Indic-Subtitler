@@ -58,7 +58,7 @@ export default function CollectionTable({ storedFiles, setStoredFiles }) {
                 const localStorageIndex = storedFiles.length - 1 - index;
 
                 return (
-                  <tr key={index}>
+                  <tr key={index} aria-label="List of subtitles generated">
                     <th>{index + 1}</th>
                     <td className="break-all max-w-48 max-h-32 py-2 px-0">
                       {element.size ? (
@@ -69,13 +69,14 @@ export default function CollectionTable({ storedFiles, setStoredFiles }) {
                             className="tooltip self-start"
                             data-tip="File imported from Youtube"
                           >
-                            <button className="text-sm bg-black text-white w-fit px-2 py-1 rounded-md">
+                            <button
+                              aria-label="tool-tip button youtube"
+                              className="text-sm bg-black text-white w-fit px-2 py-1 rounded-md"
+                            >
                               Youtube
                             </button>
                           </div>
                           <p className="truncate-custom">{element.filename}</p>
-
-                          {/* {element.filename} */}
                         </span>
                       )}
                     </td>
@@ -106,13 +107,17 @@ export default function CollectionTable({ storedFiles, setStoredFiles }) {
                           router.push(`/generate?id=${localStorageIndex}`)
                         }
                         className="flex items-center gap-1"
+                        aria-label="Edit file"
                       >
                         <IconEdit />
                         <p className="font-medium">Edit</p>
                       </button>
                     </td>
                     <td>
-                      <button onClick={() => handleDelete(localStorageIndex)}>
+                      <button
+                        aria-label="Delete file"
+                        onClick={() => handleDelete(localStorageIndex)}
+                      >
                         <IconTrash />
                       </button>
                     </td>

@@ -4,9 +4,15 @@ import SecondaryBtn from "../SecondaryBtn";
 import { IconExternalLink } from "@tabler/icons-react";
 import { transitionToCollection } from "@components/utils";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 export default function HeroSection() {
-  const listOfSupportedModels = ["SeamlessM4T", "faster-whisper", "WhisperX", "Vegam-Whisper"];
+  const listOfSupportedModels = [
+    "SeamlessM4T",
+    "faster-whisper",
+    "WhisperX",
+    "Vegam-Whisper",
+  ];
   const router = useRouter();
   return (
     <section className="md:mt-44 mt-16 flex  justify-between lg:justify-center lg:gap-56 items-center md:px-0 px-4">
@@ -28,19 +34,17 @@ export default function HeroSection() {
           ))}{" "}
           which support almost 12 Indic languages by default.
         </p>
-        <div className="flex gap-4 flex-wrap">
+        <div className="flex gap-4 flex-wrap items-end">
           <PrimaryBtn fn={() => transitionToCollection(router)}>
             Try now for free!
           </PrimaryBtn>
-          <SecondaryBtn fn={() => null}>
-            <a
-              href="https://github.com/kurianbenoy/Indic-Subtitler"
-              target=" _blank"
-              className="flex gap-2"
-            >
-              Github <IconExternalLink />
-            </a>
-          </SecondaryBtn>
+          <a
+            href="https://github.com/kurianbenoy/Indic-Subtitler"
+            target=" _blank"
+            className="flex gap-2 bg-secondary-900 text-white  px-4 py-2 font-medium rounded-md md:text-xl"
+          >
+            Github <IconExternalLink />
+          </a>
         </div>
       </div>
       <img

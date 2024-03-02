@@ -172,7 +172,7 @@ export default function UploadFile({
   return (
     <div className="overflow-hidden overflow-y-auto  lg:px-4">
       <div>
-        <h2 className="text-3xl font-medium">Upload a File</h2>
+        <h1 className="text-3xl font-medium">Upload a File</h1>
         <p className="font-xl text-gray-500 font-medium mt-2">
           Upload an audio file to generate subtitles
         </p>

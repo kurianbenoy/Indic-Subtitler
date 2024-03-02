@@ -39,7 +39,10 @@ export default function Header() {
           <PrimaryBtn accent={true} fn={() => router.push("/about")}>
             Team
           </PrimaryBtn>
-          <PrimaryBtn accent={true} fn={() => router.push("/terms")}>
+          <PrimaryBtn
+            accent={true}
+            fn={() => router.push("/blog/terms-and-licenses")}
+          >
             Terms & Licenses
           </PrimaryBtn>
           <SecondaryBtn fn={() => transitionToCollection(router)}>

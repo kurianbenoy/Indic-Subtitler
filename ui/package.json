@@ -13,6 +13,7 @@
     "axios": "^1.6.7",
     "form-data": "^4.0.0",
     "formidable": "^3.5.1",
+    "gray-matter": "^4.0.3",
     "next": "14.1.0",
     "openai": "^4.27.0",
     "react": "^18",
@@ -21,6 +22,8 @@
     "react-fast-marquee": "^1.6.4",
     "react-icons": "^5.0.1",
     "react-loading": "^2.0.3",
+    "react-markdown": "^9.0.1",
+    "react-syntax-highlighter": "^15.5.0",
     "react-toastify": "^10.0.4"
   },
   "devDependencies": {

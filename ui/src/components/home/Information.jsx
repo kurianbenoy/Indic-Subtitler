@@ -38,21 +38,21 @@ export default function Information() {
             return (
               <div
                 key={index}
-                className="flex flex-col items-center mx-10 my-3 md:mt-0"
+                className="flex flex-col items-center mx-10 my-3 md:mt-0 "
               >
                 <div className="bg-primary-900 text-white md:p-8 p-6 rounded-lg ">
                   <Icon size="46" />
                 </div>
-                <p className="md:text-2xl text-xl mt-2">{element}</p>
+                <p className="md:text-2xl text-xl mt-4">{element}</p>
               </div>
             );
           })}
         </div>
       </section>
       <section>
-        <h2 className="text-center text-3xl md:text-5xl font-medium ">
+        <h1 className="text-center text-3xl md:text-5xl font-medium ">
           Cutting edge technology that supports 10+ languages
-        </h2>
+        </h1>
         <Carousel />
       </section>
       <section className="flex flex-col ">

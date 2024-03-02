@@ -1,0 +1,153 @@
+/* blog.css */
+.markdown {
+  line-height: 1.8;
+  /* font-family: Georgia, serif; */
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Heading Styles */
+.markdown h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+}
+
+.markdown h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.markdown h3 {
+  font-size: 1.75rem;
+  font-weight: bold;
+  margin-bottom: 0.75rem;
+}
+
+.markdown h4 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+/* Paragraph Styles */
+.markdown p {
+  font-size: 1.15rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.8;
+}
+
+/* Link Styles */
+.markdown a {
+  color: #0078d4;
+  text-decoration: none;
+  border-bottom: 2px solid #0078d4;
+}
+
+.markdown a:hover {
+  color: #005a9e;
+  border-bottom: 2px solid #005a9e;
+}
+
+/* List Styles */
+.markdown ul,
+.markdown ol {
+  margin-bottom: 1.5rem;
+  padding-left: 2rem;
+}
+
+.markdown li {
+  font-size: 1.15rem;
+  line-height: 1.8;
+}
+
+/* Code Block Styles */
+.markdown pre {
+  background-color: #f6f8fa;
+  padding: 1.5rem;
+  border-radius: 5px;
+  overflow-x: auto; /* Add horizontal scroll for code blocks on small screens */
+}
+
+.markdown code {
+  font-family: "Courier New", monospace;
+  font-size: 1rem;
+  background-color: #f6f8fa;
+  padding: 2px 5px;
+}
+
+/* Blockquote Styles */
+.markdown blockquote {
+  margin: 0 0 1.5rem 0;
+  padding: 1rem;
+  background-color: #f6f8fa;
+  border-left: 4px solid #0078d4;
+  font-style: italic;
+}
+
+/* Image Styles */
+.markdown img:not(#logo) {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 2rem auto;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Divider Styles */
+.markdown hr {
+  width: 100%;
+  height: 1px;
+  background-color: #f6f8fa;
+  margin: 2rem 0;
+}
+
+/* Mobile Responsive Styles using Media Queries */
+@media (max-width: 640px) {
+  /* Adjust font sizes for smaller screens */
+  .markdown h1 {
+    font-size: 2rem;
+  }
+
+  .markdown h2 {
+    font-size: 1.75rem;
+  }
+
+  .markdown h3 {
+    font-size: 1.5rem;
+  }
+  .markdown h4 {
+    font-size: 1.25rem;
+  }
+
+  .markdown p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+  }
+
+  .markdown ul,
+  .markdown ol {
+    padding-left: 1.5rem;
+  }
+
+  .markdown li {
+    font-size: 1.1rem;
+    line-height: 1.6;
+  }
+
+  /* Reduce blockquote padding for smaller screens */
+  .markdown blockquote {
+    padding: 0.75rem;
+  }
+}
+.markdown ul li {
+  list-style-type: disc;
+}
+
+/* Numbering for ordered lists */
+.markdown ol li {
+  list-style-type: decimal;
+}

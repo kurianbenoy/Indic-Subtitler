@@ -4,6 +4,7 @@ import useLocalStorage from "@components/hooks/useLocalStorage";
 import { useRouter } from "next/router";
 import React from "react";
 import CollectionTable from "@components/components/CollectionTable";
+import Head from "next/head";
 
 const Collection = () => {
   const [storedFiles, setStoredFiles] = useLocalStorage("file", []);
@@ -11,9 +12,12 @@ const Collection = () => {
 
   return (
     <section className="flex justify-center">
+      <Head>
+        <title>Indic Subtitler - Collection of Subtitles </title>
+      </Head>
       <main className=" w-full lg:w-[90%] xl:w-[80%] border-2 rounded-md">
         <div className="flex justify-between items-center border-b-[2px] py-2 px-2">
-          <p className="text-lg text-gray-500 font-medium">
+          <p className="text-lg text-gray-600 ">
             {storedFiles.length}
             {storedFiles.length === 1 ? " item" : " items"}
           </p>

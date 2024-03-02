@@ -4,6 +4,7 @@ import SubtitleEditor from "@components/components/SubtitleEditor";
 import { useRouter } from "next/router";
 import FileInformation from "@components/components/generate/FileInformation";
 import UploadFile from "@components/components/generate/UploadFile";
+import Head from "next/head";
 
 export default function dashboard() {
   const [uploadedFile, setUploadedFile] = useState();
@@ -43,6 +44,9 @@ export default function dashboard() {
 
   return (
     <>
+      <Head>
+        <title>Indic Subtitle - Generate Subtitle</title>
+      </Head>
       <ToastContainer />
       <main className="flex flex-col md:flex-row   xl:mx-14 mx-4 gap-4">
         <aside className="w-full md:w-[50%] lg:w-[25%] flex flex-col space-y-10  md:h-[85vh]">
