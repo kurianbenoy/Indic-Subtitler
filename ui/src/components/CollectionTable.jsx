@@ -6,7 +6,7 @@ import {
 import { useRouter } from "next/router";
 import DownloadFileDropdown from "./DownloadFileDropdown";
 import { IconEdit, IconTrash } from "@tabler/icons-react";
-import { SOURCE_LANGUAGES } from "@components/constants";
+import { LANGUAGES_PER_MODEL } from "@components/constants";
 
 export default function CollectionTable({ storedFiles, setStoredFiles }) {
   const router = useRouter();
