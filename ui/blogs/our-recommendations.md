@@ -18,35 +18,35 @@ is the best models to use for your use case, in your own languages.
 
 ## About the models available in Indic Subtitler
 
-1. SeamlessM4T(default)
+#### 1. SeamlessM4T(default)
 
 Seamless is a family of AI models that enable more natural and authentic communication across languages. SeamlessM4T is a massive multilingual multimodal machine translation model supporting around 100 languages. SeamlessM4T serves as the foundation for SeamlessExpressive, a model that preserves elements of prosody and voice style across languages and SeamlessStreaming, a model supporting simultaneous translation and streaming ASR for around 100 languages. SeamlessExpressive and SeamlessStreaming are combined into Seamless, a unified model featuring multilinguality, real-time, and expressive translations.
 
-2. Faster-whisper
+#### 2. Faster-whisper
 
 faster-whisper is a reimplementation of OpenAI's Whisper model using CTranslate2, which is a fast inference engine for Transformer models. This implementation is up to 4 times faster than openai/whisper for the same accuracy while using less memory. The efficiency can be further improved with 8-bit quantization on both CPU and GPU.
 
-3. WhisperX
+#### 3. WhisperX
 
 WhisperX provides fast automatic speech recognition (70x realtime with large-v2) with word-level timestamps and speaker diarization. The features provided by WhisperX are: Batched inference for 70x realtime transcription using whisper large-v2, faster-whisper backend, requires <8GB GPU memory for large-v2 with beam_size=5, Accurate word-level timestamps using wav2vec2 alignment, Multispeaker ASR using speaker diarization from pyannote-audio (speaker ID labels) and VAD preprocessing, reduces hallucination & batching with no WER degradation.
 
-4. Vegam-whisper
+#### 4. Vegam-whisper
 
 A faster-whisper fine-tuned version of Malayalam whisper, which performs decently in Malayalam. This is a conversion of `thennal/whisper-medium-ml` to the CTranslate2 model format.
 
 ## Our Model recommendations
 
-### For English audio 
+#### For English audio 
 
 WhisperX > faster-whisper > SeamlessM4T
 
 If you want better timestamp accuracy use SeamlessM4T
 
-### For Malayalam Audio
+#### For Malayalam
 
 Vegam-whisper = faster-whisper > SeamlessM4T
 
-### For hindi audio
+#### For Hindi
 
 Faster-Whisper > WhisperX > SeamlessM4t
 
