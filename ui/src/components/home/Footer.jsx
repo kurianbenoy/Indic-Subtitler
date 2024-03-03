@@ -20,6 +20,9 @@ export default function Footer() {
             <li>
               <Link href="/blog">Blog</Link>
             </li>
+             <li>
+              <Link href="https://github.com/kurianbenoy/Indic-Subtitler/">Github</Link>
+            </li>
             <li>
               <Link href="/terms">Terms</Link>
             </li>
