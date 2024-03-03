@@ -15,7 +15,7 @@ Indic-subtitler is an open source subtitling platform 💻 for transcribing and 
 
 [Github Project Link](https://github.com/kurianbenoy/Indic-Subtitler/)
 
-**Don't use this Indic Subtitler for any unlawful purposes.**
+**Don't use this project, Indic Subtitler for any unlawful purposes.**
 
 **License:** GNU General Public License v2.0
 
