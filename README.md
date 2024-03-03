@@ -33,6 +33,7 @@ Due to advent of new technologies like Meta's seamless M4T model and Whisper fin
 2. Can create educational content for doctors practising commmunity medicine, can be used in apps for schools. Like a content in English can be translated to Telgu, the mother tongue of student so they can understand things quickly
 3. Can be used for media professionals to subtitle news content, movies etc.
 
+**Don't use Indic Subtitler for any unlawful purposes.**
 ---
 
 ## Technology stack
