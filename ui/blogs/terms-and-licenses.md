@@ -13,6 +13,8 @@ type: Legal Terms
 
 Indic-subtitler is an open source subtitling platform 💻 for transcribing and translating videos/audios in Indic languages. The number of tools available in Indian languages to subtitle audio and videos is almost none. Yet that shouldn't be the case, as there are now many open-source models supporting speech transcription in most official Indian languages. This tool can be useful for subtitling audios and videos like Indian cinemas for the Media Industry in general. With this tool, content creators can create YouTube videos in their native language like Tamil and create captions in languages like English, Hindi, Malayalam, etc., using our tool which will help them reach a diverse audience.
 
+[Github Project Link](https://github.com/kurianbenoy/Indic-Subtitler/)
+
 **License:** GNU General Public License v2.0
 
 The GNU GPL is the most widely used free software license and has a strong copyleft requirement. When distributing derived works, the source code of the work must be made available under the same license. There are multiple variants of the GNU GPL, each with different requirements.
