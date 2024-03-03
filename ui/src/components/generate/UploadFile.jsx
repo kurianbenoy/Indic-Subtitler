@@ -252,7 +252,6 @@ const UploadFile = ({
         </div>
       ) : (
         <>
-          below
           <Dropdown
             onChange={(item) => setTargetLanguage(item)}
             label="Subtitle Language"
