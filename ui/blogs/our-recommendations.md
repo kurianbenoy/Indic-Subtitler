@@ -36,7 +36,7 @@ A faster-whisper fine-tuned version of Malayalam whisper, which performs decentl
 
 ## Our Model recommendations
 
-#### For English audio 
+#### For English audio
 
 WhisperX > faster-whisper > SeamlessM4T
 
