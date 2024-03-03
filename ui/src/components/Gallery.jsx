@@ -73,7 +73,7 @@ export default function Gallery() {
             <div className="md:w-[40%] mt-2 md:mt-0">
               <h2 className="text-4xl mb-4 font-medium">{mentor.name}</h2>
               <p className="mb-4 text-gray-600 md:leading-9 md:text-lg">
-                {/* {mentor.description} */}
+                {mentor.description}
               </p>
               {/* Assuming mentors also have social links, adjust if not */}
               <div className="flex self-end gap-4">
