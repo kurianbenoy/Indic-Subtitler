@@ -55,7 +55,7 @@ A permissive license similar to the BSD 3-Clause License, but with an advertisin
 
 ### 2d. Vegam-whisper
 
-A faster-whisper fine-tuned version of Malayalam whisper, which performs decently.
+A faster-whisper fine-tuned version of Malayalam whisper, which performs decently in Malayalam. This is a conversion of `thennal/whisper-medium-ml` to the CTranslate2 model format.
 
 [Project Link](https://huggingface.co/kurianbenoy/vegam-whisper-medium-ml)
 
