@@ -52,7 +52,7 @@ def download_models():
         compute_type="float16",
     )
 
-    model = whisper.load_model("base")
+    whisper.load_model("base")
 
 
 def base64_to_audio_file(b64_contents: str):
@@ -88,6 +88,7 @@ def convert_to_mono_16k(input_file: str, output_file: str) -> None:
     sound = sound.set_channels(1).set_frame_rate(16000)
     sound.export(output_file, format="wav")
 
+
 def whisper_language_detection(fname):
     import whisper
 
@@ -104,6 +105,7 @@ def whisper_language_detection(fname):
     _, probs = model.detect_language(mel)
     print(f"Detected language: {max(probs, key=probs.get)}")
     return {"detected_language": max(probs, key=probs.get)}
+
 
 # def faster_whisper_language_detection(af):
 #     from faster_whisper import WhisperModel
