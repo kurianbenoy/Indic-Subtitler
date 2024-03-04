@@ -181,7 +181,7 @@ const UploadFile = ({
   return (
     <div className="overflow-hidden overflow-y-auto  lg:px-4">
       <div>
-        <h1 className="text-3xl font-medium">Upload a File</h1>
+        <h2 className="text-3xl font-medium">Upload a File</h2>
         <p className="font-xl text-gray-500 font-medium mt-2">
           Upload an audio file to generate subtitles
         </p>
@@ -204,8 +204,17 @@ const UploadFile = ({
           placeholder="Paste YouTube Video Link"
         />
       </label>
-      <div className="flex justify-end items-center">
-        <div className="form-control mt-5">
+      <div className="mt-2">
+        <a
+          href="/blog/our-recommendations"
+          target="_blank"
+          className="link link-primary"
+        >
+          Learn about our model recommendation
+        </a>
+      </div>
+      <div className="flex items-center justify-end ">
+        <div className="form-control">
           <label className="label cursor-pointer">
             <span className="label-text mx-2 font-medium">Advance Options</span>
             <input

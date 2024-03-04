@@ -28,6 +28,7 @@ export default function Dropdown({
       <p className=" text-xs text-red-700 mt-[-5px]">Required</p>
 
       <select
+        aria-label="Select Target Language"
         onChange={handleSelectChange}
         className="mt-1 border-2 w-full text-lg px-2 py-2 rounded-md cursor-pointer focus-visible:outline-none focus-visible:ring focus-visible:ring-primary-300 transition-all transition-75"
         value={isOptionValid ? selectedVal : options[0]?.id}

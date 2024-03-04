@@ -12,4 +12,8 @@ const withPWAConfig = withPWA(config);
 export default {
   ...withPWAConfig,
   reactStrictMode: false,
+  i18n: {
+    locales: ["en-US"],
+    defaultLocale: "en-US",
+  },
 };

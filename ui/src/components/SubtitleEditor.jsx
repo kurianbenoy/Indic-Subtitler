@@ -45,18 +45,21 @@ export default function SubtitleEditor({
               Generating ...
             </div>
           ) : (
-            <DownloadFileDropdown
-              file={transcribed}
-              filename={filename}
-              modelName={selectedModel}
-            />
+            <div className="w-full flex items-center justify-between">
+              <p className="text-primary-900 font-medium">
+                Click on subtitle to start editing
+              </p>
+              <DownloadFileDropdown
+                file={transcribed}
+                filename={filename}
+                modelName={selectedModel}
+              />
+            </div>
           )}
         </div>
+
         <div>
-          <div className="overflow-x-auto h-[680px]">
-            <p className="text-gray-500 font-semibold mx-2">
-              Click on subtitle to start editing
-            </p>
+          <div className="overflow-x-auto h-[680px] ">
             <table className="table text-lg">
               <thead className="text-lg text-gray-600">
                 <tr>
@@ -74,10 +77,8 @@ export default function SubtitleEditor({
                       </p>
                     </td>
                     <td>
-                      <label for={index} className="text-sm">
-                        Subtitle
-                      </label>
                       <textarea
+                        aria-label="Subtitle"
                         id={index}
                         className="w-full resize-none"
                         rows={Math.ceil(element.text?.length / 100) || 2}
