@@ -16,7 +16,7 @@ export default function dashboard() {
   const [isSubtitleBeingGenerated, setIsSubtitleBeingGenerated] =
     useState(false);
   const [youtubeTitle, setYoutubeTitle] = useState();
-  const [selectedModel, setSelectedModel] = useState("seamlessM4t");
+  const [selectedModel, setSelectedModel] = useState("fasterWhisper");
 
   const router = useRouter();
   const index = router.query.id;
