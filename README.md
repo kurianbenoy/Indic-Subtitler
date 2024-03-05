@@ -260,6 +260,23 @@ https://github.com/kurianbenoy/Indic-Subtitler/issues/4
 
 - GPT prompting(kept least priority because, if we get the quality part set using noice reduction, we won't even need gpt usage much since the accuracy would already be pretty good!)
 
+#### Action Items
+
+
+- Use faster-whisper instead of seamless by default
+- Adding demucs as priority 
+
+- Maybe consider adding some ui to make the user wait 
+- Making video 
+- Making slides
+
+- Add a pen icon or so to ensure that the edit feature exists (or some other feature to show that subtitles can be edited)
+
+- Get 3-4 testimonials from people and add it in landign page
+- Try adding a demo / example in landing page. 
+- Maybe consider a Small write-up about the live transcription
+- add model recommendation page in generate screen (https://indicsubtitler.vercel.app/blog/our-recommendations)
+
 
 **Week 5 onwards 🌕**
 
