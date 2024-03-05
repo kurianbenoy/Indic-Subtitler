@@ -260,6 +260,9 @@ https://github.com/kurianbenoy/Indic-Subtitler/issues/4
 
 - GPT prompting(kept least priority because, if we get the quality part set using noice reduction, we won't even need gpt usage much since the accuracy would already be pretty good!)
 
+**Week 5**
+
+
 #### Action Items
 
 
@@ -278,7 +281,7 @@ https://github.com/kurianbenoy/Indic-Subtitler/issues/4
 - add model recommendation page in generate screen (https://indicsubtitler.vercel.app/blog/our-recommendations)
 
 
-**Week 5 onwards 🌕**
+**Week 6 onwards 🌕**
 
 - Fine-tune ASR models based on performance for respective languages and integrate even whisper-based audio models.
 - Build a desktop app similar to webapp for using all the functionalities
