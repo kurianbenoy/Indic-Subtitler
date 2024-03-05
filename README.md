@@ -275,7 +275,7 @@ https://github.com/kurianbenoy/Indic-Subtitler/issues/4
 
 - Add a pen icon or so to ensure that the edit feature exists (or some other feature to show that subtitles can be edited)
 
-- Get 3-4 testimonials from people and add it in landign page
+- Get 3-4 testimonials from people and add it in landing page.
 - Try adding a demo / example in landing page.
 - Maybe consider a Small write-up about the live transcription
 - add model recommendation page in generate screen (https://indicsubtitler.vercel.app/blog/our-recommendations)
