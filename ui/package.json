@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@tabler/icons-react": "^2.47.0",
+    "@wavesurfer/react": "^1.0.4",
     "axios": "^1.6.7",
     "form-data": "^4.0.0",
     "formidable": "^3.5.1",
@@ -25,7 +26,9 @@
     "react-loading": "^2.0.3",
     "react-markdown": "^9.0.1",
     "react-syntax-highlighter": "^15.5.0",
-    "react-toastify": "^10.0.4"
+    "react-toastify": "^10.0.4",
+    "wavesurfer-react": "^3.0.2",
+    "wavesurfer.js": "^7.7.3"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.10",

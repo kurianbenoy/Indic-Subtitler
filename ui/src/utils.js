@@ -203,3 +203,11 @@ export function getFullLanguageName(model, languageCode) {
   }
   return languageCode;
 }
+
+export function formatSubtitleData(jsonData) {
+  return jsonData.map(({ start, end, text }) => ({
+    start,
+    end,
+    text,
+  }));
+}
