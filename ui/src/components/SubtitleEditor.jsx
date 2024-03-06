@@ -10,6 +10,8 @@ export default function SubtitleEditor({
   filename,
   requestSentToAPI,
   selectedModel,
+  isSubtitleGenerated,
+  isLocalFile,
 }) {
   function handleInputChange(index, newText, type) {
     const updateTranscribe = [...transcribed];
@@ -28,7 +30,9 @@ export default function SubtitleEditor({
   const endDivRef = useRef();
 
   useEffect(() => {
-    endDivRef?.current?.scrollIntoView({ behavior: "smooth" });
+    if (!isSubtitleGenerated) {
+      endDivRef?.current?.scrollIntoView({ behavior: "smooth" });
+    }
   }, [transcribed]);
 
   if (!transcribed?.length && !requestSentToAPI) {

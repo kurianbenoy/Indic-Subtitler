@@ -21,6 +21,7 @@ const UploadFile = ({
   setYoutubeTitle,
   selectedModel,
   setSelectedModel,
+  setIsSubtitleGenerated,
 }) => {
   const [turnOnAdvanceOptions, setTurnOnAdvanceOptions] = useState(false);
   const [targetLanguage, setTargetLanguage] = useLocalStorage(
@@ -110,7 +111,10 @@ const UploadFile = ({
         while (true) {
           const { done, value } = await reader.read();
           setIsBeingGenerated(!done);
-          if (done) break;
+          if (done) {
+            setIsSubtitleGenerated(true);
+            break;
+          }
           try {
             const decodedValue = decoder.decode(value);
             const jsonData = JSON.parse(decodedValue);

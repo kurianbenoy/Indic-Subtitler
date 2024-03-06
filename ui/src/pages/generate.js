@@ -17,7 +17,7 @@ export default function dashboard() {
     useState(false);
   const [youtubeTitle, setYoutubeTitle] = useState();
   const [selectedModel, setSelectedModel] = useState("fasterWhisper");
-
+  const [isSubtitleGenerated, setIsSubtitleGenerated] = useState(false);
   const router = useRouter();
   const index = router.query.id;
 
@@ -25,7 +25,9 @@ export default function dashboard() {
     const items = JSON.parse(localStorage.getItem("file"));
     if (index && items) {
       if (items[index]) {
+        console.log("hey");
         setIsLocalFile(true);
+        setIsSubtitleGenerated(true);
         const item = items[index];
         setTranscribed(item.transcribedData);
         setSelectedModel(item.model);
@@ -70,6 +72,7 @@ export default function dashboard() {
               youtubeTitle={youtubeTitle}
               selectedModel={selectedModel}
               setSelectedModel={setSelectedModel}
+              setIsSubtitleGenerated={setIsSubtitleGenerated}
             />
           )}
         </aside>
@@ -81,6 +84,7 @@ export default function dashboard() {
           filename={uploadedFile?.path ?? youtubeTitle}
           requestSentToAPI={requestSentToAPI}
           selectedModel={selectedModel}
+          isSubtitleGenerated={isSubtitleGenerated}
         />
       </main>
     </>
