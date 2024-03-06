@@ -12,7 +12,13 @@ import {
 } from "@tabler/icons-react";
 import { useWavesurfer } from "@wavesurfer/react";
 import { formatSubtitleData } from "@components/utils";
-import { ENGLISH_SUBTITLE, HINDI_SUBTITLE } from "@components/constants";
+import {
+  BENGALI_SUBTITLE,
+  ENGLISH_SUBTITLE,
+  HINDI_SUBTITLE,
+  KANNADA_SUBTITLE,
+  MALAYALAM_SUBTITLE,
+} from "@components/constants";
 export default function AudioDemo() {
   const [currentSubtitle, setCurrentSubtitle] = useState([]);
   const formatTime = (seconds) =>
@@ -36,6 +42,9 @@ export default function AudioDemo() {
   const subtitlesObject = {
     english: ENGLISH_SUBTITLE,
     hindi: HINDI_SUBTITLE,
+    kannada: KANNADA_SUBTITLE,
+    malayalam: MALAYALAM_SUBTITLE,
+    bengali: BENGALI_SUBTITLE,
   };
   const subtitleData = formatSubtitleData(subtitlesObject[selectedSubtitle]);
 
@@ -55,17 +64,18 @@ export default function AudioDemo() {
         <select
           onChange={(event) => setSelectedSubtitle(event.target.value)}
           aria-label="Subtitle Langugae"
-          className="border-2   px-2 py-2 rounded-md cursor-pointer focus-visible:outline-none focus-visible:ring focus-visible:ring-primary-300 transition-all transition-75"
+          className="border-2 px-2 py-2 rounded-md cursor-pointer focus-visible:outline-none focus-visible:ring focus-visible:ring-primary-300 transition-all transition-75"
         >
           <option value="english">English</option>
           <option value="hindi">Hindi</option>
-          {/* <option value="kannada">Kannada</option>
+          <option value="kannada">Kannada</option>
           <option value="malayalam">Malayalam</option>
-          <option value="bengali">bengali</option> */}
+          <option value="bengali">Bengali</option>
         </select>
       </div>
       <div className="bg-[#27272A] rounded-md flex gap-4  p-2 w-full items-center">
         <button
+          aria-label="Pause Play Button"
           className="bg-white p-4  rounded-full h-max "
           onClick={onPlayPause}
         >
