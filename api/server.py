@@ -24,7 +24,9 @@ def download_models():
 
     # Define model names for the translator and vocoder
     model_name = "seamlessM4T_v2_large"
-    vocoder_name = "vocoder_v2" if model_name == "seamlessM4T_v2_large" else "vocoder_36langs"
+    vocoder_name = (
+        "vocoder_v2" if model_name == "seamlessM4T_v2_large" else "vocoder_36langs"
+    )
 
     # Initialize the translator model with specified parameters
     Translator(
@@ -149,7 +151,9 @@ def whisper_language_detection(fname):
 
 # Define the Docker image configuration for the processing environment
 image = (
-    Image.from_registry("nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu22.04", add_python="3.10")
+    Image.from_registry(
+        "nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu22.04", add_python="3.10"
+    )
     .apt_install("git", "ffmpeg")
     .pip_install(
         "fairseq2==0.2.*",
@@ -158,9 +162,11 @@ image = (
         "ffmpeg-python",
         "torch==2.1.1",
         "seamless_communication @ git+https://github.com/facebookresearch/seamless_communication.git",  # torchaudio already included in seamless_communication
-        "faster-whisper",
-        "whisperx @ git+https://github.com/m-bain/whisperX.git@e906be9688334b4ae7d3a23f69734ac901a255ee",
     )
+    .pip_install(
+        "faster-whisper @ https://github.com/guillaumekln/faster-whisper/archive/refs/heads/master.tar.gz"
+    )
+    .pip_install("whisperx @ git+https://github.com/m-bain/whisperx.git")
     .pip_install("pytube==15.0.0")
     .pip_install("openai-whisper==20231117")
     .run_function(download_models, gpu=GPU_TYPE)
@@ -227,7 +233,9 @@ def generate_seamlessm4t_speech(item: Dict):
         # translator = download_models()
         start = time.perf_counter()
         model_name = "seamlessM4T_v2_large"
-        vocoder_name = "vocoder_v2" if model_name == "seamlessM4T_v2_large" else "vocoder_36langs"
+        vocoder_name = (
+            "vocoder_v2" if model_name == "seamlessM4T_v2_large" else "vocoder_36langs"
+        )
 
         translator = Translator(
             model_name,
@@ -264,7 +272,9 @@ def generate_seamlessm4t_speech(item: Dict):
                 )
                 resampled_waveform = resampler(waveform)
                 torchaudio.save("resampled.wav", resampled_waveform, SAMPLING_RATE)
-                translated_text, _ = translator.predict("resampled.wav", "s2tt", target_lang)
+                translated_text, _ = translator.predict(
+                    "resampled.wav", "s2tt", target_lang
+                )
                 # print(translated_text)
                 text.append(str(translated_text[0]))
                 os.remove(new_audio_name)
@@ -296,7 +306,9 @@ def sliding_window_approch_timestamps(speech_timestamps_seconds):
     - list: List of grouped speech timestamps.
     """
     chunk_len = 3  # Define the length of each chunk
-    length_speech_timestamps = len(speech_timestamps_seconds)  # Get the total number of timestamps
+    length_speech_timestamps = len(
+        speech_timestamps_seconds
+    )  # Get the total number of timestamps
     group_chunks = []  # Initialize the list to store the grouped chunks
 
     # Loop over the timestamps with a step size equal to the chunk length
@@ -309,7 +321,9 @@ def sliding_window_approch_timestamps(speech_timestamps_seconds):
     # Loop over the grouped chunks
     for item in group_chunks:
         # Append the start and end of each chunk to the list of new grouped chunks
-        new_group_chunks.append({"start": item[0]["start"], "end": item[len(item) - 1]["end"]})
+        new_group_chunks.append(
+            {"start": item[0]["start"], "end": item[len(item) - 1]["end"]}
+        )
 
     return new_group_chunks  # Return the list of new grouped chunks
 
@@ -364,7 +378,9 @@ def generate_faster_whisper_speech(item: Dict):
         )
         print(speech_timestamps_seconds)
 
-        grouped_timestamps = sliding_window_approch_timestamps(speech_timestamps_seconds)
+        grouped_timestamps = sliding_window_approch_timestamps(
+            speech_timestamps_seconds
+        )
         print(grouped_timestamps)
 
         model = WhisperModel(MODEL_SIZE, device="cuda", compute_type="float16")
@@ -373,8 +389,7 @@ def generate_faster_whisper_speech(item: Dict):
             for segment in grouped_timestamps:
                 s = segment["start"]
                 e = segment["end"]
-                # print(s, e)
-                # print("ENTER loop")
+
                 newAudio = AudioSegment.from_wav("output.wav")
 
                 newAudio = newAudio[s * 1000 : e * 1000]
@@ -452,19 +467,22 @@ def generate_vegam_faster_whisper(item: Dict):
         )
         print(speech_timestamps_seconds)
 
-        grouped_timestamps = sliding_window_approch_timestamps(speech_timestamps_seconds)
+        grouped_timestamps = sliding_window_approch_timestamps(
+            speech_timestamps_seconds
+        )
         print(grouped_timestamps)
 
         model = WhisperModel(
-            "kurianbenoy/vegam-whisper-medium-ml-fp16", device="cuda", compute_type="float16"
+            "kurianbenoy/vegam-whisper-medium-ml-fp16",
+            device="cuda",
+            compute_type="float16",
         )
 
         async def generate():
             for segment in grouped_timestamps:
                 s = segment["start"]
                 e = segment["end"]
-                # print(s, e)
-                # print("ENTER loop")
+
                 newAudio = AudioSegment.from_wav("output.wav")
 
                 newAudio = newAudio[s * 1000 : e * 1000]
@@ -550,7 +568,9 @@ def generate_whisperx_speech(item: Dict):
         )
         print(speech_timestamps_seconds)
 
-        grouped_timestamps = sliding_window_approch_timestamps(speech_timestamps_seconds)
+        grouped_timestamps = sliding_window_approch_timestamps(
+            speech_timestamps_seconds
+        )
         print(grouped_timestamps)
 
         model = whisperx.load_model(
@@ -680,7 +700,9 @@ def youtube_generate_seamlessm4t_speech(item: Dict):
         # translator = download_models()
         start = time.perf_counter()
         model_name = "seamlessM4T_v2_large"
-        vocoder_name = "vocoder_v2" if model_name == "seamlessM4T_v2_large" else "vocoder_36langs"
+        vocoder_name = (
+            "vocoder_v2" if model_name == "seamlessM4T_v2_large" else "vocoder_36langs"
+        )
 
         translator = Translator(
             model_name,
@@ -716,7 +738,9 @@ def youtube_generate_seamlessm4t_speech(item: Dict):
                 )
                 resampled_waveform = resampler(waveform)
                 torchaudio.save("resampled.wav", resampled_waveform, SAMPLING_RATE)
-                translated_text, _ = translator.predict("resampled.wav", "s2tt", target_lang)
+                translated_text, _ = translator.predict(
+                    "resampled.wav", "s2tt", target_lang
+                )
                 # print(translated_text)
                 text.append(str(translated_text[0]))
                 os.remove(new_audio_name)
@@ -801,7 +825,9 @@ def youtube_generate_faster_whisper_speech(item: Dict):
         )
         print(speech_timestamps_seconds)
 
-        grouped_timestamps = sliding_window_approch_timestamps(speech_timestamps_seconds)
+        grouped_timestamps = sliding_window_approch_timestamps(
+            speech_timestamps_seconds
+        )
         print(grouped_timestamps)
 
         model = WhisperModel(MODEL_SIZE, device="cuda", compute_type="float16")
@@ -901,11 +927,15 @@ def youtube_generate_vegam_faster_whisper(item: Dict):
         )
         print(speech_timestamps_seconds)
 
-        grouped_timestamps = sliding_window_approch_timestamps(speech_timestamps_seconds)
+        grouped_timestamps = sliding_window_approch_timestamps(
+            speech_timestamps_seconds
+        )
         print(grouped_timestamps)
 
         model = WhisperModel(
-            "kurianbenoy/vegam-whisper-medium-ml-fp16", device="cuda", compute_type="float16"
+            "kurianbenoy/vegam-whisper-medium-ml-fp16",
+            device="cuda",
+            compute_type="float16",
         )
 
         async def generate():
@@ -1011,7 +1041,9 @@ def youtube_generate_whisperx_speech(item: Dict):
         )
         print(speech_timestamps_seconds)
 
-        grouped_timestamps = sliding_window_approch_timestamps(speech_timestamps_seconds)
+        grouped_timestamps = sliding_window_approch_timestamps(
+            speech_timestamps_seconds
+        )
         print(grouped_timestamps)
 
         model = whisperx.load_model(
@@ -1048,8 +1080,6 @@ def youtube_generate_whisperx_speech(item: Dict):
                     "cuda",
                     return_char_alignments=False,
                 )
-
-                # print(result["segments"])
 
                 for segment in result["segments"]:
                     obj = {
