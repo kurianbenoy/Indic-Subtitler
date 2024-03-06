@@ -27,6 +27,7 @@
     "react-markdown": "^9.0.1",
     "react-syntax-highlighter": "^15.5.0",
     "react-toastify": "^10.0.4",
+    "url-loader": "^4.1.1",
     "wavesurfer-react": "^3.0.2",
     "wavesurfer.js": "^7.7.3"
   },
