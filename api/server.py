@@ -330,9 +330,13 @@ def generate_faster_whisper_speech(item: Dict):
         grouped_timestamps = sliding_window_approch_timestamps(speech_timestamps_seconds)
         print(grouped_timestamps)
 
-        model = WhisperModel(MODEL_SIZE, device="cuda", compute_type="float16")
+        def generate():
+            lang = whisper_language_detection("output.wav")
+            yield json.dumps({"type": "language_detection", "data": lang["detected_language"]})
 
-        async def generate():
+            model = WhisperModel(MODEL_SIZE, device="cuda", compute_type="float16")
+            yield json.dumps({"type": "info", "data": "Model loaded"})
+
             for segment in grouped_timestamps:
                 s = segment["start"]
                 e = segment["end"]
@@ -417,13 +421,17 @@ def generate_vegam_faster_whisper(item: Dict):
         grouped_timestamps = sliding_window_approch_timestamps(speech_timestamps_seconds)
         print(grouped_timestamps)
 
-        model = WhisperModel(
-            "kurianbenoy/vegam-whisper-medium-ml-fp16",
-            device="cuda",
-            compute_type="float16",
-        )
+        def generate():
+            lang = whisper_language_detection("output.wav")
+            yield json.dumps({"type": "language_detection", "data": lang["detected_language"]})
+            model = WhisperModel(
+                "kurianbenoy/vegam-whisper-medium-ml-fp16",
+                device="cuda",
+                compute_type="float16",
+            )
 
-        async def generate():
+            yield json.dumps({"type": "info", "data": "Model loaded"})
+
             for segment in grouped_timestamps:
                 s = segment["start"]
                 e = segment["end"]
@@ -516,11 +524,14 @@ def generate_whisperx_speech(item: Dict):
         grouped_timestamps = sliding_window_approch_timestamps(speech_timestamps_seconds)
         print(grouped_timestamps)
 
-        model = whisperx.load_model(
-            MODEL_SIZE, "cuda", compute_type="float16", language=target_lang
-        )
-
         async def generate():
+            lang = whisper_language_detection("output.wav")
+            yield json.dumps({"type": "language_detection", "data": lang["detected_language"]})
+            model = whisperx.load_model(
+                MODEL_SIZE, "cuda", compute_type="float16", language=target_lang
+            )
+            yield json.dumps({"type": "info", "data": "Model loaded"})
+
             for segment in grouped_timestamps:
                 s = segment["start"]
                 e = segment["end"]
@@ -645,13 +656,6 @@ def youtube_generate_seamlessm4t_speech(item: Dict):
         model_name = "seamlessM4T_v2_large"
         vocoder_name = "vocoder_v2" if model_name == "seamlessM4T_v2_large" else "vocoder_36langs"
 
-        translator = Translator(
-            model_name,
-            vocoder_name,
-            device=torch.device("cuda:0"),
-            dtype=torch.float16,
-        )
-
         duration = time.perf_counter() - start
         print(f"Duration to load model is: {duration}")
 
@@ -660,7 +664,18 @@ def youtube_generate_seamlessm4t_speech(item: Dict):
         timestamps_end = []
         text = []
 
-        async def generate():
+        def generate():
+            lang = whisper_language_detection("output.wav")
+            yield json.dumps({"type": "language_detection", "data": lang["detected_language"]})
+
+            translator = Translator(
+                model_name,
+                vocoder_name,
+                device=torch.device("cuda:0"),
+                dtype=torch.float16,
+            )
+
+            yield json.dumps({"type": "info", "data": "Model loaded"})
             for item in speech_timestamps_seconds:
                 s = item["start"]
                 e = item["end"]
@@ -767,10 +782,14 @@ def youtube_generate_faster_whisper_speech(item: Dict):
         grouped_timestamps = sliding_window_approch_timestamps(speech_timestamps_seconds)
         print(grouped_timestamps)
 
-        model = WhisperModel(MODEL_SIZE, device="cuda", compute_type="float16")
-        print(model)
+        def generate():
+            lang = whisper_language_detection("output.wav")
+            yield json.dumps({"type": "language_detection", "data": lang["detected_language"]})
 
-        async def generate():
+            model = WhisperModel(MODEL_SIZE, device="cuda", compute_type="float16")
+
+            yield json.dumps({"type": "info", "data": "Model loaded"})
+
             for segment in grouped_timestamps:
                 s = segment["start"]
                 e = segment["end"]
@@ -867,13 +886,16 @@ def youtube_generate_vegam_faster_whisper(item: Dict):
         grouped_timestamps = sliding_window_approch_timestamps(speech_timestamps_seconds)
         print(grouped_timestamps)
 
-        model = WhisperModel(
-            "kurianbenoy/vegam-whisper-medium-ml-fp16",
-            device="cuda",
-            compute_type="float16",
-        )
+        def generate():
+            lang = whisper_language_detection("output.wav")
+            yield json.dumps({"type": "language_detection", "data": lang["detected_language"]})
+            model = WhisperModel(
+                "kurianbenoy/vegam-whisper-medium-ml-fp16",
+                device="cuda",
+                compute_type="float16",
+            )
 
-        async def generate():
+            yield json.dumps({"type": "info", "data": "Model loaded"})
             for segment in grouped_timestamps:
                 s = segment["start"]
                 e = segment["end"]
@@ -979,11 +1001,14 @@ def youtube_generate_whisperx_speech(item: Dict):
         grouped_timestamps = sliding_window_approch_timestamps(speech_timestamps_seconds)
         print(grouped_timestamps)
 
-        model = whisperx.load_model(
-            MODEL_SIZE, "cuda", compute_type="float16", language=target_lang
-        )
+        def generate():
+            lang = whisper_language_detection("output.wav")
+            yield json.dumps({"type": "language_detection", "data": lang["detected_language"]})
+            model = whisperx.load_model(
+                MODEL_SIZE, "cuda", compute_type="float16", language=target_lang
+            )
 
-        async def generate():
+            yield json.dumps({"type": "info", "data": "Model loaded"})
             for segment in grouped_timestamps:
                 s = segment["start"]
                 e = segment["end"]
