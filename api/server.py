@@ -109,7 +109,6 @@ def whisper_language_detection(fname):
 
 def process_audio(b64):
     import torch
-    import torchaudio
 
     """
     Process audio data, perform voice activity detection, and translate speech.
@@ -188,7 +187,6 @@ def generate_seamlessm4t_speech(item: Dict):
     try:
 
         def generate(item):
-            print("inside generate")
             target_lang = item["target"]
             yield json.dumps({"type": "info", "data": "Audio file received"})
 
