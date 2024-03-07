@@ -1,6 +1,5 @@
 import { IconBrandX } from "@tabler/icons-react";
 import Image from "next/image";
-import { Tweet } from "react-tweet";
 
 const testimonials = [
   {
