@@ -33,7 +33,7 @@ export default function AudioDemo() {
     height: 80,
     waveColor: "#ffff",
     progressColor: "#9DC0FA",
-    url: "/sample.mp3",
+    url: "/demo.mp3",
   });
   const onPlayPause = useCallback(() => {
     wavesurfer && wavesurfer.playPause();
