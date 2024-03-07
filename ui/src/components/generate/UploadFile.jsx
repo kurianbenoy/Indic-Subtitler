@@ -82,6 +82,22 @@ const UploadFile = ({
     setSubmitCounter(submitCounter + 1);
     if (submitCounter > 0) setTranscribed([]);
 
+    const handleServerResponse = (jsonData) => {
+      switch (jsonData.type) {
+        case "language_detection":
+          const language_identified = jsonData["data"];
+          toast.info("Language identified as " + language_identified, {
+            delay: 5000,
+          });
+          return true;
+        case "info":
+          toast.info(jsonData.data);
+          return true;
+        default:
+          return false;
+      }
+    };
+
     const { url, requestData } = await getRequestParamsForModel(
       uploadedFile,
       youtubeLink,
@@ -123,8 +139,9 @@ const UploadFile = ({
               setrequestSentToAPI(false);
               firstResponseRecieved = false;
             }
+            const isServerMsg = handleServerResponse(jsonData);
+            if (isServerMsg) continue;
             setTranscribed((transcribed) => [...transcribed, jsonData]);
-
             transcription.push(jsonData);
           } catch (error) {
             console.log("error in transcribing: ", error);
@@ -133,7 +150,14 @@ const UploadFile = ({
             const parsedObjects = jsonObjects.map((objString) =>
               JSON.parse(objString)
             );
+
+            console.log(jsonString);
             console.log("error handled");
+            console.log(parsedObjects);
+
+            const isServerMsg = handleServerResponse(parsedObjects);
+            if (isServerMsg) continue;
+
             setTranscribed((transcribed) => [...transcribed, ...parsedObjects]);
             transcription.push(...parsedObjects);
           }

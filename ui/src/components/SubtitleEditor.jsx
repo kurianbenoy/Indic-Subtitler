@@ -95,7 +95,7 @@ export default function SubtitleEditor({
                         aria-label="Subtitle"
                         ref={(el) => (textAreaRefs.current[index] = el)}
                         className="w-full resize-none"
-                        rows={Math.ceil(element.text?.length / 100) || 2}
+                        rows={Math.ceil(element.text?.length / 85) || 2}
                         type="text"
                         value={element.text}
                         onChange={(e) =>

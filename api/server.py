@@ -109,46 +109,6 @@ def whisper_language_detection(fname):
     return {"detected_language": max(probs, key=probs.get)}
 
 
-# def faster_whisper_language_detection(af):
-#     from faster_whisper import WhisperModel
-#     from faster_whisper.audio import decode_audio, pad_or_trim
-
-
-#     segment = features[:, : self.feature_extractor.nb_max_frames]
-#     audio = decode_audio(af, sampling_rate=sampling_rate)
-
-#     while clip_idx < len(seek_clips):
-#             seek_clip_start, seek_clip_end = seek_clips[clip_idx]
-#             if seek_clip_end > content_frames:
-#                 seek_clip_end = content_frames
-#             if seek < seek_clip_start:
-#                 seek = seek_clip_start
-#             if seek >= seek_clip_end:
-#                 clip_idx += 1
-#                 if clip_idx < len(seek_clips):
-#                     seek = seek_clips[clip_idx][0]
-#                 continue
-#             time_offset = seek * self.feature_extractor.time_per_frame
-#             window_end_time = float(
-#                 (seek + self.feature_extractor.nb_max_frames)
-#                 * self.feature_extractor.time_per_frame
-#             )
-#             segment_size = min(
-#                 self.feature_extractor.nb_max_frames,
-#                 content_frames - seek,
-#                 seek_clip_end - seek,
-#             )
-#             segment = features[:, seek : seek + segment_size]
-#             segment_duration = segment_size * self.feature_extractor.time_per_frame
-#             segment = pad_or_trim(segment, self.feature_extractor.nb_max_frames)
-
-
-#     audio = whisper.pad_or_trim(audio)
-#     mel = whisper.log_mel_spectrogram(audio).to(model.device)
-
-#     model = WhisperModel(MODEL_SIZE, device="cuda", compute_type="float16")
-#     _, probs = model.detect_language(mel)
-
 # Define the Docker image configuration for the processing environment
 image = (
     Image.from_registry(
@@ -237,13 +197,6 @@ def generate_seamlessm4t_speech(item: Dict):
             "vocoder_v2" if model_name == "seamlessM4T_v2_large" else "vocoder_36langs"
         )
 
-        translator = Translator(
-            model_name,
-            vocoder_name,
-            device=torch.device("cuda:0"),
-            dtype=torch.float16,
-        )
-
         duration = time.perf_counter() - start
         print(f"Duration to load model is: {duration}")
 
@@ -252,8 +205,18 @@ def generate_seamlessm4t_speech(item: Dict):
         timestamps_end = []
         text = []
 
-        async def generate():
-            # Logic for VAD based filtering
+        def generate():
+            lang = whisper_language_detection("output.wav")
+            yield json.dumps(
+                {"type": "language_detection", "data": lang["detected_language"]}
+            )
+            translator = Translator(
+                model_name,
+                vocoder_name,
+                device=torch.device("cuda:0"),
+                dtype=torch.float16,
+            )
+            yield json.dumps({"type": "info", "data": "Model loaded"})
             for item in speech_timestamps_seconds:
                 s = item["start"]
                 e = item["end"]
