@@ -8,6 +8,7 @@ import { AVAILABLE_MODELS, LANGUAGES_PER_MODEL } from "@components/constants";
 import { getRequestParamsForModel } from "@components/utils";
 import { formatLanguagesForDropdownOptions } from "@components/dropdownUtils";
 import useLocalStorage from "@components/hooks/useLocalStorage";
+import { getAudioDetails } from "@components/audioUtils";
 
 const UploadFile = ({
   uploadedFile,
@@ -89,6 +90,10 @@ const UploadFile = ({
       selectedModel
     );
 
+    const audioDetails = getAudioDetails(uploadedFile);
+    console.log(audioDetails);
+    return null;
+
     const toastId = toast.info("Uploading..");
     fetch(url, {
       method: "POST",
@@ -109,6 +114,7 @@ const UploadFile = ({
         let firstResponseRecieved = false;
 
         while (true) {
+          console.log("inside while");
           const { done, value } = await reader.read();
           setIsBeingGenerated(!done);
           if (done) {
@@ -116,12 +122,22 @@ const UploadFile = ({
             break;
           }
           try {
+            console.log("inside try");
             const decodedValue = decoder.decode(value);
             const jsonData = JSON.parse(decodedValue);
             firstResponseRecieved = true;
             if (firstResponseRecieved) {
               setrequestSentToAPI(false);
               firstResponseRecieved = false;
+            }
+            console.log({ jsonData });
+            if (jsonData.type == "language_detection") {
+              const language_identified = jsonData["detected_language"];
+              console.log(language_identified);
+              toast.info("Language identified");
+
+              // toast.info(jsonData.message);
+              continue;
             }
             setTranscribed((transcribed) => [...transcribed, jsonData]);
 
