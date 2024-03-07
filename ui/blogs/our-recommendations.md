@@ -46,6 +46,10 @@ If you want better timestamp accuracy use SeamlessM4T
 
 Vegam-whisper = faster-whisper > SeamlessM4T
 
+#### For Kannada
+
+faster-whisper > SeamlessM4T
+
 #### For Hindi
 
 Faster-Whisper > WhisperX > SeamlessM4t
