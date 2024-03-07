@@ -1,15 +1,71 @@
+import { IconBrandX } from "@tabler/icons-react";
+import Image from "next/image";
+import { Tweet } from "react-tweet";
+
 const testimonials = [
   {
-    name: "Jack Tyson",
-    field: "Media Group",
+    name: "Rejin Jose",
+    field: "Senior AI Engineer, IQVIA",
     testimonial:
-      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptatibus, odit? Autem veritatis ut, id dolorem distinctio, cum, a officia eveniet sint facere enim temporibus repellat magnam. Obcaecati minima rem recusandae maiores velit!",
+      "I have tried IndicSubtitler. It is very useful and screen reader accessible. It is easy to navigate and generate the subtitles. Thanks to the team for keeping accessibility in mind while developing the product.",
+    picPath: "/profile/rejin.jpeg",
+    username: "@rejinjosek",
+    profileLink:
+      "https://www.linkedin.com/in/rejinjosek/?trk=blended-typeahead",
+  },
+  {
+    publicProfile: true,
+    name: "Akshay S Dinesh",
+    testimonial:
+      "I tested IndicSubtitler on a project I had earlier subtitled manually. There were some rough edges (missing lines and incorrect words) but these can be fixed easily from the in-built editor. It would have saved me hours of manual typing. The development of this project is at breakneck speed too",
+    picPath: "/profile/akshay.jpg",
+    platform: "twitter",
+    username: "@asdofindia",
+    reviewLink: "https://twitter.com/asdofindia/status/1765715027632312576",
+    profileLink: "https://twitter.com/asdofindia",
+  },
+  {
+    publicProfile: true,
+    name: "Abhijith Neil Abraham",
+    testimonial:
+      "This is an awesome project to watch out, there's so many usecases I already have at this point for using it.",
+    picPath: "/profile/abhijith.jpg",
+    platform: "twitter",
+    username: "@abhijithneil",
+    reviewLink: "https://twitter.com/abhijithneil/status/1765721685272277264",
+    profileLink: "https://twitter.com/abhijithneil",
+  },
+  {
+    publicProfile: true,
+    name: "Omshivaprakash",
+    testimonial:
+      "An amazing tool for subtitling! Congratulations to the team behind this.",
+    picPath: "/profile/omshivaprakash.jpg",
+    platform: "twitter",
+    username: "@omshivaprakash",
+    reviewLink: "https://twitter.com/omshivaprakash/status/1765721027156308259",
+    profileLink: "https://twitter.com/omshivaprakash",
+  },
+  {
+    name: "Malik Ammar Faisal",
+    testimonial:
+      "IndicSubtitler has been helpful to me in generating captions for my YouTube videos. It also has the option to choose between different state-of-the-art (SOTA) models, which makes it more flexible and customizable.",
+    profileLink: "https://twitter.com/ammarbinfaisal",
+    username: "@ammarbinfaisal",
+    picPath: "/profile/ammar.jpeg",
   },
 ];
 
 const Testimonial = () => {
+  const icons = {
+    twitter: IconBrandX,
+  };
+  function PlatformIcon({ platform }) {
+    const Icon = icons[platform];
+    return <Icon />;
+  }
   return (
-    <section className="px-16 py-4 lg:py-10 my-28 hidden">
+    <section className="px-16 py-4 lg:py-10 my-28">
       <div className="container mx-auto">
         <h2 className="text-3xl text-center font-bold mb-8">
           Here's what our users have to say about us
@@ -21,13 +77,46 @@ const Testimonial = () => {
               className="bg-white p-6 rounded-lg shadow-md hover:bg-blue-100 drop-shadow-lg"
               style={{ minHeight: "30vh" }}
             >
-              <p className="text-gray-600 mb-4">{testimonial.testimonial}</p>
-              <div className="flex items-center">
-                <div>
-                  <p className="text-gray-800 font-bold">{testimonial.name}</p>
-                  <p className="text-gray-600">{testimonial.field}</p>
+              <div className="flex items-center mb-5 gap-5">
+                <Image
+                  width={70}
+                  height={70}
+                  src={testimonial.picPath}
+                  alt={`Picture of ${testimonial.name}`}
+                  className="rounded-full overflow-hidden"
+                />
+                <div className="flex items-center justify-between w-full">
+                  <div className="flex flex-col">
+                    <a
+                      aria-label={`Link of ${testimonial.name}'s profile`}
+                      href={testimonial.profileLink}
+                      className="font-bold hover:underline"
+                      target="_blank"
+                    >
+                      {testimonial.name}
+                    </a>
+                    <a
+                      aria-label={`Link of ${testimonial.username}'s profile`}
+                      href={testimonial.profileLink}
+                      className="hover:underline"
+                      target="_blank"
+                    >
+                      {testimonial.username}
+                    </a>
+                  </div>
+                  {testimonial.publicProfile ? (
+                    <a
+                      aria-label="Link of tweet"
+                      target="_blank"
+                      href={testimonial.reviewLink}
+                    >
+                      <PlatformIcon platform={testimonial.platform} />
+                    </a>
+                  ) : null}
                 </div>
               </div>
+
+              <p className="text-gray-600 mb-4">{testimonial.testimonial}</p>
             </div>
           ))}
         </div>
