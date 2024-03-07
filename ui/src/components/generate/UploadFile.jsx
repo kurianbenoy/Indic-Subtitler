@@ -87,7 +87,7 @@ const UploadFile = ({
         case "language_detection":
           const language_identified = jsonData["data"];
           toast.info("Language identified as " + language_identified, {
-            delay: 5000,
+            delay: 8000,
           });
           return true;
         case "info":
@@ -136,11 +136,11 @@ const UploadFile = ({
             const jsonData = JSON.parse(decodedValue);
             firstResponseRecieved = true;
             if (firstResponseRecieved) {
-              setrequestSentToAPI(false);
               firstResponseRecieved = false;
             }
             const isServerMsg = handleServerResponse(jsonData);
             if (isServerMsg) continue;
+            setrequestSentToAPI(false);
             setTranscribed((transcribed) => [...transcribed, jsonData]);
             transcription.push(jsonData);
           } catch (error) {
