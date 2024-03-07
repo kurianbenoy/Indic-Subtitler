@@ -15,7 +15,7 @@ const blobToBase64 = (blob) => {
   });
 };
 
-export const getAudioDetails = (file) => {
+export const getAudioDetails = async (file, requestData) => {
   // Read the audio file
   const reader = new FileReader();
   reader.readAsArrayBuffer(file);
@@ -44,9 +44,20 @@ export const getAudioDetails = (file) => {
 
     // Send data to API
     try {
-      const response = await axios.post("YOUR_API_ENDPOINT", {
-        audio: base64Data,
-      });
+      const response = await fetch(
+        "https://aldrinjenson--seamless-m4t-speech-detect-language.modal.run",
+        {
+          method: "POST",
+          // body: JSON.stringify(requestData),
+          body: JSON.stringify({
+            wav_base64: base64Data,
+          }),
+          // body: JSON.stringify(requestData),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       console.log("API Response:", response.data);
     } catch (error) {
       console.error("Error sending data to API:", error);

@@ -90,18 +90,22 @@ const UploadFile = ({
       selectedModel
     );
 
-    const audioDetails = getAudioDetails(uploadedFile);
-    console.log(audioDetails);
-    return null;
+    // const audioDetails = await getAudioDetails(uploadedFile, requestData);
+    // console.log(audioDetails);
+    // reset(false);
+    // return null;
 
     const toastId = toast.info("Uploading..");
-    fetch(url, {
-      method: "POST",
-      body: JSON.stringify(requestData),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    fetch(
+      "https://aldrinjenson--seamless-m4t-speech-seamless-generate-speech.modal.run",
+      {
+        method: "POST",
+        body: JSON.stringify({ ...requestData, type: "file" }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
       .then(async (res) => {
         if (res?.code === 500) throw new Error("Internal Server Error");
 
