@@ -107,6 +107,37 @@ def whisper_language_detection(fname):
     return {"detected_language": max(probs, key=probs.get)}
 
 
+def process_audio(b64):
+    import torch
+    import torchaudio
+
+    """
+    Process audio data, perform voice activity detection, and translate speech.
+    """
+    USE_ONNX = False
+    model, utils = torch.hub.load(
+        repo_or_dir="snakers4/silero-vad", model="silero_vad", onnx=USE_ONNX
+    )
+
+    (
+        get_speech_timestamps,
+        save_audio,
+        read_audio,
+        VADIterator,
+        collect_chunks,
+    ) = utils
+
+    fname = base64_to_audio_file(b64_contents=b64)
+    convert_to_mono_16k(fname, "output.wav")
+    wav = read_audio("output.wav", sampling_rate=SAMPLING_RATE)
+
+    speech_timestamps_seconds = get_speech_timestamps(
+        wav, model, sampling_rate=SAMPLING_RATE, return_seconds=True
+    )
+
+    return speech_timestamps_seconds
+
+
 # Define the Docker image configuration for the processing environment
 image = (
     Image.from_registry("nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu22.04", add_python="3.10")
@@ -155,67 +186,44 @@ def generate_seamlessm4t_speech(item: Dict):
     from seamless_communication.inference import Translator
 
     try:
-        # print(f"Payload: {item}")
-        USE_ONNX = False
-        model, utils = torch.hub.load(
-            repo_or_dir="snakers4/silero-vad", model="silero_vad", onnx=USE_ONNX
-        )
 
-        (
-            get_speech_timestamps,
-            save_audio,
-            read_audio,
-            VADIterator,
-            collect_chunks,
-        ) = utils
+        def generate(item):
+            print("inside generate")
+            target_lang = item["target"]
+            yield json.dumps({"type": "info", "data": "Audio file received"})
 
-        # Decode the base64 audio and convert it for processing
-        b64 = item["wav_base64"]
-        # source_lang = item["source"]
-        # print(f"Target_lang: {item.get('target')}")
-        target_lang = item["target"]
+            speech_timestamps_seconds = process_audio(item["wav_base64"])
+            print(speech_timestamps_seconds)
+            yield json.dumps({"type": "info", "data": "Timestamps extracted."})
 
-        fname = base64_to_audio_file(b64_contents=b64)
-        convert_to_mono_16k(fname, "output.wav")
-
-        # Perform voice activity detection on the processed audio
-        wav = read_audio("output.wav", sampling_rate=SAMPLING_RATE)
-
-        # get speech timestamps from full audio file
-        speech_timestamps_seconds = get_speech_timestamps(
-            wav, model, sampling_rate=SAMPLING_RATE, return_seconds=True
-        )
-        print(speech_timestamps_seconds)
-        # translator = download_models()
-        start = time.perf_counter()
-        model_name = "seamlessM4T_v2_large"
-        vocoder_name = "vocoder_v2" if model_name == "seamlessM4T_v2_large" else "vocoder_36langs"
-
-        duration = time.perf_counter() - start
-        print(f"Duration to load model is: {duration}")
-
-        # Replace t1, t2 with VAD time
-        timestamps_start = []
-        timestamps_end = []
-        text = []
-
-        def generate():
             lang = whisper_language_detection("output.wav")
             yield json.dumps({"type": "language_detection", "data": lang["detected_language"]})
+
+            start = time.perf_counter()
+            model_name = "seamlessM4T_v2_large"
+            vocoder_name = (
+                "vocoder_v2" if model_name == "seamlessM4T_v2_large" else "vocoder_36langs"
+            )
+
             translator = Translator(
                 model_name,
                 vocoder_name,
                 device=torch.device("cuda:0"),
                 dtype=torch.float16,
             )
-            yield json.dumps({"type": "info", "data": "Model loaded"})
+            duration = time.perf_counter() - start
+            print(f"Duration to load model is: {duration}")
+            yield json.dumps(
+                {
+                    "type": "info",
+                    "data": f"Model loaded in {round(duration, 2)} seconds",
+                }
+            )
+
+            newAudio = AudioSegment.from_wav("output.wav")
             for item in speech_timestamps_seconds:
                 s = item["start"]
                 e = item["end"]
-
-                timestamps_start.append(s)
-                timestamps_end.append(e)
-                newAudio = AudioSegment.from_wav("output.wav")
 
                 # time in seconds should be multiplied by 1000.0 for AudioSegment array. So 20s = 20000
                 newAudio = newAudio[s * 1000 : e * 1000]
@@ -228,8 +236,7 @@ def generate_seamlessm4t_speech(item: Dict):
                 resampled_waveform = resampler(waveform)
                 torchaudio.save("resampled.wav", resampled_waveform, SAMPLING_RATE)
                 translated_text, _ = translator.predict("resampled.wav", "s2tt", target_lang)
-                # print(translated_text)
-                text.append(str(translated_text[0]))
+
                 os.remove(new_audio_name)
                 os.remove("resampled.wav")
                 obj = {
@@ -240,12 +247,12 @@ def generate_seamlessm4t_speech(item: Dict):
                 print(obj)
                 yield json.dumps(obj)
 
-        return StreamingResponse(generate(), media_type="text/event-stream")
+        return StreamingResponse(generate(item), media_type="text/event-stream")
 
     except Exception as e:
         print(e)
         logging.critical(e, exc_info=True)
-        return {"message": "Internal server error", "code": 500}
+        return {"type": "error", "data": "Internal server error", "code": 500}
 
 
 def sliding_window_approch_timestamps(speech_timestamps_seconds):
@@ -374,6 +381,7 @@ def generate_faster_whisper_speech(item: Dict):
         return StreamingResponse(generate(), media_type="text/event-stream")
 
     except Exception as e:
+        print("exception occured!" + e)
         print(e)
         logging.critical(e, exc_info=True)
         return {"message": "Internal server error", "code": 500}

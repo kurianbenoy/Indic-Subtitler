@@ -82,7 +82,8 @@ const UploadFile = ({
     setSubmitCounter(submitCounter + 1);
     if (submitCounter > 0) setTranscribed([]);
 
-    const handleServerResponse = (jsonData) => {
+    const handleServerResponse = (jsonData = {}) => {
+      console.log({ jsonData });
       switch (jsonData.type) {
         case "language_detection":
           const language_identified = jsonData["data"];
@@ -92,6 +93,9 @@ const UploadFile = ({
           return true;
         case "info":
           toast.info(jsonData.data);
+          return true;
+        case "error":
+          toast.error(jsonData.data);
           return true;
         default:
           return false;
