@@ -86,18 +86,18 @@ const Testimonial = () => {
           {testimonials.map((testimonial, index) => (
             <div
               key={index}
-              className="bg-white p-6 rounded-lg shadow-md hover:bg-blue-100 drop-shadow-lg"
+              className="bg-white p-6 rounded-lg shadow-md md:hover:bg-blue-100  drop-shadow-lg"
               style={{ minHeight: "30vh" }}
             >
-              <div className="flex items-center mb-5 gap-5">
+              <div className="flex md:flex-row flex-col items-center mb-5 gap-5">
                 <Image
                   width={70}
                   height={70}
                   src={testimonial.picPath}
                   alt={`Picture of ${testimonial.name}`}
-                  className="rounded-full overflow-hidden"
+                  className=" overflow-hidden rounded-full self-start "
                 />
-                <div className="flex items-center justify-between w-full gap-2">
+                <div className="flex items-center justify-between w-full gap-2 ">
                   <div className="flex flex-col">
                     <a
                       aria-label={`Link of ${testimonial.name}'s profile`}
@@ -107,14 +107,6 @@ const Testimonial = () => {
                     >
                       {testimonial.name}
                     </a>
-                    {/* <a
-                      aria-label={`Link of ${testimonial.username}'s profile`}
-                      href={testimonial.profileLink}
-                      className="hover:underline"
-                      target="_blank"
-                    >
-                      {testimonial.username}
-                    </a> */}
                     <p className="text-sm text-gray-500">
                       {testimonial.credential}
                     </p>
