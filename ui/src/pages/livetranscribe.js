@@ -1,8 +1,12 @@
+import axios from "axios";
 import React, { useState, useRef, useEffect } from "react";
+import { toast } from "react-toastify";
 
 const LiveTranscribe = () => {
   const [isRecording, setIsRecording] = useState(false);
   const [transcription, setTranscription] = useState("");
+  const [gptOptimizedTranscription, setGptOptimizedTranscription] =
+    useState("");
   const mediaRecorderRef = useRef(null);
   const streamRef = useRef(null);
   const [enableTranscription, setEnableTranscription] = useState(false);
@@ -73,6 +77,7 @@ const LiveTranscribe = () => {
           headers: {
             "Content-Type": "application/json",
           },
+          // body: JSON.stringify({ audioData: base64Data, language: "en" }),
           body: JSON.stringify({ audioData: base64Data }),
         });
 
@@ -95,15 +100,36 @@ const LiveTranscribe = () => {
     setEnableTranscription((currState) => !currState);
   };
 
+  const handleOptimizeWithGpt = async () => {
+    const toastId = toast.info("Optimizing with LLM...");
+    try {
+      const response = await axios.post("/api/optimize", {
+        transcription: transcription,
+      });
+      console.log(
+        "Optimized transcription:",
+        response.data.corrected_transcription
+      );
+      setGptOptimizedTranscription(response.data.corrected_transcription);
+      toast.update(toastId, {
+        render: "Optimized with LLM",
+        type: "success",
+        autoClose: 5000,
+      });
+    } catch (error) {
+      console.error("Error optimizing transcription:", error);
+    }
+  };
+
   return (
-    <div className="prose mx-auto">
+    <div className="prose mx-auto pb-5 mb-5">
       <h1>Live Transcription</h1>
       <div className="h-80" ref={transcriptionContainerRef}>
         {/* {!enableTranscription ? ( */}
         <textarea
           value={transcription}
           rows={10}
-          placeholder="Enable Transcription and start speaking..."
+          placeholder="Enable Transcription and start speaking.Don't mind about grammar or accuracy. Let your thoughts flow freely..."
           onChange={(e) => setTranscription(e.target.value)}
           className="w-full border rounded p-4"
         />
@@ -122,13 +148,38 @@ const LiveTranscribe = () => {
 
       <p>{isRecording ? "Recording in progress...." : "Ready"} </p>
 
-      <btn className="btn btn-accent mr-5" onClick={handleEnableTranscription}>
+      <btn className="btn btn-accent mr-2" onClick={handleEnableTranscription}>
         {enableTranscription ? "Disable" : "Enable"} Transcription
       </btn>
 
-      <button className="btn btn-outline" onClick={() => setTranscription("")}>
+      <button
+        className="btn btn-neutral mx-2"
+        disabled={!transcription?.length}
+        onClick={handleOptimizeWithGpt}
+      >
+        Optimize Transcription
+      </button>
+
+      <button
+        className="btn btn-outline mx-2"
+        disabled={!transcription?.length}
+        onClick={() => setTranscription("")}
+      >
         Clear Transcript
       </button>
+
+      {gptOptimizedTranscription && (
+        <div className="mt-6 p-2 px-4 mb-4 border border-gray-200 rounded-lg">
+          <h2 className="text-xl font-bold mb-1">Optimized Transcription</h2>
+          <h5 className="text-lg font-semibold">
+            Transcription after processed by an LLM
+          </h5>
+          <p className="text-sm text-gray-600 mb-1">
+            Note: This works well mainly for English at the moment
+          </p>
+          <p className="text-base mt-6">{gptOptimizedTranscription}</p>
+        </div>
+      )}
     </div>
   );
 };

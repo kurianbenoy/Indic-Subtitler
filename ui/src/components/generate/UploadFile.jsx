@@ -88,11 +88,11 @@ const UploadFile = ({
         case "language_detection":
           const language_identified = jsonData["data"];
           toast.info("Language identified as " + language_identified, {
-            delay: 8000,
+            autoClose: 8000,
           });
           return true;
         case "info":
-          toast.info(jsonData.data);
+          toast.info(jsonData.data, { autoClose: 8000 });
           return true;
         case "error":
           toast.error(jsonData.data);

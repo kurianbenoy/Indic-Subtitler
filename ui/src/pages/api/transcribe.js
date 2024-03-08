@@ -3,7 +3,7 @@ import axios from "axios";
 export default async function handler(req, res) {
   if (req.method === "POST") {
     try {
-      const { audioData } = req.body;
+      const { audioData, language } = req.body;
       const audioBuffer = Buffer.from(audioData, "base64");
       const audioBlob = new Blob([audioBuffer], { type: "audio/wav" });
 
@@ -11,6 +11,7 @@ export default async function handler(req, res) {
       formData.append("file", audioBlob, "audio.wav");
       formData.append("model", "whisper-1");
       formData.append("response_format", "text");
+      // formData.append("language", language);
 
       const response = await axios.post(
         "https://api.openai.com/v1/audio/transcriptions",
