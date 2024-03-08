@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import axios from "axios";
 
 const LiveTranscribe = () => {
   const [isRecording, setIsRecording] = useState(false);
@@ -62,37 +61,34 @@ const LiveTranscribe = () => {
     };
   }, [enableTranscription]);
 
-  const handleDataAvailable = (event) => {
-    // prompt field can contain only 244 chars at max
-    const currentTranscription =
-      transcriptionContainerRef.current.innerText?.slice(-200);
+  const handleDataAvailable = async (event) => {
     const audioBlob = event.data;
+    const reader = new FileReader();
+    reader.readAsDataURL(audioBlob);
+    reader.onloadend = async function () {
+      const base64Data = reader.result.split(",")[1];
+      try {
+        const response = await fetch("/api/transcribe", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ audioData: base64Data }),
+        });
 
-    const formData = new FormData();
-    formData.append("file", audioBlob, "audio.wav");
-    formData.append("model", "whisper-1");
-    // formData.append("language", "hi");
-    // formData.append("response_format", "verbose_json");
-    formData.append("response_format", "text");
-    formData.append("prompt", currentTranscription);
+        if (!response.ok) {
+          throw new Error("Failed to transcribe audio");
+        }
 
-    console.log("making transcribe request");
-    axios
-      .post("https://api.openai.com/v1/audio/transcriptions", formData, {
-        headers: {
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_OPENAI_KEY}`,
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then((response) => {
+        const data = await response.json();
+
         setTranscription(
-          // (transcription) => `${transcription} ${response.data.text}`
-          (transcription) => `${transcription} ${response.data}`
+          (transcription) => `${transcription} ${data.transcription}`
         );
-      })
-      .catch((error) => {
-        console.error("Error transcribing audio:" + error);
-      });
+      } catch (error) {
+        console.error("Error transcribing audio:", error);
+      }
+    };
   };
 
   const handleEnableTranscription = () => {
