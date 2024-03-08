@@ -164,7 +164,7 @@ stub = Stub(name="seamless_m4t_speech", image=image)
 
 
 # Timeout in 20 minutes
-@stub.function(gpu=GPU_TYPE, timeout=THIRTY_MINS)
+@stub.function(gpu=GPU_TYPE, timeout=1200)
 @web_endpoint(method="POST")
 def generate_seamlessm4t_speech(item: Dict):
     """
@@ -724,7 +724,7 @@ def youtube_generate_seamlessm4t_speech(item: Dict):
 
 
 # Timeout in 20 minutes
-@stub.function(gpu=GPU_TYPE, timeout=1200)
+@stub.function(gpu=GPU_TYPE, timeout=THIRTY_MINS)
 @web_endpoint(method="POST")
 def youtube_generate_faster_whisper_speech(item: Dict):
     """
