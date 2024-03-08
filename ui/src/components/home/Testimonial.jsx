@@ -8,7 +8,7 @@ const testimonials = [
       "A simple tool to quickly get quality subtitles for any video. Loved the option to just put in a YouTube link and get it transcribed & translated!",
     profileLink: "https://in.linkedin.com/in/xaneem",
     picPath: "/profile/saneem.jpeg",
-    credential: "Co-founder of ClusterDev which server 100M+ users",
+    credential: "Co-founder of ClusterDev which serves 100M+ users",
   },
   {
     name: "Rejin Jose",
