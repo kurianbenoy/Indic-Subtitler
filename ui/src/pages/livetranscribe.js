@@ -97,11 +97,26 @@ const LiveTranscribe = () => {
 
   return (
     <div className="prose mx-auto">
-      <h1>Transcription</h1>
+      <h1>Live Transcription</h1>
       <div className="h-80" ref={transcriptionContainerRef}>
-        {/* <textarea rows={10} cols={20} className="w-10"> */}
-        {transcription}
-        {/* </textarea> */}
+        {/* {!enableTranscription ? ( */}
+        <textarea
+          value={transcription}
+          rows={10}
+          placeholder="Enable Transcription and start speaking..."
+          onChange={(e) => setTranscription(e.target.value)}
+          className="w-full border rounded p-4"
+        />
+        {/* ) : (
+          <div
+            className=""
+            style={{
+              whiteSpace: "pre-wrap",
+            }}
+          >
+            {transcription}
+          </div>
+        )} */}
       </div>
       <br />
 
