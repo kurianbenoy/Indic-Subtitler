@@ -10,6 +10,7 @@ import json
 GPU_TYPE = "T4"
 SAMPLING_RATE = 16000
 MODEL_SIZE = "large-v3"
+THIRTY_MINS = 1800
 
 
 def download_models():
@@ -163,7 +164,7 @@ stub = Stub(name="seamless_m4t_speech", image=image)
 
 
 # Timeout in 20 minutes
-@stub.function(gpu=GPU_TYPE, timeout=1200)
+@stub.function(gpu=GPU_TYPE, timeout=THIRTY_MINS)
 @web_endpoint(method="POST")
 def generate_seamlessm4t_speech(item: Dict):
     """
@@ -282,7 +283,7 @@ def sliding_window_approch_timestamps(speech_timestamps_seconds):
     return new_group_chunks  # Return the list of new grouped chunks
 
 
-@stub.function(gpu=GPU_TYPE, timeout=600)
+@stub.function(gpu=GPU_TYPE, timeout=THIRTY_MINS)
 @web_endpoint(method="POST")
 def generate_faster_whisper_speech(item: Dict):
     """
