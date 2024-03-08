@@ -3,8 +3,16 @@ import Image from "next/image";
 
 const testimonials = [
   {
+    name: "Saneem Perinkadakkat",
+    testimonial:
+      "A simple tool to quickly get quality subtitles for any video. Loved the option to just put in a YouTube link and get it transcribed & translated!",
+    profileLink: "https://in.linkedin.com/in/xaneem",
+    picPath: "/profile/saneem.jpeg",
+    credential: "Co-founder of ClusterDev which server 100M+ users",
+  },
+  {
     name: "Rejin Jose",
-    field: "Senior AI Engineer, IQVIA",
+    credential: "Senior AI Engineer, IQVIA",
     testimonial:
       "I have tried IndicSubtitler. It is very useful and screen reader accessible. It is easy to navigate and generate the subtitles. Thanks to the team for keeping accessibility in mind while developing the product.",
     picPath: "/profile/rejin.jpeg",
@@ -15,6 +23,8 @@ const testimonials = [
   {
     publicProfile: true,
     name: "Akshay S Dinesh",
+    credential:
+      " Contributor at Swathanthra Malayalam Computing & Indic Project",
     testimonial:
       "I tested IndicSubtitler on a project I had earlier subtitled manually. There were some rough edges (missing lines and incorrect words) but these can be fixed easily from the in-built editor. It would have saved me hours of manual typing. The development of this project is at breakneck speed too",
     picPath: "/profile/akshay.jpg",
@@ -26,8 +36,10 @@ const testimonials = [
   {
     publicProfile: true,
     name: "Abhijith Neil Abraham",
+    credential:
+      "Engineer turned Entrepreneur, Maintainer of tableQA & pyvigate",
     testimonial:
-      "This is an awesome project to watch out, there's so many usecases I already have at this point for using it.",
+      "Contributor at Swathanthra Malayalam Computing & Indic ProjectEngineer turned Entrepreneur, Maintainer of tableQA & pyvigate",
     picPath: "/profile/abhijith.jpg",
     platform: "twitter",
     username: "@abhijithneil",
@@ -37,8 +49,9 @@ const testimonials = [
   {
     publicProfile: true,
     name: "Omshivaprakash",
+    credential: "Cofounder at Sanchaya and Sanchi Foundation",
     testimonial:
-      "An amazing tool for subtitling! Congratulations to the team behind this.",
+      "ಇಂಡಿಕ್ ಸಬ್‌ಟೈಟ್ಲರ್ - ಇದೀಗ ವಿಡಿಯೋಗಳಿಗೆ ಸಬ್ಟೈಟಲ್ ಮಾಡುವುದು ಸುಲಭ. ವಿಶಿಷ್ಟ ಚೇತನರೂ ಇದನ್ನು ಸುಲಭವಾಗಿ ಬಳಸುವಂತೆ ಮಾಡಿರುವುದು ಮತ್ತೂ ವಿಶೇಷ. ಈ ಮುಕ್ತ ತಂತ್ರಾಂಶವನ್ನು ಇಲ್ಲಿ ಬಳಸಿ ನೋಡಿ indicsubtitler.in ",
     picPath: "/profile/omshivaprakash.jpg",
     platform: "twitter",
     username: "@omshivaprakash",
@@ -84,7 +97,7 @@ const Testimonial = () => {
                   alt={`Picture of ${testimonial.name}`}
                   className="rounded-full overflow-hidden"
                 />
-                <div className="flex items-center justify-between w-full">
+                <div className="flex items-center justify-between w-full gap-2">
                   <div className="flex flex-col">
                     <a
                       aria-label={`Link of ${testimonial.name}'s profile`}
@@ -94,16 +107,19 @@ const Testimonial = () => {
                     >
                       {testimonial.name}
                     </a>
-                    <a
+                    {/* <a
                       aria-label={`Link of ${testimonial.username}'s profile`}
                       href={testimonial.profileLink}
                       className="hover:underline"
                       target="_blank"
                     >
                       {testimonial.username}
-                    </a>
+                    </a> */}
+                    <p className="text-sm text-gray-500">
+                      {testimonial.credential}
+                    </p>
                   </div>
-                  {testimonial.publicProfile ? (
+                  {testimonial.publicProfile && (
                     <a
                       aria-label="Link of tweet"
                       target="_blank"
@@ -111,7 +127,7 @@ const Testimonial = () => {
                     >
                       <PlatformIcon platform={testimonial.platform} />
                     </a>
-                  ) : null}
+                  )}
                 </div>
               </div>
 

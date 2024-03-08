@@ -4,6 +4,10 @@
 
 @import url(blog.css);
 
+:root {
+  --background: white;
+  --foreground: black;
+}
 .truncate-custom {
   display: -webkit-box;
   -webkit-line-clamp: 4; /* Number of lines to show */
