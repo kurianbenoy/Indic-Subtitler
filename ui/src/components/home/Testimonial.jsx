@@ -39,7 +39,7 @@ const testimonials = [
     credential:
       "Engineer turned Entrepreneur, Maintainer of tableQA & pyvigate",
     testimonial:
-      "Contributor at Swathanthra Malayalam Computing & Indic ProjectEngineer turned Entrepreneur, Maintainer of tableQA & pyvigate",
+      "This is an awesome project to watch out, there's so many usecases I already have at this point for using it.",
     picPath: "/profile/abhijith.jpg",
     platform: "twitter",
     username: "@abhijithneil",
