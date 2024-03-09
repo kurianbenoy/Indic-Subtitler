@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@tabler/icons-react": "^2.47.0",
+    "@vercel/analytics": "^1.2.2",
     "@wavesurfer/react": "^1.0.4",
     "axios": "^1.6.7",
     "form-data": "^4.0.0",
