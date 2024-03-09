@@ -85,10 +85,10 @@ const Testimonial = () => {
     return <Icon />;
   }
   return (
-    <section className="px-16 py-4 lg:py-10 my-28">
+    <section className="px-8 md:px-16 py-4 lg:py-10 my-28">
       <div className="container mx-auto">
-        <h2 className="text-3xl text-center font-bold mb-8">
-          Here's what our users have to say about us
+        <h2 className="text-3xl text-center font-bold mb-8 p-4">
+          Here's what people say about Indic Subtitler
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:px-8">
           {testimonials.map((testimonial, index) => (

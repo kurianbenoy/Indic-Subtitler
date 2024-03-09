@@ -58,8 +58,8 @@ export const AVAILABLE_MODELS = [
 
 export const TEAM = [
   {
-    name: "Kurain Benoy",
-    img: "/kurain.jpg",
+    name: "Kurian Benoy",
+    img: "/kurian.jpg",
     description: `Kurian Benoy is currently working as an ML Engineer. He has a background in computer science and machine learning, with experience in natural language processing, GenAI, computer vision, and Voice tech. Kurian have contributed to various open source organizations like Keras, DVC, HuggingFace, fast.ai, Swathanthra Malayalam Computing, CloudCV etc. He is the maintainer of whisper_normalizer python package which has monthly 30,000+ downloads and is creator of Vegam Whisper and MalWhisper.`,
     github: "https://github.com/kurianbenoy",
     linkedin: "https://www.linkedin.com/in/kurianbenoy/",

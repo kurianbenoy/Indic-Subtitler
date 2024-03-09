@@ -19,12 +19,18 @@ export default function Information() {
     3: IconFileDownload,
   };
   const feature = [
-    "Upload Video",
-    "Generate Subtitle",
-    "Edit Subtitle",
-    "Download .srt/.vtt",
+    "Upload Video/Audio",
+    "Generate Subtitles",
+    "Make optional edits",
+    "Download .srt/.vtt file",
   ];
-  const modes = ["No credit card required", "Nominal Fee", "Cancel Anytime"];
+  const modes = [
+    "No credit card required",
+    "Simple and accessible UI",
+    "Supports 10+ languages",
+    "Fully Open Source",
+    "Uses multiple State of the Art ML models",
+  ];
 
   return (
     <main className="md:mt-36 space-y-36 mt-16  md:px-20 px-4">
@@ -56,11 +62,11 @@ export default function Information() {
         <Carousel />
       </section>
       <section className="flex flex-col ">
-        <h2 className="text-center text-3xl md:text-5xl font-medium ">
+        <h2 className="text-center text-3xl md:text-5xl font-medium p-4">
           Want to experience the fastest way to generate subtitle for your
           videos?
         </h2>
-        <div className="self-center m-10">
+        <div className="self-center m-10 p-5">
           <PrimaryBtn fn={() => transitionToCollection(router)}>
             Try now for free!
           </PrimaryBtn>

@@ -124,6 +124,10 @@ const LiveTranscribe = () => {
   return (
     <div className="prose mx-auto pb-5 mb-5 p-2">
       <h1>Live Transcription</h1>
+
+      <p className="text-sm text-gray-600 mb-3">
+        Note: This feature is in beta and works best for English at the moment
+      </p>
       <div className="h-80" ref={transcriptionContainerRef}>
         <textarea
           value={transcription}
@@ -170,9 +174,6 @@ const LiveTranscribe = () => {
           <h5 className="text-lg font-semibold">
             Transcription after processed by an LLM
           </h5>
-          <p className="text-sm text-gray-600 mb-1">
-            Note: This works well mainly for English at the moment
-          </p>
           <p className="text-base mt-6">{gptOptimizedTranscription}</p>
         </div>
       )}

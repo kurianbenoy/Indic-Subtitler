@@ -62,7 +62,9 @@ export default function Gallery() {
       </section>
       {/* Mentor Section */}
       <section className="space-y-16 md:space-y-32 my-14">
-        <h1 className="text-5xl font-bold text-center mb-12">Our Mentors</h1>
+        <h1 className="text-5xl font-bold text-center mt-12 pt-12">
+          Our Mentors
+        </h1>
         {MENTORS.map((mentor, index) => (
           <div
             className={`flex flex-col justify-evenly ${

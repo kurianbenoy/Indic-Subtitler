@@ -24,7 +24,7 @@ export default function HeroSection() {
             <span className="text-primary-900">Indic Languages</span>
           </h1>
           <p className="text-gray-500 text-lg">
-            Supported by{" "}
+            Uses powerful ML models like{" "}
             {listOfSupportedModels.map((tech, index) => (
               <React.Fragment key={index}>
                 {index === listOfSupportedModels.length - 1 ? " and " : null}
@@ -34,7 +34,7 @@ export default function HeroSection() {
                 {index < listOfSupportedModels.length - 2 ? ", " : null}
               </React.Fragment>
             ))}{" "}
-            which support almost 12 Indic languages by default.
+            which altogether supports 12 Indic languages by default.
           </p>
           <div className="flex gap-4 flex-wrap items-end">
             <PrimaryBtn fn={() => transitionToCollection(router)}>

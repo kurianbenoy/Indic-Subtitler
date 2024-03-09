@@ -39,6 +39,9 @@ export default function Header() {
           <PrimaryBtn accent={true} fn={() => router.push("/about")}>
             Team
           </PrimaryBtn>
+          <PrimaryBtn accent={true} fn={() => router.push("/livetranscribe")}>
+            Live Transcription
+          </PrimaryBtn>
           <PrimaryBtn
             accent={true}
             fn={() => router.push("/blog/terms-and-licenses")}
