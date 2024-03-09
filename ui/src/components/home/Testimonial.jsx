@@ -11,6 +11,14 @@ const testimonials = [
     credential: "Co-founder of ClusterDev which serves 100M+ users",
   },
   {
+    name: "1LittleCoder",
+    testimonial:
+      "🇮🇳 India is rich with its languages, art and culture. Even though we have the best devs on the planet, until now it's been so hard to find a good subtitler that just works for Indian languages. But now it's possible in one-click, Thanks to Indic Subtitler. I'm fascinated by how beautifully it transcribes and handles the combination of Indian Languages + English along side. The best part is that it's an open source project!!!",
+    profileLink: "https://twitter.com/1littlecoder",
+    picPath: "/profile/1littlecoder.jpg",
+    credential: " AI/ML educator",
+  },
+  {
     name: "Rejin Jose",
     credential: "Senior AI Engineer, IQVIA",
     testimonial:
