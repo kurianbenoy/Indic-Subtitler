@@ -122,10 +122,9 @@ const LiveTranscribe = () => {
   };
 
   return (
-    <div className="prose mx-auto pb-5 mb-5">
+    <div className="prose mx-auto pb-5 mb-5 p-2">
       <h1>Live Transcription</h1>
       <div className="h-80" ref={transcriptionContainerRef}>
-        {/* {!enableTranscription ? ( */}
         <textarea
           value={transcription}
           rows={10}
@@ -133,40 +132,37 @@ const LiveTranscribe = () => {
           onChange={(e) => setTranscription(e.target.value)}
           className="w-full border rounded p-4"
         />
-        {/* ) : (
-          <div
-            className=""
-            style={{
-              whiteSpace: "pre-wrap",
-            }}
-          >
-            {transcription}
-          </div>
-        )} */}
       </div>
       <br />
 
-      <p>{isRecording ? "Recording in progress...." : "Ready"} </p>
+      <p className="m-2">
+        {isRecording ? "Recording in progress...." : "Ready"}{" "}
+      </p>
 
-      <btn className="btn btn-accent mr-2" onClick={handleEnableTranscription}>
-        {enableTranscription ? "Disable" : "Enable"} Transcription
-      </btn>
+      <div className="flex flex-wrap ml-0">
+        <button
+          className="btn btn-accent m-2"
+          onClick={handleEnableTranscription}
+        >
+          {enableTranscription ? "Disable" : "Enable"} Transcription
+        </button>
 
-      <button
-        className="btn btn-neutral mx-2"
-        disabled={!transcription?.length}
-        onClick={handleOptimizeWithGpt}
-      >
-        Optimize Transcription
-      </button>
+        <button
+          className="btn btn-neutral m-2"
+          disabled={!transcription?.length}
+          onClick={handleOptimizeWithGpt}
+        >
+          Optimize Transcription
+        </button>
 
-      <button
-        className="btn btn-outline mx-2"
-        disabled={!transcription?.length}
-        onClick={() => setTranscription("")}
-      >
-        Clear Transcript
-      </button>
+        <button
+          className="btn btn-outline m-2"
+          disabled={!transcription?.length}
+          onClick={() => setTranscription("")}
+        >
+          Clear Transcript
+        </button>
+      </div>
 
       {gptOptimizedTranscription && (
         <div className="mt-6 p-2 px-4 mb-4 border border-gray-200 rounded-lg">
