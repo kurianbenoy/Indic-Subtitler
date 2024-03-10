@@ -18,7 +18,7 @@ export default function HeroSection() {
   return (
     <section className=" mt-16 flex flex-col items-center md:px-0 px-4">
       <div className="lg:w-[60%]">
-        <div className=" space-y-6 mb-12">
+        <div className=" space-y-6 mb-12 mx-1 lg:mx-0">
           <h1 className="text-5xl font-medium">
             Only Open Source subtitle generator for{" "}
             <span className="text-primary-900">Indic Languages</span>

@@ -69,7 +69,7 @@ export default function SubtitleEditor({
   }
   if (transcribed?.length) {
     return (
-      <aside className="w-full lg:w-[75%] md:mt-0 md:border-l-2 ">
+      <aside className="w-full lg:w-[75%] md:mt-0 md:border-l-2  flex flex-col justify-between">
         <div className="flex md:flex-row flex-col md:justify-end md:text-lg text-white gap-4 md:px-4 md:py-4 md:my-0 my-4 ">
           {isBeingGenerated ? (
             <div className="btn m-1 bg-secondary-100 disabled">
@@ -89,7 +89,7 @@ export default function SubtitleEditor({
           )}
         </div>
 
-        <div className="flex flex-col justify-between ">
+        <div className="flex flex-col justify-between">
           <div className="overflow-x-auto md:h-[620px]">
             <table className="table text-lg">
               <thead className="text-lg text-gray-600">
@@ -137,11 +137,13 @@ export default function SubtitleEditor({
             </table>
             <div ref={endDivRef}></div>
           </div>
-          <p className="md:text-center text-gray-600  mt-8">
-            IndicSubtitler can make mistakes. Consider checking important
-            information.
-          </p>
         </div>
+        {/* <div className=""> */}
+        <p className="md:text-center text-gray-600  ">
+          IndicSubtitler can make mistakes. Consider checking important
+          information.
+        </p>
+        {/* </div> */}
       </aside>
     );
   }
