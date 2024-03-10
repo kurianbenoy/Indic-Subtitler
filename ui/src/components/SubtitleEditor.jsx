@@ -2,6 +2,8 @@ import React, { useEffect, useRef } from "react";
 import { formatTime } from "@components/utils";
 import DownloadFileDropdown from "./DownloadFileDropdown";
 import { IconPencil } from "@tabler/icons-react";
+import useLocalStorage from "@components/hooks/useLocalStorage";
+import { useRouter } from "next/router";
 
 export default function SubtitleEditor({
   isBeingGenerated,
@@ -11,15 +13,22 @@ export default function SubtitleEditor({
   requestSentToAPI,
   selectedModel,
   isSubtitleGenerated,
-  isLocalFile,
 }) {
+  const router = useRouter();
+  const id = router.query.id;
+  const [file, setFile] = useLocalStorage("file", "");
   function handleInputChange(index, newText, type) {
     const updateTranscribe = [...transcribed];
     updateTranscribe[index][type] = newText;
     setTranscribed(updateTranscribe);
+    if (id) {
+      const copyOfLocallyStoredFiles = [...file];
+      copyOfLocallyStoredFiles[id].transcribedData = updateTranscribe;
+      setFile(copyOfLocallyStoredFiles);
+    }
   }
-  const textAreaRefs = useRef([]);
 
+  const textAreaRefs = useRef([]);
   const focusTextArea = (index) => {
     textAreaRefs?.current[index].focus();
     textAreaRefs?.current[index].setSelectionRange(
@@ -97,6 +106,7 @@ export default function SubtitleEditor({
                         className="w-full resize-none"
                         rows={Math.ceil(element.text?.length / 85) || 2}
                         type="text"
+                        name="subtitle text area"
                         value={element.text}
                         onChange={(e) =>
                           handleInputChange(index, e.target.value, "text")

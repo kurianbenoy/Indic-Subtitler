@@ -3,6 +3,7 @@ import SubtitleEditor from "@components/components/SubtitleEditor";
 import { useRouter } from "next/router";
 import FileInformation from "@components/components/generate/FileInformation";
 import UploadFile from "@components/components/generate/UploadFile";
+import useLocalStorage from "@components/hooks/useLocalStorage";
 
 export default function dashboard() {
   const [uploadedFile, setUploadedFile] = useState();
@@ -18,12 +19,10 @@ export default function dashboard() {
   const [isSubtitleGenerated, setIsSubtitleGenerated] = useState(false);
   const router = useRouter();
   const index = router.query.id;
-
   useEffect(() => {
     const items = JSON.parse(localStorage.getItem("file"));
     if (index && items) {
       if (items[index]) {
-        console.log("hey");
         setIsLocalFile(true);
         setIsSubtitleGenerated(true);
         const item = items[index];
