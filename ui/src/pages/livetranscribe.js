@@ -1,6 +1,5 @@
 import axios from "axios";
-import Link from "next/link";
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { toast } from "react-toastify";
 
 const LiveTranscribe = () => {
@@ -164,7 +163,7 @@ const LiveTranscribe = () => {
 
         <button
           className="btn btn-neutral m-2"
-          disabled={!transcription?.length}
+          disabled={!transcription?.length || enableTranscription}
           onClick={handleOptimizeWithGpt}
         >
           Optimize Transcription
@@ -178,28 +177,34 @@ const LiveTranscribe = () => {
         </button>
       </div>
 
-      {gptOptimizedTranscription && (
-        <div
-          ref={optimisedTranscriptionRef}
-          className="mt-6 p-2 px-4 mb-4 border border-gray-200 rounded-lg"
-        >
-          <h2 className="text-xl font-bold mb-1">Optimized Transcription</h2>
-          <h5 className="text-lg font-semibold">
-            Transcription after processed by an LLM
-          </h5>
-          <p className="text-base mt-6">{gptOptimizedTranscription}</p>
-        </div>
-      )}
+      <div
+        ref={optimisedTranscriptionRef}
+        className="mt-6 p-2 px-4 mb-4 border border-gray-200 rounded-lg"
+      >
+        {gptOptimizedTranscription && (
+          <div>
+            <h2 className="text-xl font-bold mb-1">Optimized Transcription</h2>
+            <h6 className="text-lg font-semibold">
+              Transcription after processed by an LLM
+            </h6>
+            <p className="text-base mt-6">{gptOptimizedTranscription}</p>
+          </div>
+        )}
+      </div>
 
       <div className="prose mt-48">
-        <h4>Additional Information</h4>
+        {/* <h4>Additional Information</h4> */}
 
         <h4>Supported Languages</h4>
         <p>
           We use the Whisper model for transcriptions.{" "}
-          <Link href="https://github.com/openai/whisper#available-models-and-languages">
+          <a
+            rel="noopener noreferrer"
+            target="_blank"
+            href="https://github.com/openai/whisper#available-models-and-languages"
+          >
             Here are the
-          </Link>{" "}
+          </a>{" "}
           supported languages.
         </p>
 
@@ -209,10 +214,12 @@ const LiveTranscribe = () => {
           iPads with transcriptions. We are currently working to find a fix for
           this problem. If you'd like to contribute or provide some suggestions,
           please do{" "}
-          <Link href="https://github.com/kurianbenoy/Indic-Subtitler/issues">
-            reach out to us on github
-          </Link>
-          .{" "}
+          <a
+            target="_blank"
+            href="https://github.com/kurianbenoy/Indic-Subtitler/issues"
+          >
+            reach out to us on github.
+          </a>
         </p>
       </div>
     </div>
