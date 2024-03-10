@@ -21,10 +21,18 @@ export default function SubtitleEditor({
     const updateTranscribe = [...transcribed];
     updateTranscribe[index][type] = newText;
     setTranscribed(updateTranscribe);
+
     if (id) {
+      // for previously uploaded files
       const copyOfLocallyStoredFiles = [...file];
       copyOfLocallyStoredFiles[id].transcribedData = updateTranscribe;
       setFile(copyOfLocallyStoredFiles);
+    } else {
+      // for newly uploaded files
+      const files = JSON.parse(localStorage.getItem("file"));
+      const currentFile = files[files.length - 1];
+      currentFile.transcribedData = updateTranscribe;
+      setFile(files);
     }
   }
 
