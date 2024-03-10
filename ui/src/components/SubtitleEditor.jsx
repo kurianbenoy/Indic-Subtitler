@@ -116,17 +116,20 @@ export default function SubtitleEditor({
                         type="text"
                         name="subtitle text area"
                         value={element.text}
+                        disabled={isBeingGenerated}
                         onChange={(e) =>
                           handleInputChange(index, e.target.value, "text")
                         }
                       />
-                      <button
-                        role="button"
-                        aria-label="edit subtitle"
-                        onClick={() => focusTextArea(index)}
-                      >
-                        <IconPencil color="grey" />
-                      </button>
+                      {!isBeingGenerated && (
+                        <button
+                          role="button"
+                          aria-label="edit subtitle"
+                          onClick={() => focusTextArea(index)}
+                        >
+                          <IconPencil color="grey" />
+                        </button>
+                      )}
                     </td>
                   </tr>
                 ))}
