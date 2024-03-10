@@ -70,13 +70,13 @@ export default function SubtitleEditor({
   if (transcribed?.length) {
     return (
       <aside className="w-full lg:w-[75%] md:mt-0 md:border-l-2 ">
-        <div className="flex md:flex-row flex-col md:justify-end md:text-lg text-white gap-4 md:px-4 md:p-2 md:py-4">
+        <div className="flex md:flex-row flex-col md:justify-end md:text-lg text-white gap-4 md:px-4 md:py-4 md:my-0 my-4 ">
           {isBeingGenerated ? (
             <div className="btn m-1 bg-secondary-100 disabled">
               Generating ...
             </div>
           ) : (
-            <div className="w-full flex items-center justify-between">
+            <div className="w-full flex items-center justify-between ">
               <p className="text-primary-900 font-medium">
                 Click on subtitle to start editing
               </p>
@@ -90,7 +90,7 @@ export default function SubtitleEditor({
         </div>
 
         <div className="flex flex-col justify-between ">
-          <div className="overflow-x-auto h-[620px]">
+          <div className="overflow-x-auto md:h-[620px]">
             <table className="table text-lg">
               <thead className="text-lg text-gray-600">
                 <tr>
