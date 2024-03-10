@@ -113,7 +113,6 @@ export function triggerDownload(filename, modelName, blob, fileExtension) {
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
-  console.log(filename);
   link.setAttribute(
     "download",
     `${formattedFileName}_${modelName}.${fileExtension}`

@@ -83,7 +83,6 @@ const UploadFile = ({
     if (submitCounter > 0) setTranscribed([]);
 
     const handleServerResponse = (jsonData = {}) => {
-      console.log({ jsonData });
       switch (jsonData.type) {
         case "language_detection":
           const language_identified = jsonData["data"];
@@ -148,16 +147,11 @@ const UploadFile = ({
             setTranscribed((transcribed) => [...transcribed, jsonData]);
             transcription.push(jsonData);
           } catch (error) {
-            console.log("error in transcribing: ", error);
             const jsonString = decoder.decode(value);
             const jsonObjects = jsonString.match(/({[^{}]+})/g);
             const parsedObjects = jsonObjects.map((objString) =>
               JSON.parse(objString)
             );
-
-            console.log(jsonString);
-            console.log("error handled");
-            console.log(parsedObjects);
 
             const isServerMsg = handleServerResponse(parsedObjects);
             if (isServerMsg) continue;
@@ -186,7 +180,6 @@ const UploadFile = ({
         storeFileToLocalStorage(file);
       })
       .catch((err) => {
-        console.log("error: ", err);
         toast.update(toastId, {
           type: "error",
           render:
@@ -206,7 +199,6 @@ const UploadFile = ({
   }
 
   const handleModelChange = (item) => {
-    console.log("changing model");
     setSelectedModel(item);
   };
   const uploadButtonRef = useRef();
