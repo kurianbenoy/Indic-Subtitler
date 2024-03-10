@@ -1,4 +1,5 @@
 import axios from "axios";
+import Link from "next/link";
 import React, { useState, useRef, useEffect } from "react";
 import { toast } from "react-toastify";
 
@@ -9,8 +10,9 @@ const LiveTranscribe = () => {
     useState("");
   const mediaRecorderRef = useRef(null);
   const streamRef = useRef(null);
+  const optimisedTranscriptionRef = useRef(null);
   const [enableTranscription, setEnableTranscription] = useState(false);
-  const transcriptionContainerRef = useRef();
+  const transcriptionTextAreaRef = useRef();
 
   const toggleRecording = () => {
     if (!streamRef.current || !mediaRecorderRef.current) {
@@ -56,7 +58,7 @@ const LiveTranscribe = () => {
       setTimeout(() => {
         console.log("toggling back");
         toggleRecording();
-      }, 175);
+      }, 100);
     }, 3500);
 
     return () => {
@@ -116,10 +118,18 @@ const LiveTranscribe = () => {
         type: "success",
         autoClose: 5000,
       });
+      optimisedTranscriptionRef?.current?.scrollIntoView({
+        behavior: "smooth",
+      });
     } catch (error) {
       console.error("Error optimizing transcription:", error);
     }
   };
+  useEffect(() => {
+    if (!enableTranscription && transcription.length) {
+      transcriptionTextAreaRef?.current.focus();
+    }
+  }, [enableTranscription, transcription.length]);
 
   return (
     <div className="prose mx-auto pb-5 mb-5 p-2">
@@ -128,11 +138,12 @@ const LiveTranscribe = () => {
       <p className="text-sm text-gray-600 mb-3">
         Note: This feature is in beta and works best for English at the moment
       </p>
-      <div className="h-80" ref={transcriptionContainerRef}>
+      <div className="h-80">
         <textarea
           value={transcription}
+          ref={transcriptionTextAreaRef}
           rows={10}
-          placeholder="Enable Transcription and start speaking.Don't mind about grammar or accuracy. Let your thoughts flow freely..."
+          placeholder="Enable Transcription and start speaking. Don't mind about grammar or accuracy. Edits can be made later. Let your thoughts flow freely..."
           onChange={(e) => setTranscription(e.target.value)}
           className="w-full border rounded p-4"
         />
@@ -158,7 +169,6 @@ const LiveTranscribe = () => {
         >
           Optimize Transcription
         </button>
-
         <button
           className="btn btn-outline m-2"
           disabled={!transcription?.length}
@@ -169,7 +179,10 @@ const LiveTranscribe = () => {
       </div>
 
       {gptOptimizedTranscription && (
-        <div className="mt-6 p-2 px-4 mb-4 border border-gray-200 rounded-lg">
+        <div
+          ref={optimisedTranscriptionRef}
+          className="mt-6 p-2 px-4 mb-4 border border-gray-200 rounded-lg"
+        >
           <h2 className="text-xl font-bold mb-1">Optimized Transcription</h2>
           <h5 className="text-lg font-semibold">
             Transcription after processed by an LLM
@@ -177,6 +190,31 @@ const LiveTranscribe = () => {
           <p className="text-base mt-6">{gptOptimizedTranscription}</p>
         </div>
       )}
+
+      <div className="prose mt-48">
+        <h4>Additional Information</h4>
+
+        <h4>Supported Languages</h4>
+        <p>
+          We use the Whisper model for transcriptions.{" "}
+          <Link href="https://github.com/openai/whisper#available-models-and-languages">
+            Here are the
+          </Link>{" "}
+          supported languages.
+        </p>
+
+        <h4>iPhone issues</h4>
+        <p>
+          We have noticed that there is some accuracy issues with iPhones and
+          iPads with transcriptions. We are currently working to find a fix for
+          this problem. If you'd like to contribute or provide some suggestions,
+          please do{" "}
+          <Link href="https://github.com/kurianbenoy/Indic-Subtitler/issues">
+            reach out to us on github
+          </Link>
+          .{" "}
+        </p>
+      </div>
     </div>
   );
 };
