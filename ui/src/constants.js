@@ -110,10 +110,10 @@ export const MENTORS = [
   {
     name: "Sumod K Mohan",
     img: "/path/to/sumod-image.jpg", // Placeholder image path
-    description: "Founder/C.E.O, AutoInfer. An experienced CTO and grew a Business Unit from ground up.",
+    description: "Founder/C.E.O AutoInfer, ex-CTO Niqo Robotics. Building Vision/NLP/Robotics products.",
     github: "https://github.com/sumod", // Placeholder GitHub link
     linkedin: "https://in.linkedin.com/in/sumodm", // Placeholder LinkedIn link
-    twitter: "https://twitter.com/sumod", // Placeholder Twitter link
+    twitter: "https://twitter.com/sumodm", // Placeholder Twitter link
   },
 ];
 
