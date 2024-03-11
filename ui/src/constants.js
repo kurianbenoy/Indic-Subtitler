@@ -60,7 +60,7 @@ export const TEAM = [
   {
     name: "Kurian Benoy",
     img: "/kurian.jpg",
-    description: `Kurian Benoy is currently working as an ML Engineer. He has a background in computer science and machine learning, with experience in natural language processing, GenAI, computer vision, and Voice tech. Kurian have contributed to various open source organizations like Keras, DVC, HuggingFace, fast.ai, Swathanthra Malayalam Computing, CloudCV etc. He is the maintainer of whisper_normalizer python package which has monthly 30,000+ downloads and is creator of Vegam Whisper and MalWhisper.`,
+    description: `Kurian Benoy is currently working as an ML Engineer and Team lead in tech startup at Singapore. He has a background in computer science and machine learning, with experience in natural language processing, GenAI, computer vision, and Voice tech. Kurian have contributed to various open source organizations like Keras, DVC, HuggingFace, fast.ai, Swathanthra Malayalam Computing, CloudCV etc. He is the maintainer of whisper_normalizer python package which has monthly 90,000+ downloads and is creator of Vegam Whisper and MalWhisper models.`,
     github: "https://github.com/kurianbenoy",
     linkedin: "https://www.linkedin.com/in/kurianbenoy/",
     twitter: "https://twitter.com/kurianbenoy2",
@@ -89,7 +89,7 @@ export const MENTORS = [
     name: "Bharat Shetty Barkur",
     img: "/path/to/bharat-image.jpg", // Placeholder image path
     description:
-      "Experienced Engineer with a demonstrated history of working across various domains in different roles. Skilled in Python, Java, NLP, Cloud and Data platforms and software, Data Structures and Algorithms, and Linux. Strong engineering professional with a Master's degree from the University of Florida and a Bachelors of Engineering focused in Computer Science and Engineering from Sri Jayachamarajendra College of Engineering. ",
+      "Experienced AI specialist who has worked in diverse places and teams in different roles in a few places such as Airtel Labs, IBM India Software Labs, Aruba Networks, Fybr, Concert HealthAI, and a lot of startups trying to build products and platforms across diverse verticals leveraging AI, Machine Learning, NLP and Software Engineering making use of fundamental Computer Science principles and concepts. Strong engineering professional with a Master's degree from the University of Florida and a Bachelors of Engineering focused in Computer Science and Engineering from Sri Jayachamarajendra College of Engineering.",
     linkedin: "https://in.linkedin.com/in/bharat-shetty-barkur-8111511", // Placeholder LinkedIn link
     twitter: "https://twitter.com/bharat", // Placeholder Twitter link
   },
