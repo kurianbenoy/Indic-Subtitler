@@ -1,4 +1,4 @@
-import { TEAM, MENTORS } from "@components/constants"; // Assuming you add MENTORS to your constants
+import { TEAM, MENTORS } from "@components/constants";
 import {
   IconBrandGithub,
   IconBrandLinkedin,
@@ -77,15 +77,7 @@ export default function Gallery() {
               <p className="mb-4 text-gray-600 md:leading-9 md:text-lg">
                 {mentor.description}
               </p>
-              {/* Assuming mentors also have social links, adjust if not */}
               <div className="flex self-end gap-4">
-                {/* <a
-                  target="_blank"
-                  href={mentor.github}
-                  className="hover:text-primary-900 transition-all duration-300"
-                >
-                  <IconBrandGithub />
-                </a> */}
                 <a
                   target="_blank"
                   href={mentor.linkedin}
@@ -94,13 +86,13 @@ export default function Gallery() {
                 >
                   <IconBrandLinkedin />
                 </a>
-                {/* <a
+                <a
                   target="_blank"
                   href={mentor.twitter}
                   className="hover:text-primary-900 transition-all duration-300"
                 >
                   <IconBrandTwitter />
-                </a> */}
+                </a>
               </div>
             </div>
           </div>
