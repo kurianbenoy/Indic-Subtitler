@@ -1,8 +1,5 @@
 # UI for Indic-Subtitler
 
-![ScreenShot](screenshot.png)
-
-
 ## Tech Stack
 
 - Next.Js
