@@ -96,10 +96,9 @@ export const MENTORS = [
   {
     name: "Simrat Hanspal",
     img: "/path/to/simrat-image.jpg", // Placeholder image path
-    description:
-      "Data scientist with a curious engineering mind. Working with Large Language models.",
+    description: "Data scientist with a curious engineering mind. Working with Large Language models.",
     linkedin: "https://in.linkedin.com/in/simrat-hanspal-37683054", // Placeholder LinkedIn link
-    twitter: "https://twitter.com/simrat", // Placeholder Twitter link
+    twitter: "https://twitter.com/simsimsandy", // Placeholder Twitter link
   },
   {
     name: "TokenBender",
