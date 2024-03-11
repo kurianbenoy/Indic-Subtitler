@@ -102,16 +102,16 @@ export const MENTORS = [
     twitter: "https://twitter.com/simrat", // Placeholder Twitter link
   },
   {
-    name: "Abhishek Harshvardhan Mishra",
+    name: "TokenBender",
     img: "/path/to/ahm-image.jpg", // Placeholder image path
-    description: "Creator of CodeCherryPop LLM series and Specialise with roleplay and code generation models.",
+    description: "Creator of CodeCherryPop LLM series and specialise working with roleplay and code generation models.",
     linkedin: "https://www.linkedin.com/in/abhishek-harshvardhan-mishra/", // Placeholder LinkedIn link
-    twitter: "https://www.linkedin.com/in/abhishek-harshvardhan-mishra/", // Placeholder Twitter link
+    twitter: "https://twitter.com/4evaBehindSOTA", // Placeholder Twitter link
   },
   {
     name: "Sumod K Mohan",
     img: "/path/to/sumod-image.jpg", // Placeholder image path
-    description: "Founder/C.E.O, AutoInfer. Experienced CTO & Grew a Business Unit from ground up",
+    description: "Founder/C.E.O, AutoInfer. An experienced CTO and grew a Business Unit from ground up.",
     github: "https://github.com/sumod", // Placeholder GitHub link
     linkedin: "https://in.linkedin.com/in/sumodm", // Placeholder LinkedIn link
     twitter: "https://twitter.com/sumod", // Placeholder Twitter link
