@@ -261,9 +261,12 @@ https://github.com/kurianbenoy/Indic-Subtitler/issues/4
 ##### Priority order of building things after discussion w/ Team
 
 - Live transcription (Aldrin will try and send a prototype soon)
+
+![image](https://github.com/kurianbenoy/Indic-Subtitler/assets/24592806/9f9a6b1e-8797-4242-baa6-c06e59b7123e)
+
 - Quality enhancing (parallelly)(using demux to remove background noise and improving the quality of audio t- hereby improving accuracy in transcription)
 
-- Blog about model selection: (rather than adding complex logic and restrictive condition based on permutations in UI, why don't we add a small hyperlink near the model dropdown to a new page (blog/article) where we just say like: based on our testing, we found the following models give best results: seamless for x, whisperx for y etc.. We can title the blog as something like: "Tips and tricks" or maybe like: How to get the best out of Indic subtitler etc.. maybe. Later we can also go on adding benchmarks or graphs etc after doing evaluations. for now we just need to make a simple page with some text based on our observation. nothing too restrictive or enforcing.. just our gentle suggestions based on which they could try switching models to get best performance based on their audio. this way even if our suggestions does not exactly give best results for them, it'll still be cool since it's mostly open ended/gentle recommendations from our part.
+- Blog about model selection: (rather than adding complex logic and restrictive condition based on permutations in UI, why don't we add a small hyperlink near the model dropdown to a new page (blog/article) where we just say like: based on our testing, we found the following models give best results: seamless for x, whisperx for y etc.. We can title the blog as something like: "Tips and tricks" or maybe like: How to get the best out of Indic subtitler etc.. maybe. Later we can also go on adding benchmarks or graphs etc after doing evaluations. for now we just need to make a simple page with some text based on our observation. nothing too restrictive or enforcing.. just our gentle suggestions based on which they could try switching models to get best performance based on their audio. this way even if our suggestions does not exactly give best results for them, it'll still be cool since it's mostly open ended/gentle recommendations from our part. [DONE]
 
 - Odiya language integration (cool to talk about during pitch, and mostly easy to implement as a new route since we already have access to pre-trained model). In fact we could even do this now since it'll be very quick to start off maybe.
 
@@ -275,17 +278,23 @@ https://github.com/kurianbenoy/Indic-Subtitler/issues/4
 #### Action Items
 
 
-- Use faster-whisper instead of seamless by default
+- Use faster-whisper instead of seamless by default (DONE)
 - Adding demucs as priority
-
 - Maybe consider adding some ui to make the user wait
 - Making video
 - Making slides
-
 - Add a pen icon or so to ensure that the edit feature exists (or some other feature to show that subtitles can be edited)
 
+![image](https://github.com/kurianbenoy/Indic-Subtitler/assets/24592806/1bef58fa-4208-4473-8e0f-5a19cd913847)
+
 - Get 3-4 testimonials from people and add it in landing page.
+
+![image](https://github.com/kurianbenoy/Indic-Subtitler/assets/24592806/4e1b9b96-df74-4644-9138-4809ddc065c4)
+
 - Try adding a demo / example in landing page.
+
+![image](https://github.com/kurianbenoy/Indic-Subtitler/assets/24592806/33827d07-13a0-4f2f-b8b1-e76fc60f28e2)
+
 - Maybe consider a Small write-up about the live transcription
 - add model recommendation page in generate screen (https://indicsubtitler.vercel.app/blog/our-recommendations)
 
