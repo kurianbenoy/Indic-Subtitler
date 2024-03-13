@@ -78,21 +78,25 @@ export default function Gallery() {
                 {mentor.description}
               </p>
               <div className="flex self-end gap-4">
-                <a
-                  target="_blank"
-                  href={mentor.linkedin}
-                  className="hover:text-primary-900 transition-all duration-300"
-                  alt={`linkedin link of ${mentor.name}`}
-                >
-                  <IconBrandLinkedin />
-                </a>
-                <a
-                  target="_blank"
-                  href={mentor.twitter}
-                  className="hover:text-primary-900 transition-all duration-300"
-                >
-                  <IconBrandTwitter />
-                </a>
+                {mentor.linkedin && (
+                  <a
+                    target="_blank"
+                    href={mentor.linkedin}
+                    className="hover:text-primary-900 transition-all duration-300"
+                    alt={`linkedin link of ${mentor.name}`}
+                  >
+                    <IconBrandLinkedin />
+                  </a>
+                )}
+                {mentor.twitter && (
+                  <a
+                    target="_blank"
+                    href={mentor.twitter}
+                    className="hover:text-primary-900 transition-all duration-300"
+                  >
+                    <IconBrandTwitter />
+                  </a>
+                )}
               </div>
             </div>
           </div>
