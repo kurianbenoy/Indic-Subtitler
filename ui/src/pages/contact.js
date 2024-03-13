@@ -23,12 +23,10 @@ function FeebackForm() {
             <label className="" htmlFor="name">
               Full Name
             </label>
-            <p className=" text-[#f04b4b] font-semibold text-xs mt-[-5px]">
-              Required
-            </p>
+            <p className=" text-gray-500 font-medium text-xs">Optional</p>
           </span>
           <input
-            required
+            // required
             type="text"
             id="name"
             name="name"
@@ -39,12 +37,10 @@ function FeebackForm() {
         <div className="flex md:flex-row flex-col w-full  justify-between">
           <span>
             <label htmlFor="email">Email Address</label>{" "}
-            <p className=" text-[#f04b4b] font-semibold text-xs mt-[-5px]">
-              Required
-            </p>
+            <p className=" text-gray-500 font-medium text-xs ">Optional</p>
           </span>
           <input
-            required
+            // required
             id="email"
             type="email"
             name="email"
@@ -56,9 +52,7 @@ function FeebackForm() {
         <div className="flex w-full  justify-between md:flex-row flex-col">
           <span>
             <label htmlFor="message">Message</label>{" "}
-            <p className=" text-[#f04b4b] font-semibold text-xs mt-[-5px]">
-              Required
-            </p>
+            <p className=" text-[#f04b4b] font-semibold text-xs ">Required</p>
           </span>
 
           <textarea
