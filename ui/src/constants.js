@@ -91,12 +91,11 @@ export const MENTORS = [
     description:
       "Experienced AI specialist who has worked in diverse places and teams in different roles in a few places such as Airtel Labs, IBM India Software Labs, Aruba Networks, Fybr, Concert HealthAI, and a lot of startups trying to build products and platforms across diverse verticals leveraging AI, Machine Learning, NLP and Software Engineering making use of fundamental Computer Science principles and concepts. Strong engineering professional with a Master's degree from the University of Florida and a Bachelors of Engineering focused in Computer Science and Engineering from Sri Jayachamarajendra College of Engineering.",
     linkedin: "https://in.linkedin.com/in/bharat-shetty-barkur-8111511", // Placeholder LinkedIn link
-    twitter: "https://twitter.com/bharat", // Placeholder Twitter link
   },
   {
     name: "Simrat Hanspal",
     img: "/path/to/simrat-image.jpg", // Placeholder image path
-    description: "Data scientist with a curious engineering mind. Working with Large Language models.",
+    description: "Simrat Hanspal is an NLP specialist with 14 years of experience building AI/ML products and solutions for startups and large organizations. Currently, she is spearheading AI product strategy at Hasura. She has previously worked with companies like Amazon, VMware, Fi Money, and Nirvana.",
     linkedin: "https://in.linkedin.com/in/simrat-hanspal-37683054", // Placeholder LinkedIn link
     twitter: "https://twitter.com/simsimsandy", // Placeholder Twitter link
   },
