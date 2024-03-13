@@ -25,7 +25,9 @@ export default function Dropdown({
   return (
     <div className="flex flex-col ">
       <label className="font-medium text-wrap my-0">{label}:</label>
-      <p className=" text-xs text-red-700 mt-[-5px]">Required</p>
+      <p className=" text-[#f04b4b] font-semibold text-xs mt-[-5px]">
+        Required
+      </p>
 
       <select
         aria-label="Select Target Language"

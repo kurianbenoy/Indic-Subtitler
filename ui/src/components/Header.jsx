@@ -4,9 +4,40 @@ import { useEffect, useState } from "react";
 import { transitionToCollection } from "@components/utils";
 import PrimaryBtn from "./PrimaryBtn";
 
+function Buttons({ isHome }) {
+  const router = useRouter();
+  if (isHome) {
+    return (
+      <div className="flex flex-wrap gap-4">
+        <PrimaryBtn accent={true} fn={() => router.push("/about")}>
+          Team
+        </PrimaryBtn>
+        <PrimaryBtn accent={true} fn={() => router.push("/livetranscribe")}>
+          Live Transcription
+        </PrimaryBtn>
+        <PrimaryBtn
+          accent={true}
+          fn={() => router.push("/blog/terms-and-licenses")}
+        >
+          Terms & Licenses
+        </PrimaryBtn>
+        <SecondaryBtn fn={() => transitionToCollection(router)}>
+          Dashboard
+        </SecondaryBtn>
+      </div>
+    );
+  }
+  if (router.pathname !== "/contact") {
+    console.log(router);
+    return (
+      <div className="max-w-fit">
+        <PrimaryBtn fn={() => router.push("/contact")}>Contact Us</PrimaryBtn>
+      </div>
+    );
+  }
+}
 export default function Header() {
   const router = useRouter();
-
   const isHome = router.pathname === "/";
   function scrollToTop() {
     if (isHome) {
@@ -18,6 +49,7 @@ export default function Header() {
       router.push("/");
     }
   }
+
   return (
     <header
       className={`
@@ -33,26 +65,7 @@ export default function Header() {
           Indic Subtitler
         </h1>
       </div>
-
-      {isHome && (
-        <div className="flex flex-wrap gap-4 ">
-          <PrimaryBtn accent={true} fn={() => router.push("/about")}>
-            Team
-          </PrimaryBtn>
-          <PrimaryBtn accent={true} fn={() => router.push("/livetranscribe")}>
-            Live Transcription
-          </PrimaryBtn>
-          <PrimaryBtn
-            accent={true}
-            fn={() => router.push("/blog/terms-and-licenses")}
-          >
-            Terms & Licenses
-          </PrimaryBtn>
-          <SecondaryBtn fn={() => transitionToCollection(router)}>
-            Dashboard
-          </SecondaryBtn>
-        </div>
-      )}
+      <Buttons isHome={isHome} />
     </header>
   );
 }
