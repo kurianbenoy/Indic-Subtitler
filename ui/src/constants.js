@@ -68,7 +68,7 @@ export const TEAM = [
   {
     name: "Aldrin Jenson",
     img: "/aldrin.jpeg",
-    description: `Aldrin Jensen is a highly skilled and adaptable software engineer with over 5 years of experience. He excels in developing, deploying, and maintaining diverse applications across various industries. Notably, he developed an impactful Issue and Risk Management system used in the Kerala construction industry, alongside contributing to a wide range of projects in startups, showcasing his versatility and expertise in various technologies.`,
+    description: `Aldrin Jenson is a versatile software engineer hailing from Kerala, currently working in Research and Development in Generative AI at Thoughtworks Technologies. With a proven track record of developing, deploying, and maintaining diverse applications across multiple industries, Aldrin's expertise transcends conventional boundaries. His passion for innovation is evident in his extensive portfolio of projects, which spans various domains and employs a wide array of tech stacks. Apart from his professional pursuits, Aldrin is an avid participant in hackathons and meetups, where he actively engages with fellow enthusiasts to explore cutting-edge technologies. In his free time, Aldrin enjoys playing the guitar and immersing himself in music. Committed to giving back to the community, he volunteers with various NGOs and tech communities, organizing events to foster collaboration and knowledge sharing. With a natural inclination towards connecting with others, Aldrin enjoys engaging in discussions and geeking out over all things tech.`,
     github: "https://github.com/aldrinjenson",
     linkedin: "https://www.linkedin.com/in/aldrinjenson/",
     twitter: "https://twitter.com/aldrinjenson",
@@ -95,21 +95,24 @@ export const MENTORS = [
   {
     name: "Simrat Hanspal",
     img: "/path/to/simrat-image.jpg", // Placeholder image path
-    description: "Simrat Hanspal is an NLP specialist with 14 years of experience building AI/ML products and solutions for startups and large organizations. Currently, she is spearheading AI product strategy at Hasura. She has previously worked with companies like Amazon, VMware, Fi Money, and Nirvana.",
+    description:
+      "Simrat Hanspal is an NLP specialist with 14 years of experience building AI/ML products and solutions for startups and large organizations. Currently, she is spearheading AI product strategy at Hasura. She has previously worked with companies like Amazon, VMware, Fi Money, and Nirvana.",
     linkedin: "https://in.linkedin.com/in/simrat-hanspal-37683054", // Placeholder LinkedIn link
     twitter: "https://twitter.com/simsimsandy", // Placeholder Twitter link
   },
   {
     name: "TokenBender",
     img: "/path/to/ahm-image.jpg", // Placeholder image path
-    description: "Creator of CodeCherryPop LLM series and specialise working with roleplay and code generation models.",
+    description:
+      "Creator of CodeCherryPop LLM series and specialise working with roleplay and code generation models.",
     linkedin: "https://www.linkedin.com/in/abhishek-harshvardhan-mishra/", // Placeholder LinkedIn link
     twitter: "https://twitter.com/4evaBehindSOTA", // Placeholder Twitter link
   },
   {
     name: "Sumod K Mohan",
     img: "/path/to/sumod-image.jpg", // Placeholder image path
-    description: "Founder/C.E.O AutoInfer, ex-CTO Niqo Robotics. Building Vision/NLP/Robotics products.",
+    description:
+      "Founder/C.E.O AutoInfer, ex-CTO Niqo Robotics. Building Vision/NLP/Robotics products.",
     github: "https://github.com/sumod", // Placeholder GitHub link
     linkedin: "https://in.linkedin.com/in/sumodm", // Placeholder LinkedIn link
     twitter: "https://twitter.com/sumodm", // Placeholder Twitter link
