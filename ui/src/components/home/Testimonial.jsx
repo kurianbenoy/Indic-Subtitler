@@ -67,6 +67,13 @@ const testimonials = [
     profileLink: "https://twitter.com/omshivaprakash",
   },
   {
+    name: "Kurian Thomas Pulimoottil",
+    testimonial:
+      "I see huge potential for Indic subtitler in the world of visual media. The approach taken by the team makes it feel very seamless to interact with. It makes me feel proud that we are getting closer to a world with no language barriers. I envision a future where the tool is hooked to an LLM which aligns the translations to better fit the context of the whole speech. It's awesome to see products working and trying to solve real hard problems.",
+    profileLink: "https://www.linkedin.com/in/kurian-thomas-pulimoottil/",
+    picPath: "/profile/kurian_thomas.jpeg",
+  },
+  {
     name: "Malik Ammar Faisal",
     testimonial:
       "IndicSubtitler has been helpful to me in generating captions for my YouTube videos. It also has the option to choose between different state-of-the-art (SOTA) models, which makes it more flexible and customizable.",
