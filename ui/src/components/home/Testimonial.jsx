@@ -19,6 +19,14 @@ const testimonials = [
     credential: " AI/ML educator",
   },
   {
+    name: "Kavya Manohar",
+    testimonial:
+      "When it comes to subtitling your Indian languages videos or your Indian English videos, there was no proper means to do that.  What I love about indicsubtitler.in is that, it even allows you to edit any errors that might have crept in during transcription before you download the srt files. You can alternate between available models to find the best fit for your voice too. The tool is very handy with many such useful features.",
+    profileLink: "https://www.linkedin.com/in/kavya-manohar/",
+    picPath: "/profile/kavya.jpeg",
+    credential: "Speech and Language Technologist",
+  },
+  {
     name: "Rejin Jose",
     credential: "Senior AI Engineer, IQVIA",
     testimonial:
