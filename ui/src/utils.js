@@ -39,28 +39,28 @@ export const getRequestParamsForModel = async (
   const modelEndPoints = {
     seamlessM4t: {
       fileBased:
-        "https://aldrinjenson--seamless-m4t-speech-generate-seamlessm4t-speech.modal.run",
+        "https://indic-subtitler--seamless-m4t-speech-generate-seamlessm4-d11af9.modal.run",
       youtubeLinkedBased:
-        "https://aldrinjenson--seamless-m4t-speech-youtube-generate-seaml-237e9d.modal.run",
+        "https://indic-subtitler--seamless-m4t-speech-youtube-generate-se-7b7455.modal.run",
     },
 
     fasterWhisper: {
       fileBased:
-        "https://kurianbenoy--seamless-m4t-speech-generate-faster-whisper-speech.modal.run",
+        "https://indic-subtitler--seamless-m4t-speech-generate-faster-whi-29f8e4.modal.run",
       youtubeLinkedBased:
-        "https://kurianbenoy--seamless-m4t-speech-youtube-generate-faster-c295b9.modal.run",
+        "https://indic-subtitler--seamless-m4t-speech-youtube-generate-fa-826932.modal.run",
     },
     whisperX: {
       fileBased:
-        "https://kurianbenoy--seamless-m4t-speech-generate-whisperx-speech.modal.run",
+        "https://indic-subtitler--seamless-m4t-speech-generate-whisperx-speech.modal.run",
       youtubeLinkedBased:
-        "https://kurianbenoy--seamless-m4t-speech-youtube-generate-whispe-b29f2b.modal.run",
+        "https://indic-subtitler--seamless-m4t-speech-youtube-generate-wh-42397f.modal.run",
     },
     vegamFasterWhisper: {
       fileBased:
-        "https://kurianbenoy--seamless-m4t-speech-generate-vegam-faster-whisper.modal.run",
+        "https://indic-subtitler--seamless-m4t-speech-generate-vegam-fast-2d5a10.modal.run",
       youtubeLinkedBased:
-        "https://kurianbenoy--seamless-m4t-speech-youtube-generate-vegam--4877d8.modal.run",
+        "https://indic-subtitler--seamless-m4t-speech-youtube-generate-ve-db96f4.modal.run",
     },
   };
   let requestData;

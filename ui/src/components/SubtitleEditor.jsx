@@ -111,7 +111,7 @@ export default function SubtitleEditor({
                       <textarea
                         aria-label="Subtitle"
                         ref={(el) => (textAreaRefs.current[index] = el)}
-                        className="w-full resize-none"
+                        className="w-full border-[1.5px] py-4 px-2 rounded-md"
                         rows={Math.ceil(element.text?.length / 85) || 2}
                         type="text"
                         name="subtitle text area"

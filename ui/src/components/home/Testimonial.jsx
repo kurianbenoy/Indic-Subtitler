@@ -13,10 +13,18 @@ const testimonials = [
   {
     name: "1LittleCoder",
     testimonial:
-      "🇮🇳 India is rich with its languages, art and culture. Even though we have the best devs on the planet, until now it's been so hard to find a good subtitler that just works for Indian languages. But now it's possible in one-click, Thanks to Indic Subtitler. I'm fascinated by how beautifully it transcribes and handles the combination of Indian Languages + English along side. The best part is that it's an open source project!!!",
+      "India is rich in its languages, art, and culture. Even though we have the best developers on the planet, until now, it's been hard to find a good subtitler that just works for Indian languages. But now it's possible with one click, thanks to Indic Subtitler. I'm fascinated by how beautifully it transcribes and handles the combination of Indian Languages + English alongside. The best part is that it's an open-source project!!!",
     profileLink: "https://twitter.com/1littlecoder",
     picPath: "/profile/1littlecoder.jpg",
     credential: " AI/ML educator",
+  },
+  {
+    name: "Dr. Kavya Manohar",
+    testimonial:
+      "When it comes to subtitling your Indian languages videos or your Indian English videos, there was no proper means to do that.  What I love about indicsubtitler.in is that, it even allows you to edit any errors that might have crept in during transcription before you download the srt files. You can alternate between available models to find the best fit for your voice too. The tool is very handy with many such useful features.",
+    profileLink: "https://www.linkedin.com/in/kavya-manohar/",
+    picPath: "/profile/kavya.jpeg",
+    credential: "Speech and Language Technologist",
   },
   {
     name: "Rejin Jose",
@@ -34,7 +42,7 @@ const testimonials = [
     credential:
       " Contributor at Swathanthra Malayalam Computing & Indic Project",
     testimonial:
-      "I tested IndicSubtitler on a project I had earlier subtitled manually. There were some rough edges (missing lines and incorrect words) but these can be fixed easily from the in-built editor. It would have saved me hours of manual typing. The development of this project is at breakneck speed too",
+      "I tested IndicSubtitler on a project I had earlier subtitled manually. There were some rough edges, such as missing lines and incorrect words, but these can be easily fixed using the built-in editor. It would have saved me hours of manual typing. The development of this project is also progressing at breakneck speed.",
     picPath: "/profile/akshay.jpg",
     platform: "twitter",
     username: "@asdofindia",
@@ -65,6 +73,15 @@ const testimonials = [
     username: "@omshivaprakash",
     reviewLink: "https://twitter.com/omshivaprakash/status/1765721027156308259",
     profileLink: "https://twitter.com/omshivaprakash",
+  },
+  {
+    name: "Kurian Thomas Pulimoottil",
+    credential:
+      "Software Engineer-2, ServiceNow",
+    testimonial:
+      "I see huge potential for Indic subtitler in the world of visual media. The approach taken by the team makes it feel very seamless to interact with. It makes me feel proud that we are getting closer to a world with no language barriers. I envision a future where the tool is hooked to an LLM which aligns the translations to better fit the context of the whole speech. It's awesome to see products working and trying to solve real hard problems.",
+    profileLink: "https://www.linkedin.com/in/kurian-thomas-pulimoottil/",
+    picPath: "/profile/kurian_thomas.jpeg",
   },
   {
     name: "Malik Ammar Faisal",
