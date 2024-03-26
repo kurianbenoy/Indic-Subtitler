@@ -28,7 +28,6 @@ function Buttons({ isHome }) {
     );
   }
   if (router.pathname !== "/contact") {
-    console.log(router);
     return (
       <div className="max-w-fit">
         <PrimaryBtn fn={() => router.push("/contact")}>Contact Us</PrimaryBtn>
