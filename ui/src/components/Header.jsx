@@ -15,14 +15,8 @@ function Buttons({ isHome }) {
         <PrimaryBtn accent={true} fn={() => router.push("/livetranscribe")}>
           Live Transcription
         </PrimaryBtn>
-        <PrimaryBtn
-          accent={true}
-          fn={() => router.push("/blog/terms-and-licenses")}
-        >
-          Terms & Licenses
-        </PrimaryBtn>
         <SecondaryBtn fn={() => transitionToCollection(router)}>
-          Dashboard
+          Generate Subtitles
         </SecondaryBtn>
       </div>
     );
