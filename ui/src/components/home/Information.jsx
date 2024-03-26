@@ -61,7 +61,7 @@ export default function Information() {
         </h1>
         <Carousel />
       </section>
-      <section className="flex flex-col ">
+      {/* <section className="flex flex-col ">
         <h2 className="text-center text-3xl md:text-5xl font-medium p-4">
           Want to experience the fastest way to generate subtitle for your
           videos?
@@ -84,7 +84,7 @@ export default function Information() {
             );
           })}
         </div>
-      </section>
+      </section> */}
     </main>
   );
 }
