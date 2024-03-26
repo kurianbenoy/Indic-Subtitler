@@ -52,7 +52,7 @@ export default function Header() {
     <header
       className={`
         ${isHome ? "top-0" : ""}
-        flex flex-col md:flex-row space-y-4 md:space-y-0 flex-wrap justify-between 
+        flex flex-col md:flex-row space-y-4 md:space-y-0 flex-wrap justify-between
         pt-5 md:items-center sticky py-5 z-20 bg-white px-2 lg:px-20 md:gap-2
       `}
     >
