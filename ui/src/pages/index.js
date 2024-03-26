@@ -40,8 +40,8 @@ export default function Home() {
         />
       </Head>
       <HeroSection />
-      <Information />
       <Testimonial />
+      <Information />
       <Footer />
     </main>
   );
