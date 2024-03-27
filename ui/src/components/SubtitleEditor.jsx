@@ -4,6 +4,7 @@ import DownloadFileDropdown from "./DownloadFileDropdown";
 import { IconPencil } from "@tabler/icons-react";
 import useLocalStorage from "@components/hooks/useLocalStorage";
 import { useRouter } from "next/router";
+import { useState } from "react";
 
 export default function SubtitleEditor({
   isBeingGenerated,
@@ -17,6 +18,8 @@ export default function SubtitleEditor({
   const router = useRouter();
   const id = router.query.id;
   const [file, setFile] = useLocalStorage("file", "");
+  const [shouldScrollIntoView, setShouldScrollIntoView] = useState(true);
+
   function handleInputChange(index, newText, type) {
     const updateTranscribe = [...transcribed];
     updateTranscribe[index][type] = newText;
@@ -47,10 +50,10 @@ export default function SubtitleEditor({
   const endDivRef = useRef();
 
   useEffect(() => {
-    if (!isSubtitleGenerated) {
+    if (shouldScrollIntoView && isBeingGenerated) {
       endDivRef?.current?.scrollIntoView({ behavior: "smooth" });
     }
-  }, [transcribed]);
+  }, [isBeingGenerated, shouldScrollIntoView, transcribed]);
 
   if (!transcribed?.length && !requestSentToAPI) {
     return (
@@ -72,8 +75,26 @@ export default function SubtitleEditor({
       <aside className="w-full lg:w-[75%] md:mt-0 md:border-l-2  flex flex-col justify-between">
         <div className="flex md:flex-row flex-col md:justify-end md:text-lg text-white gap-4 md:px-4 md:py-4 md:my-0 my-4 ">
           {isBeingGenerated ? (
-            <div className="btn m-1 bg-secondary-100 disabled">
-              Generating ...
+            <div className="flex flex-col">
+              <div className="btn m-1 bg-secondary-100 disabled">
+                Generating ...
+              </div>
+              <div className="form-control">
+                <label className="label cursor-pointer">
+                  <span className="label-text">Auto Scroll</span>
+                  <input
+                    value={shouldScrollIntoView}
+                    onChange={(e) => {
+                      console.log(e);
+                      console.log("checked = ", e.target.checked);
+                      setShouldScrollIntoView(e.target.checked);
+                    }}
+                    type="checkbox"
+                    defaultChecked
+                    className="checkbox"
+                  />
+                </label>
+              </div>
             </div>
           ) : (
             <div className="w-full flex items-center justify-between ">

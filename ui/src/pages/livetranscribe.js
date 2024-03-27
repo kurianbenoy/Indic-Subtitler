@@ -31,7 +31,6 @@ const LiveTranscribe = () => {
     navigator.mediaDevices
       .getUserMedia({ audio: true })
       .then((stream) => {
-        console.log("stream set");
         streamRef.current = stream;
         const mediaRecorder = new MediaRecorder(stream);
         mediaRecorderRef.current = mediaRecorder;
@@ -55,7 +54,6 @@ const LiveTranscribe = () => {
     interval = setInterval(() => {
       toggleRecording();
       setTimeout(() => {
-        console.log("toggling back");
         toggleRecording();
       }, 100);
     }, 3500);
@@ -107,10 +105,7 @@ const LiveTranscribe = () => {
       const response = await axios.post("/api/optimize", {
         transcription: transcription,
       });
-      console.log(
-        "Optimized transcription:",
-        response.data.corrected_transcription
-      );
+
       setGptOptimizedTranscription(response.data.corrected_transcription);
       toast.update(toastId, {
         render: "Optimized with LLM",
