@@ -33,7 +33,7 @@ export default function Information() {
   ];
 
   return (
-    <main className="md:mt-36 space-y-36 mt-16  md:px-20 px-4">
+    <main className="md:mt-36 space-y-36 mt-16  md:px-20 px-4 mb-16">
       <section className="space-y-20">
         <h2 className="text-center text-3xl md:text-5xl font-medium underline decoration-8 underline-offset-[14px] decoration-primary-900">
           How it works
@@ -55,7 +55,7 @@ export default function Information() {
           })}
         </div>
       </section>
-      <section>
+      <section className="">
         <h1 className="text-center text-3xl md:text-5xl font-medium ">
           Cutting edge technology that supports 10+ languages
         </h1>
