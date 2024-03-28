@@ -45,6 +45,13 @@ Due to advent of new technologies like Meta's seamless M4T model and Whisper fin
 **Don't use Indic Subtitler for any unlawful purposes.**
 ---
 
+## Project Architecture
+
+### Generate Subtitles Section
+
+![diag_v2 jpeg](https://github.com/kurianbenoy/Indic-Subtitler/assets/24592806/301570ad-29f2-4d40-ab79-11809824cae9)
+
+
 ## Technology stack
 
 ### 1. ML Model
