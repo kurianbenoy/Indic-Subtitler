@@ -49,7 +49,8 @@ Due to advent of new technologies like Meta's seamless M4T model and Whisper fin
 
 ### Generate Subtitles Section
 
-![diag_v2 jpeg](https://github.com/kurianbenoy/Indic-Subtitler/assets/24592806/301570ad-29f2-4d40-ab79-11809824cae9)
+![Generate_subtitles drawio](https://github.com/kurianbenoy/Indic-Subtitler/assets/24592806/4ec2d93b-99bf-4cc1-821d-ac9ea9e3c99d)
+
 
 
 ## Technology stack
