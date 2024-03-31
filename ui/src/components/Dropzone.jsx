@@ -26,7 +26,7 @@ export default function Dropzone({ setUploadedFile, uploadedFile }) {
           <p className="text-lg text-center">
             <span className="font-medium">Click to Upload</span> audio file here
           </p>
-          <p className="text-center text-gray-500 text-sm">.WAV, .MP3, .MP4</p>
+          <p className="text-center text-gray-500 text-sm">.WAV, .MP3, .MP4 .WEBM .M4A</p>
         </span>
       );
     }
