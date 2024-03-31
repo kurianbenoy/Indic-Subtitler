@@ -10,10 +10,8 @@ export default function Dropzone({ setUploadedFile, uploadedFile }) {
     onDrop,
     accept: {
       //   "audio/mpeg": [".mp3", ".mpeg", ".mpga"],
-      //   "audio/mp4": [".m4a"],
-      // "video/mp4": [".mp4"],
-      //   "video/webm": [".webm"],
-
+      "audio/mp4": [".m4a"],
+      "video/webm": [".webm"],
       "audio/wav": [".wav"],
       "audio/mpeg": [".mp3"],
       "video/mp4": [".mp4"],
