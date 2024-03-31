@@ -192,10 +192,12 @@ const UploadFile = ({
   }
 
   function toggleAdvanceMode() {
-    if (turnOnAdvanceOptions) {
-      setSelectedModel("seamlessM4t");
-    }
-    setTurnOnAdvanceOptions(!turnOnAdvanceOptions);
+    setTurnOnAdvanceOptions((prevState) => {
+      if (prevState) {
+        setSelectedModel("seamlessM4t");
+      }
+      return !prevState;
+    });
   }
 
   const handleModelChange = (item) => {
