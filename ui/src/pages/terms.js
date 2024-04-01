@@ -1,3 +1,4 @@
+import Head from "next/head";
 import React from "react";
 
 const information = [
@@ -55,12 +56,15 @@ const information = [
       detail:
         "A short and simple permissive license with conditions only requiring preservation of copyright and license notices. Licensed works, modifications, and larger works may be distributed under different terms and without source code. ",
     },
-  }
+  },
 ];
 
 export default function term() {
   return (
     <main className=" flex flex-col md:items-center mx-2 md:mx-0">
+      <Head>
+        <title>Terms & Licenses </title>
+      </Head>
       <h1 className="font-serif md:w-[40%] text-3xl md:text-5xl mb-8">
         Indic Subtitler Terms & Licenses
       </h1>

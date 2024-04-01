@@ -1,5 +1,6 @@
 import PrimaryBtn from "@components/components/PrimaryBtn";
 import { ValidationError, useForm } from "@formspree/react";
+import Head from "next/head";
 import Image from "next/image";
 import React from "react";
 
@@ -87,6 +88,9 @@ export default function contact() {
       shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] mt-14
     "
     >
+      <Head>
+        <title>Contact Us</title>
+      </Head>
       <p className="text-center mt-6">
         Faced a bug? Raise an issue now on{" "}
         <a

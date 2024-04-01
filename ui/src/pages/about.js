@@ -1,8 +1,12 @@
 import Gallery from "@components/components/Gallery";
+import Head from "next/head";
 
 function About() {
   return (
     <main className="lg:mx-28 mx-2">
+      <Head>
+        <title>Our team and mentors</title>
+      </Head>
       <section className="mb-7 md:mt-14">
         <h1 className="text-3xl font-medium">Meet Our Team</h1>
         <p className="text-gray-500 md:w-[80ch] leading-7 mt-2">

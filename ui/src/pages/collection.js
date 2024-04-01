@@ -13,7 +13,7 @@ const Collection = () => {
   return (
     <section className="flex justify-center">
       <Head>
-        <title>Indic Subtitler - Collection of Subtitles </title>
+        <title>Collection </title>
       </Head>
       <main className=" w-full lg:w-[90%] xl:w-[80%] border-2 rounded-md">
         <div className="flex justify-between items-center border-b-[2px] py-2 px-2">

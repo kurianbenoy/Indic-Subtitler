@@ -1,4 +1,5 @@
 import axios from "axios";
+import Head from "next/head";
 import { useState, useRef, useEffect } from "react";
 import { toast } from "react-toastify";
 
@@ -127,6 +128,9 @@ const LiveTranscribe = () => {
 
   return (
     <div className="prose mx-auto pb-5 mb-5 p-2">
+      <Head>
+        <title>Live Transcribe</title>
+      </Head>
       <h1>Live Transcription</h1>
 
       <p className="text-sm text-gray-600 mb-3">
