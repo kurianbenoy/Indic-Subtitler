@@ -13,11 +13,11 @@ function Buttons({ isHome }) {
           Team
         </PrimaryBtn>
         <PrimaryBtn accent={true} fn={() => router.push("/livetranscribe")}>
-          Transcribe Now
+          Live Transcribe
         </PrimaryBtn>
-        <SecondaryBtn fn={() => transitionToCollection(router)}>
-          Get Subtitles
-        </SecondaryBtn>
+        <PrimaryBtn accent={() => transitionToCollection(router)}>
+          Generate Subtitles
+        </PrimaryBtn>
       </div>
     );
   }
