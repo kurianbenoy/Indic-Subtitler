@@ -15,7 +15,7 @@ function Buttons({ isHome }) {
         <PrimaryBtn accent={true} fn={() => router.push("/livetranscribe")}>
           Live Transcribe
         </PrimaryBtn>
-        <PrimaryBtn accent={() => transitionToCollection(router)}>
+        <PrimaryBtn accent={true} fn={() => transitionToCollection(router)}>
           Generate Subtitles
         </PrimaryBtn>
       </div>
