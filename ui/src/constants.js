@@ -15,6 +15,13 @@ export const LANGUAGES_PER_MODEL = [
       { id: "tam", name: "Tamil" },
       { id: "tel", name: "Telugu" },
       { id: "urd", name: "Urdu" },
+      { id: "deu", name: "German"},
+      { id: "fra", name: "French"},
+      { id: "ita", name: "Italian"},
+      { id: "spa", name: "Spanish"},
+      { id: "por", name: "Portuguese"},
+      { id: "nld", name: "Dutch"},
+      { id: "dan", name: "Danish"}
     ],
   },
   {
@@ -32,6 +39,13 @@ export const LANGUAGES_PER_MODEL = [
       { id: "ta", name: "Tamil" },
       { id: "te", name: "Telugu" },
       { id: "ur", name: "Urdu" },
+      { id: "de", name: "German"},
+      { id: "fr", name: "French"},
+      { id: "it", name: "Italian"},
+      { id: "es", name: "Spanish"},
+      { id: "pt", name: "Portuguese"},
+      { id: "nl", name: "Dutch"},
+      { id: "da", name: "Danish"}
     ],
   },
 
@@ -46,7 +60,10 @@ export const LANGUAGES_PER_MODEL = [
   },
   {
     model: "vegamFasterWhisper",
-    languages: [{ id: "ml", name: "Malayalam" }],
+    languages: [
+      { id: "ml", name: "Malayalam" },
+      { id: "en", name: "English" },
+    ],
   },
 ];
 export const AVAILABLE_MODELS = [
