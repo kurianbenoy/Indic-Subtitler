@@ -76,8 +76,7 @@ const testimonials = [
   },
   {
     name: "Kurian Thomas Pulimoottil",
-    credential:
-      "Software Engineer-2, ServiceNow",
+    credential: "Software Engineer-2, ServiceNow",
     testimonial:
       "I see huge potential for Indic subtitler in the world of visual media. The approach taken by the team makes it feel very seamless to interact with. It makes me feel proud that we are getting closer to a world with no language barriers. I envision a future where the tool is hooked to an LLM which aligns the translations to better fit the context of the whole speech. It's awesome to see products working and trying to solve real hard problems.",
     profileLink: "https://www.linkedin.com/in/kurian-thomas-pulimoottil/",
@@ -99,7 +98,7 @@ const Testimonial = () => {
   };
   function PlatformIcon({ platform }) {
     const Icon = icons[platform];
-    return <Icon />;
+    return <Icon size={20} />;
   }
   return (
     <section className="px-8 md:px-16 py-4 lg:py-10 my-28">
@@ -111,44 +110,50 @@ const Testimonial = () => {
           {testimonials.map((testimonial, index) => (
             <div
               key={index}
-              className="bg-white p-6 rounded-lg shadow-md md:hover:bg-blue-100  drop-shadow-lg"
+              className="bg-white p-6 rounded-lg shadow-md md:hover:bg-blue-100  drop-shadow-lg flex flex-col justify-between"
               style={{ minHeight: "30vh" }}
             >
-              <div className="flex md:flex-row flex-col items-center mb-5 gap-5">
-                <Image
-                  width={70}
-                  height={70}
-                  src={testimonial.picPath}
-                  alt={`Picture of ${testimonial.name}`}
-                  className=" overflow-hidden rounded-full self-start "
-                />
-                <div className="flex items-center justify-between w-full gap-2 ">
-                  <div className="flex flex-col">
-                    <a
-                      aria-label={`Link of ${testimonial.name}'s profile`}
-                      href={testimonial.profileLink}
-                      className="font-bold hover:underline"
-                      target="_blank"
-                    >
-                      {testimonial.name}
-                    </a>
-                    <p className="text-sm text-gray-500">
-                      {testimonial.credential}
-                    </p>
+              <section>
+                <div className="flex md:flex-row flex-col items-center mb-5 gap-5">
+                  <Image
+                    width={70}
+                    height={70}
+                    src={testimonial.picPath}
+                    alt={`Picture of ${testimonial.name}`}
+                    className=" overflow-hidden rounded-full self-start "
+                  />
+                  <div className="flex items-center justify-between w-full gap-2 ">
+                    <div className="flex flex-col">
+                      <a
+                        aria-label={`Link of ${testimonial.name}'s profile`}
+                        href={testimonial.profileLink}
+                        className="font-bold hover:underline"
+                        target="_blank"
+                      >
+                        {testimonial.name}
+                      </a>
+                      <p className="text-sm text-gray-500">
+                        {testimonial.credential}
+                      </p>
+                    </div>
                   </div>
-                  {testimonial.publicProfile && (
-                    <a
-                      aria-label="Link of tweet"
-                      target="_blank"
-                      href={testimonial.reviewLink}
-                    >
-                      <PlatformIcon platform={testimonial.platform} />
-                    </a>
-                  )}
                 </div>
-              </div>
 
-              <p className="text-gray-600 mb-4">{testimonial.testimonial}</p>
+                <p className="text-gray-600 mb-4">{testimonial.testimonial}</p>
+              </section>
+              {testimonial.publicProfile && (
+                <div className="flex items-end justify-end text-sm">
+                  <a
+                    aria-label="Link of tweet"
+                    target="_blank"
+                    href={testimonial.reviewLink}
+                    className="flex gap-1"
+                  >
+                    <p className="">View on</p>
+                    <PlatformIcon platform={testimonial.platform} height="32" />
+                  </a>
+                </div>
+              )}
             </div>
           ))}
         </div>
