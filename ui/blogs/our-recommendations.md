@@ -18,11 +18,11 @@ is the best models to use for your use case, in your own languages.
 
 ## About the models available in Indic Subtitler
 
-#### 1. SeamlessM4T(default)
+#### 1. SeamlessM4T
 
 Seamless is a family of AI models that enable more natural and authentic communication across languages. SeamlessM4T is a massive multilingual multimodal machine translation model supporting around 100 languages. SeamlessM4T serves as the foundation for SeamlessExpressive, a model that preserves elements of prosody and voice style across languages and SeamlessStreaming, a model supporting simultaneous translation and streaming ASR for around 100 languages. SeamlessExpressive and SeamlessStreaming are combined into Seamless, a unified model featuring multilinguality, real-time, and expressive translations.
 
-#### 2. Faster-whisper
+#### 2. Faster-whisper(default)
 
 faster-whisper is a reimplementation of OpenAI's Whisper model using CTranslate2, which is a fast inference engine for Transformer models. This implementation is up to 4 times faster than openai/whisper for the same accuracy while using less memory. The efficiency can be further improved with 8-bit quantization on both CPU and GPU.
 
