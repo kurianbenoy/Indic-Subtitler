@@ -5,6 +5,7 @@ import Markdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { materialDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import ReactMarkdown from "react-markdown";
+import Head from "next/head";
 
 export default function BlogPage({ content, slug }) {
   const { data, content: markdownContent } = matter(content);
@@ -18,10 +19,15 @@ export default function BlogPage({ content, slug }) {
     id: blogId = "",
   } = data;
   return (
-    <div id={blogId} className="markdown">
-      <h1>{title}</h1>
-      <Markdown className="mt-4">{markdownContent}</Markdown>
-    </div>
+    <>
+      <Head>
+        <title>{title} </title>
+      </Head>
+      <div id={blogId} className="markdown">
+        <h1>{title}</h1>
+        <Markdown className="mt-4">{markdownContent}</Markdown>
+      </div>
+    </>
   );
 }
 

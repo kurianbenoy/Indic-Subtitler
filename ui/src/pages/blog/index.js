@@ -3,6 +3,7 @@ import path from "path";
 import Link from "next/link";
 import matter from "gray-matter";
 import { IconArticle, IconVideo } from "@tabler/icons-react";
+import Head from "next/head";
 export const formatDate = (dateString) => {
   const formattedDate = new Date(dateString).toLocaleDateString("en-US", {
     day: "2-digit",
@@ -66,23 +67,28 @@ export const BlogCard = ({ blog }) => {
 
 export default function AllBlogs({ blogs }) {
   return (
-    <section className="">
-      <div className="p-8 lg:mt-5 mx-auto max-w-screen-xl lg:px-6">
-        <h1 className="text-center md:text-5xl text-3xl font-medium">
-          Indic Subtitler Blogs
-        </h1>
-        <p className="text-center mt-4 text-gray-500 md:text-lg">
-          Indic-Subtitler represents an innovative open-source subtitling
-          platform designed to transform the process of generating subtitles and
-          transcriptions through the integration of AI technologies.
-        </p>
-        <div className="grid gap-8 mt-10 lg:grid-cols-2">
-          {blogs.map((blog, index) => {
-            return <BlogCard key={index} blog={blog} />;
-          })}
+    <>
+      <Head>
+        <title>Blogs</title>
+      </Head>
+      <section className="">
+        <div className="p-8 lg:mt-5 mx-auto max-w-screen-xl lg:px-6">
+          <h1 className="text-center md:text-5xl text-3xl font-medium">
+            Indic Subtitler Blogs
+          </h1>
+          <p className="text-center mt-4 text-gray-500 md:text-lg">
+            Indic-Subtitler represents an innovative open-source subtitling
+            platform designed to transform the process of generating subtitles
+            and transcriptions through the integration of AI technologies.
+          </p>
+          <div className="grid gap-8 mt-10 lg:grid-cols-2">
+            {blogs.map((blog, index) => {
+              return <BlogCard key={index} blog={blog} />;
+            })}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }
 
