@@ -21,7 +21,7 @@ export const LANGUAGES_PER_MODEL = [
       { id: "spa", name: "Spanish"},
       { id: "por", name: "Portuguese"},
       { id: "nld", name: "Dutch"},
-      { id: "dan", name: "Danish"}
+      { id: "dan", name: "Danish"},
     ],
   },
   {
@@ -45,7 +45,7 @@ export const LANGUAGES_PER_MODEL = [
       { id: "es", name: "Spanish"},
       { id: "pt", name: "Portuguese"},
       { id: "nl", name: "Dutch"},
-      { id: "da", name: "Danish"}
+      { id: "da", name: "Danish"},
     ],
   },
 
@@ -56,6 +56,13 @@ export const LANGUAGES_PER_MODEL = [
       { id: "hi", name: "Hindi" },
       { id: "te", name: "Telugu" },
       { id: "ur", name: "Urdu" },
+      { id: "de", name: "German"},
+      { id: "fr", name: "French"},
+      { id: "it", name: "Italian"},
+      { id: "es", name: "Spanish"},
+      { id: "pt", name: "Portuguese"},
+      { id: "nl", name: "Dutch"},
+      { id: "da", name: "Danish"},
     ],
   },
   {
