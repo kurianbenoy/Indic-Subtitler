@@ -69,7 +69,6 @@ export const LANGUAGES_PER_MODEL = [
     model: "vegamFasterWhisper",
     languages: [
       { id: "ml", name: "Malayalam" },
-      { id: "en", name: "English" },
     ],
   },
 ];
