@@ -51,6 +51,9 @@ Due to advent of new technologies like Meta's seamless M4T model and Whisper fin
 
 ![Generate_subtitles drawio](https://github.com/kurianbenoy/Indic-Subtitler/assets/24592806/4ec2d93b-99bf-4cc1-821d-ac9ea9e3c99d)
 
+### Our novel architecture introduced with this project for Generative UI which works for any ASR models
+
+![Our novel architecture](https://github.com/kurianbenoy/Indic-Subtitler/assets/24592806/0e20c52d-fcf7-4641-9167-c553fb72d0a4)
 
 
 ## Technology stack
