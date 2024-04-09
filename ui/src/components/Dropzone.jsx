@@ -15,6 +15,7 @@ export default function Dropzone({ setUploadedFile, uploadedFile }) {
       "audio/wav": [".wav"],
       "audio/mpeg": [".mp3"],
       "video/mp4": [".mp4"],
+      "video/mkv": [".mkv"],
     },
   });
   function modalText(active) {
@@ -26,7 +27,7 @@ export default function Dropzone({ setUploadedFile, uploadedFile }) {
           <p className="text-lg text-center">
             <span className="font-medium">Click to Upload</span> audio file here
           </p>
-          <p className="text-center text-gray-500 text-sm">.WAV, .MP3, .MP4 .WEBM .M4A</p>
+          <p className="text-center text-gray-500 text-sm">.WAV, .MP3, .MP4 .WEBM .M4A .MKV</p>
         </span>
       );
     }
