@@ -164,7 +164,7 @@ stub = Stub(name="seamless_m4t_speech", image=image)
 
 
 # Timeout in 20 minutes
-@stub.function(gpu=GPU_TYPE, timeout=1200)
+@stub.function(gpu=GPU_TYPE, timeout=THIRTY_MINS)
 @web_endpoint(method="POST")
 def generate_seamlessm4t_speech(item: Dict):
     """
@@ -481,7 +481,7 @@ def generate_vegam_faster_whisper(item: Dict):
         return {"message": "Internal server error", "code": 500}
 
 
-@stub.function(gpu=GPU_TYPE, timeout=600)
+@stub.function(gpu=GPU_TYPE, timeout=THIRTY_MINS)
 @web_endpoint(method="POST")
 def generate_whisperx_speech(item: Dict):
     """
@@ -589,7 +589,7 @@ def generate_whisperx_speech(item: Dict):
 
 
 # Timeout in 20 minutes
-@stub.function(gpu=GPU_TYPE, timeout=1200)
+@stub.function(gpu=GPU_TYPE, timeout=THIRTY_MINS)
 @web_endpoint(method="POST")
 def youtube_generate_seamlessm4t_speech(item: Dict):
     """
@@ -946,7 +946,7 @@ def youtube_generate_vegam_faster_whisper(item: Dict):
         return {"message": "Internal server error", "code": 500}
 
 
-@stub.function(gpu=GPU_TYPE, timeout=600)
+@stub.function(gpu=GPU_TYPE, timeout=THIRTY_MINS)
 @web_endpoint(method="POST")
 def youtube_generate_whisperx_speech(item: Dict):
     """
