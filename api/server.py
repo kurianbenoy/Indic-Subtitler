@@ -386,7 +386,7 @@ def generate_faster_whisper_speech(item: Dict):
         return {"message": "Internal server error", "code": 500}
 
 
-@stub.function(gpu=GPU_TYPE, timeout=1200)
+@stub.function(gpu=GPU_TYPE, timeout=THIRTY_MINS)
 @web_endpoint(method="POST")
 def generate_vegam_faster_whisper(item: Dict):
     import os
@@ -839,7 +839,7 @@ def youtube_generate_faster_whisper_speech(item: Dict):
         return {"message": "Internal server error", "code": 500}
 
 
-@stub.function(gpu=GPU_TYPE, timeout=1200)
+@stub.function(gpu=GPU_TYPE, timeout=THIRTY_MINS)
 @web_endpoint(method="POST")
 def youtube_generate_vegam_faster_whisper(item: Dict):
     import os
