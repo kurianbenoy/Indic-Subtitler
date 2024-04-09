@@ -4,10 +4,6 @@ import Marquee from "react-fast-marquee";
 export default function Carousel() {
   const supportedLanguage = [
     {
-      regionalName: "English",
-      englishName: "English",
-    },
-    {
       regionalName: "অসমীয়া",
       englishName: "Assamese",
     },
@@ -55,6 +51,38 @@ export default function Carousel() {
     {
       regionalName: "తెలుగు",
       englishName: "Telugu",
+    },
+    {
+      regionalName: "English",
+      englishName: "English",
+    },
+    {
+      regionalName: "Deutsch",
+      englishName: "German",
+    },
+    {
+      regionalName: "Français",
+      englishName: "French",
+    },
+    {
+      regionalName: "Italiano",
+      englishName: "Italian",
+    },
+    {
+      regionalName: "Español",
+      englishName: "Spanish",
+    },
+    {
+      regionalName: "Português",
+      englishName: "Portuguese",
+    },
+    {
+      regionalName: "Nederlands",
+      englishName: "Dutch",
+    },
+    {
+      regionalName: "Dansk",
+      englishName: "Danish",
     },
   ];
 
