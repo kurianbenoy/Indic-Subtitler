@@ -10,7 +10,8 @@ import json
 # Refer - https://modal.com/docs/guide/gpu
 GPU_TYPE = "A100"
 SAMPLING_RATE = 16000
-MODEL_SIZE = "large-v3"
+# Moved to large-v2 as felt large-v3 is hallucinating more
+MODEL_SIZE = "large-v2"
 THIRTY_MINS = 1800
 
 
