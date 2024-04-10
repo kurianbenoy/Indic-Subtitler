@@ -7,7 +7,8 @@ from fastapi.responses import StreamingResponse
 import json
 
 # Define the GPU type to be used for processing
-GPU_TYPE = "T4"
+# Refer - https://modal.com/docs/guide/gpu
+GPU_TYPE = "A100"
 SAMPLING_RATE = 16000
 MODEL_SIZE = "large-v3"
 THIRTY_MINS = 1800
