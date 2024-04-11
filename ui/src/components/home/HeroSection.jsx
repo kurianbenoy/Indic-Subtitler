@@ -34,7 +34,7 @@ export default function HeroSection() {
                 {index < listOfSupportedModels.length - 2 ? ", " : null}
               </React.Fragment>
             ))}{" "}
-            which altogether supports 12 Indic languages by default.
+            which supports 12 Indic languages and 8 European languages by default.
           </p>
           <div className="flex gap-4 flex-wrap items-end">
             <PrimaryBtn fn={() => transitionToCollection(router)}>
