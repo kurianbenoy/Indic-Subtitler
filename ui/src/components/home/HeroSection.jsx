@@ -45,7 +45,7 @@ export default function HeroSection() {
               target=" _blank"
               className="flex gap-2 bg-secondary-900 text-white  px-4 py-2 font-medium rounded-md md:text-xl"
             >
-              Github <IconExternalLink />
+              GitHub <IconExternalLink />
             </a>
           </div>
         </div>
