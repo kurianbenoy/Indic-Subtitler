@@ -23,7 +23,7 @@ export default function Footer() {
             </li>
             <li>
               <Link href="https://github.com/kurianbenoy/Indic-Subtitler/">
-                Github
+                GitHub
               </Link>
             </li>
             <li>
