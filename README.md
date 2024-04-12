@@ -320,7 +320,7 @@ https://github.com/kurianbenoy/Indic-Subtitler/issues/4
 - Date: 12th April, 2024
 - Venue: Hasure Office, Bangalore
 - [Youtube Video Link](https://www.youtube.com/watch?v=--2j_002_qk)
-- [Presentation Link]()    
+- [Presentation Link](https://github.com/kurianbenoy/Indic-Subtitler/blob/main/IndicSubtitler.in%20Hackathon%20Hasgeek.pdf)    
 ---
 
 ### Feedback from mentors
