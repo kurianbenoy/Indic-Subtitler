@@ -315,6 +315,12 @@ https://github.com/kurianbenoy/Indic-Subtitler/issues/4
 - Fine-tune ASR models based on performance for respective languages and integrate even whisper-based audio models.
 - Build a desktop app similar to webapp for using all the functionalities
 
+**Demo Day**
+
+- Date: 12th April, 2024
+- Venue: Hasure Office, Bangalore
+- [Youtube Video Link](https://www.youtube.com/watch?v=--2j_002_qk)
+- [Presentation Link]()    
 ---
 
 ### Feedback from mentors
