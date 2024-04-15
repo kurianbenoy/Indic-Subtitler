@@ -98,7 +98,7 @@ export default function contact() {
           className="font-medium underline underline-offset-4"
           target="_blank"
         >
-          Github
+          GitHub
         </a>
       </p>
       <div className="divider">OR</div>
