@@ -8,7 +8,7 @@ import json
 
 # Define the GPU type to be used for processing
 # Refer - https://modal.com/docs/guide/gpu
-GPU_TYPE = "A100"
+GPU_TYPE = "T4"
 SAMPLING_RATE = 16000
 # Moved to large-v2 as felt large-v3 is hallucinating more
 MODEL_SIZE = "large-v2"
