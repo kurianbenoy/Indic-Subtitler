@@ -55,4 +55,4 @@ faster-whisper > SeamlessM4T
 Faster-Whisper > WhisperX > SeamlessM4t
 
 #### For Telugu
-Faster-Whisper > WhisperX > SeamlessM4t
+Faster-Whisper > WhisperX > SeamlessM4t(based on #8)
