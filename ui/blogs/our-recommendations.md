@@ -21,12 +21,11 @@ is the best models to use for your use case, in your own languages.
 #### For English audio
 
 WhisperX > faster-whisper > SeamlessM4T
-
-If you want better timestamp accuracy use SeamlessM4T
+(Note: If you want better timestamp accuracy use SeamlessM4T)
 
 #### For Malayalam
 
-Vegam-whisper = faster-whisper > SeamlessM4T
+Vegam-whisper $\approx$ faster-whisper > SeamlessM4T
 
 #### For Kannada
 
@@ -34,10 +33,10 @@ faster-whisper > SeamlessM4T
 
 #### For Hindi
 
-Faster-Whisper > WhisperX > SeamlessM4t
+faster-Whisper > WhisperX > SeamlessM4T
 
 #### For Telugu
-Faster-Whisper > WhisperX > SeamlessM4t([based on #8](https://github.com/kurianbenoy/Indic-Subtitler/pull/8))
+Faster-Whisper > WhisperX > SeamlessM4T ([based on #8](https://github.com/kurianbenoy/Indic-Subtitler/pull/8))
 
 ## About the models available in Indic Subtitler
 
