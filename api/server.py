@@ -8,11 +8,12 @@ import json
 
 # Define the GPU type to be used for processing
 # Refer - https://modal.com/docs/guide/gpu
-GPU_TYPE = "T4"
+GPU_TYPE = "H100"
 SAMPLING_RATE = 16000
 # Moved to large-v2 as felt large-v3 is hallucinating more
 MODEL_SIZE = "large-v2"
 THIRTY_MINS = 1800
+SIXTY_MINS=3600
 
 
 def download_models():
@@ -165,8 +166,7 @@ image = (
 stub = Stub(name="seamless_m4t_speech", image=image)
 
 
-# Timeout in 20 minutes
-@stub.function(gpu=GPU_TYPE, timeout=THIRTY_MINS)
+@stub.function(gpu=GPU_TYPE, timeout=SIXTY_MINS)
 @web_endpoint(method="POST")
 def generate_seamlessm4t_speech(item: Dict):
     """
@@ -285,7 +285,7 @@ def sliding_window_approch_timestamps(speech_timestamps_seconds):
     return new_group_chunks  # Return the list of new grouped chunks
 
 
-@stub.function(gpu=GPU_TYPE, timeout=THIRTY_MINS)
+@stub.function(gpu=GPU_TYPE, timeout=SIXTY_MINS)
 @web_endpoint(method="POST")
 def generate_faster_whisper_speech(item: Dict):
     """
@@ -388,7 +388,7 @@ def generate_faster_whisper_speech(item: Dict):
         return {"message": "Internal server error", "code": 500}
 
 
-@stub.function(gpu=GPU_TYPE, timeout=THIRTY_MINS)
+@stub.function(gpu=GPU_TYPE, timeout=SIXTY_MINS)
 @web_endpoint(method="POST")
 def generate_vegam_faster_whisper(item: Dict):
     import os
@@ -483,7 +483,7 @@ def generate_vegam_faster_whisper(item: Dict):
         return {"message": "Internal server error", "code": 500}
 
 
-@stub.function(gpu=GPU_TYPE, timeout=THIRTY_MINS)
+@stub.function(gpu=GPU_TYPE, timeout=SIXTY_MINS)
 @web_endpoint(method="POST")
 def generate_whisperx_speech(item: Dict):
     """
@@ -590,8 +590,7 @@ def generate_whisperx_speech(item: Dict):
         return {"message": "Internal server error", "code": 500}
 
 
-# Timeout in 20 minutes
-@stub.function(gpu=GPU_TYPE, timeout=THIRTY_MINS)
+@stub.function(gpu=GPU_TYPE, timeout=SIXTY_MINS)
 @web_endpoint(method="POST")
 def youtube_generate_seamlessm4t_speech(item: Dict):
     """
@@ -725,8 +724,7 @@ def youtube_generate_seamlessm4t_speech(item: Dict):
         return {"message": "Internal server error", "code": 500}
 
 
-# Timeout in 20 minutes
-@stub.function(gpu=GPU_TYPE, timeout=THIRTY_MINS)
+@stub.function(gpu=GPU_TYPE, timeout=SIXTY_MINS)
 @web_endpoint(method="POST")
 def youtube_generate_faster_whisper_speech(item: Dict):
     """
@@ -841,7 +839,7 @@ def youtube_generate_faster_whisper_speech(item: Dict):
         return {"message": "Internal server error", "code": 500}
 
 
-@stub.function(gpu=GPU_TYPE, timeout=THIRTY_MINS)
+@stub.function(gpu=GPU_TYPE, timeout=SIXTY_MINS)
 @web_endpoint(method="POST")
 def youtube_generate_vegam_faster_whisper(item: Dict):
     import os
@@ -948,7 +946,7 @@ def youtube_generate_vegam_faster_whisper(item: Dict):
         return {"message": "Internal server error", "code": 500}
 
 
-@stub.function(gpu=GPU_TYPE, timeout=THIRTY_MINS)
+@stub.function(gpu=GPU_TYPE, timeout=SIXTY_MINS)
 @web_endpoint(method="POST")
 def youtube_generate_whisperx_speech(item: Dict):
     """
