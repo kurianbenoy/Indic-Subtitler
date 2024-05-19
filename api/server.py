@@ -13,7 +13,7 @@ SAMPLING_RATE = 16000
 # Moved to large-v2 as felt large-v3 is hallucinating more
 MODEL_SIZE = "large-v2"
 THIRTY_MINS = 1800
-SIXTY_MINS=3600
+SIXTY_MINS = 3600
 
 
 def download_models():
