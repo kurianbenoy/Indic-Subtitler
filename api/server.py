@@ -157,7 +157,7 @@ image = (
         "faster-whisper @ https://github.com/guillaumekln/faster-whisper/archive/refs/heads/master.tar.gz"
     )
     .pip_install("whisperx @ git+https://github.com/m-bain/whisperx.git")
-    .pip_install("pytube==15.0.0")
+    .pip_install("pytubefix")
     .pip_install("openai-whisper==20231117")
     .run_function(download_models, gpu=GPU_TYPE)
 )
@@ -608,7 +608,7 @@ def youtube_generate_seamlessm4t_speech(item: Dict):
 
     import torch
     import torchaudio
-    from pytube import YouTube
+    from pytubefix import YouTube
     from pydub import AudioSegment
     from seamless_communication.inference import Translator
 
@@ -743,7 +743,7 @@ def youtube_generate_faster_whisper_speech(item: Dict):
 
     from faster_whisper import WhisperModel
     from pydub import AudioSegment
-    from pytube import YouTube
+    from pytubefix import YouTube
 
     try:
         yt_id = item["yt_id"]
@@ -846,7 +846,7 @@ def youtube_generate_vegam_faster_whisper(item: Dict):
     import torch
     import torchaudio
     from pydub import AudioSegment
-    from pytube import YouTube
+    from pytubefix import YouTube
     from faster_whisper import WhisperModel
 
     try:
@@ -961,7 +961,7 @@ def youtube_generate_whisperx_speech(item: Dict):
     import torch
     import torchaudio
     import whisperx
-    from pytube import YouTube
+    from pytubefix import YouTube
     from pydub import AudioSegment
 
     try:
