@@ -219,7 +219,7 @@ const UploadFile = ({
         />
       </div>
 
-      <div className="divider font-medium">OR</div>
+{/*       <div className="divider font-medium">OR</div>
       <label className="flex border-2 rounded-lg gap-2 p-2">
         <IconLink color="grey" />
         <input
@@ -229,7 +229,7 @@ const UploadFile = ({
           className="w-full outline-none "
           placeholder="Paste YouTube Video Link"
         />
-      </label>
+      </label> */}
       <div className="mt-2">
         <a
           href="/blog/our-recommendations"
