@@ -24,6 +24,7 @@ def download_models():
     from seamless_communication.inference import Translator
     from faster_whisper import WhisperModel
     import torch
+
     # import whisperx
     import whisper
 
