@@ -2,9 +2,10 @@ import base64
 import tempfile
 import logging
 from typing import Dict
-from modal import Image, App, web_endpoint
 from fastapi.responses import StreamingResponse
 import json
+
+import modal
 
 # Define the GPU type to be used for processing
 # Refer - https://modal.com/docs/guide/gpu
@@ -23,7 +24,7 @@ def download_models():
     from seamless_communication.inference import Translator
     from faster_whisper import WhisperModel
     import torch
-    import whisperx
+    # import whisperx
     import whisper
 
     # Define model names for the translator and vocoder
@@ -47,7 +48,7 @@ def download_models():
     WhisperModel(MODEL_SIZE, device="cuda", compute_type="float16")
 
     # Download whisperX model
-    whisperx.load_model(MODEL_SIZE, "cuda", compute_type="float16")
+    # whisperx.load_model(MODEL_SIZE, "cuda", compute_type="float16")
 
     # Download vegam-whisper
     WhisperModel(
@@ -143,7 +144,7 @@ def process_audio(b64):
 
 # Define the Docker image configuration for the processing environment
 image = (
-    Image.from_registry("nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu22.04", add_python="3.10")
+    modal.Image.from_registry("nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu22.04", add_python="3.10")
     .apt_install("git", "ffmpeg")
     .pip_install(
         "fairseq2==0.2.*",
@@ -163,11 +164,11 @@ image = (
 )
 
 # Initialize the processing app with the defined Docker image
-app = App(name="seamless_m4t_speech", image=image)
+app = modal.App(name="seamless_m4t_speech", image=image)
 
 
 @app.function(gpu=GPU_TYPE, timeout=SIXTY_MINS)
-@web_endpoint(method="POST")
+@modal.fastapi_endpoint(method="POST")
 def generate_seamlessm4t_speech(item: Dict):
     """
     Processes the input speech audio, performs voice activity detection, and translates the speech from the source language to the target language.
@@ -286,7 +287,7 @@ def sliding_window_approch_timestamps(speech_timestamps_seconds):
 
 
 @app.function(gpu=GPU_TYPE, timeout=SIXTY_MINS)
-@web_endpoint(method="POST")
+@modal.fastapi_endpoint(method="POST")
 def generate_faster_whisper_speech(item: Dict):
     """
     Processes the input speech audio and translates the speech to the target language using faster-whisper.
@@ -389,7 +390,7 @@ def generate_faster_whisper_speech(item: Dict):
 
 
 @app.function(gpu=GPU_TYPE, timeout=SIXTY_MINS)
-@web_endpoint(method="POST")
+@modal.fastapi_endpoint(method="POST")
 def generate_vegam_faster_whisper(item: Dict):
     import os
     import torch
@@ -483,115 +484,115 @@ def generate_vegam_faster_whisper(item: Dict):
         return {"message": "Internal server error", "code": 500}
 
 
+# @app.function(gpu=GPU_TYPE, timeout=SIXTY_MINS)
+# @modal.fastapi_endpoint(method="POST")
+# def generate_whisperx_speech(item: Dict):
+#     """
+#     Processes the input speech audio and translates the speech to the target language using faster-whisper.
+
+#     Parameters:
+#     - item (Dict): A dictionary containing the base64 encoded audio data and target language.
+
+#     Returns:
+#     - Dict: A dictionary containing the status code, message, detected speech chunks, and the translated text.
+#     """
+#     import torch
+#     import torchaudio
+#     import whisperx
+#     from pydub import AudioSegment
+
+#     try:
+#         b64 = item["wav_base64"]
+#         target_lang = item["target"]
+
+#         fname = base64_to_audio_file(b64_contents=b64)
+#         print(fname)
+#         convert_to_mono_16k(fname, "output.wav")
+
+#         USE_ONNX = False
+#         model, utils = torch.hub.load(
+#             repo_or_dir="snakers4/silero-vad", model="silero_vad", onnx=USE_ONNX
+#         )
+
+#         (
+#             get_speech_timestamps,
+#             save_audio,
+#             read_audio,
+#             VADIterator,
+#             collect_chunks,
+#         ) = utils
+
+#         # Perform voice activity detection on the processed audio
+#         wav = read_audio("output.wav", sampling_rate=SAMPLING_RATE)
+
+#         # get speech timestamps from full audio file
+#         speech_timestamps_seconds = get_speech_timestamps(
+#             wav, model, sampling_rate=SAMPLING_RATE, return_seconds=True
+#         )
+#         print(speech_timestamps_seconds)
+
+#         grouped_timestamps = sliding_window_approch_timestamps(speech_timestamps_seconds)
+#         print(grouped_timestamps)
+
+#         async def generate():
+#             lang = whisper_language_detection("output.wav")
+#             yield json.dumps({"type": "language_detection", "data": lang["detected_language"]})
+#             model = whisperx.load_model(
+#                 MODEL_SIZE, "cuda", compute_type="float16", language=target_lang
+#             )
+#             yield json.dumps({"type": "info", "data": "Model loaded"})
+
+#             for segment in grouped_timestamps:
+#                 s = segment["start"]
+#                 e = segment["end"]
+#                 newAudio = AudioSegment.from_wav("output.wav")
+
+#                 newAudio = newAudio[s * 1000 : e * 1000]
+#                 new_audio_name = "new_" + str(s) + ".wav"
+#                 newAudio.export(new_audio_name, format="wav")
+#                 waveform, sample_rate = torchaudio.load(new_audio_name)
+#                 resampler = torchaudio.transforms.Resample(
+#                     sample_rate, SAMPLING_RATE, dtype=waveform.dtype
+#                 )
+#                 resampled_waveform = resampler(waveform)
+#                 torchaudio.save("resampled.wav", resampled_waveform, SAMPLING_RATE)
+
+#                 audio = whisperx.load_audio("resampled.wav")
+#                 result = model.transcribe(audio, batch_size=16)
+#                 model_a, metadata = whisperx.load_align_model(
+#                     language_code=target_lang, device="cuda"
+#                 )
+
+#                 result = whisperx.align(
+#                     result["segments"],
+#                     model_a,
+#                     metadata,
+#                     audio,
+#                     "cuda",
+#                     return_char_alignments=False,
+#                 )
+
+#                 # print(result["segments"])
+
+#                 for segment in result["segments"]:
+#                     obj = {
+#                         "start": segment["start"] + s,
+#                         "end": segment["end"] + s,
+#                         "text": segment["text"],
+#                     }
+#                     print(obj)
+#                     yield json.dumps(obj)
+
+#         return StreamingResponse(generate(), media_type="text/event-stream")
+
+#     except Exception as e:
+#         print(e)
+#         logging.critical(e, exc_info=True)
+#         return {"message": "Internal server error", "code": 500}
+
+
 @app.function(gpu=GPU_TYPE, timeout=SIXTY_MINS)
-@web_endpoint(method="POST")
-def generate_whisperx_speech(item: Dict):
-    """
-    Processes the input speech audio and translates the speech to the target language using faster-whisper.
-
-    Parameters:
-    - item (Dict): A dictionary containing the base64 encoded audio data and target language.
-
-    Returns:
-    - Dict: A dictionary containing the status code, message, detected speech chunks, and the translated text.
-    """
-    import torch
-    import torchaudio
-    import whisperx
-    from pydub import AudioSegment
-
-    try:
-        b64 = item["wav_base64"]
-        target_lang = item["target"]
-
-        fname = base64_to_audio_file(b64_contents=b64)
-        print(fname)
-        convert_to_mono_16k(fname, "output.wav")
-
-        USE_ONNX = False
-        model, utils = torch.hub.load(
-            repo_or_dir="snakers4/silero-vad", model="silero_vad", onnx=USE_ONNX
-        )
-
-        (
-            get_speech_timestamps,
-            save_audio,
-            read_audio,
-            VADIterator,
-            collect_chunks,
-        ) = utils
-
-        # Perform voice activity detection on the processed audio
-        wav = read_audio("output.wav", sampling_rate=SAMPLING_RATE)
-
-        # get speech timestamps from full audio file
-        speech_timestamps_seconds = get_speech_timestamps(
-            wav, model, sampling_rate=SAMPLING_RATE, return_seconds=True
-        )
-        print(speech_timestamps_seconds)
-
-        grouped_timestamps = sliding_window_approch_timestamps(speech_timestamps_seconds)
-        print(grouped_timestamps)
-
-        async def generate():
-            lang = whisper_language_detection("output.wav")
-            yield json.dumps({"type": "language_detection", "data": lang["detected_language"]})
-            model = whisperx.load_model(
-                MODEL_SIZE, "cuda", compute_type="float16", language=target_lang
-            )
-            yield json.dumps({"type": "info", "data": "Model loaded"})
-
-            for segment in grouped_timestamps:
-                s = segment["start"]
-                e = segment["end"]
-                newAudio = AudioSegment.from_wav("output.wav")
-
-                newAudio = newAudio[s * 1000 : e * 1000]
-                new_audio_name = "new_" + str(s) + ".wav"
-                newAudio.export(new_audio_name, format="wav")
-                waveform, sample_rate = torchaudio.load(new_audio_name)
-                resampler = torchaudio.transforms.Resample(
-                    sample_rate, SAMPLING_RATE, dtype=waveform.dtype
-                )
-                resampled_waveform = resampler(waveform)
-                torchaudio.save("resampled.wav", resampled_waveform, SAMPLING_RATE)
-
-                audio = whisperx.load_audio("resampled.wav")
-                result = model.transcribe(audio, batch_size=16)
-                model_a, metadata = whisperx.load_align_model(
-                    language_code=target_lang, device="cuda"
-                )
-
-                result = whisperx.align(
-                    result["segments"],
-                    model_a,
-                    metadata,
-                    audio,
-                    "cuda",
-                    return_char_alignments=False,
-                )
-
-                # print(result["segments"])
-
-                for segment in result["segments"]:
-                    obj = {
-                        "start": segment["start"] + s,
-                        "end": segment["end"] + s,
-                        "text": segment["text"],
-                    }
-                    print(obj)
-                    yield json.dumps(obj)
-
-        return StreamingResponse(generate(), media_type="text/event-stream")
-
-    except Exception as e:
-        print(e)
-        logging.critical(e, exc_info=True)
-        return {"message": "Internal server error", "code": 500}
-
-
-@app.function(gpu=GPU_TYPE, timeout=SIXTY_MINS)
-@web_endpoint(method="POST")
+@modal.fastapi_endpoint(method="POST")
 def youtube_generate_seamlessm4t_speech(item: Dict):
     """
     Processes the input speech audio, performs voice activity detection, and translates the speech from the source language to the target language.
@@ -725,7 +726,7 @@ def youtube_generate_seamlessm4t_speech(item: Dict):
 
 
 @app.function(gpu=GPU_TYPE, timeout=SIXTY_MINS)
-@web_endpoint(method="POST")
+@modal.fastapi_endpoint(method="POST")
 def youtube_generate_faster_whisper_speech(item: Dict):
     """
     Processes the input speech audio, performs voice activity detection, and translates the speech from the source language to the target language.
@@ -840,7 +841,7 @@ def youtube_generate_faster_whisper_speech(item: Dict):
 
 
 @app.function(gpu=GPU_TYPE, timeout=SIXTY_MINS)
-@web_endpoint(method="POST")
+@modal.fastapi_endpoint(method="POST")
 def youtube_generate_vegam_faster_whisper(item: Dict):
     import os
     import torch
@@ -946,118 +947,118 @@ def youtube_generate_vegam_faster_whisper(item: Dict):
         return {"message": "Internal server error", "code": 500}
 
 
-@app.function(gpu=GPU_TYPE, timeout=SIXTY_MINS)
-@web_endpoint(method="POST")
-def youtube_generate_whisperx_speech(item: Dict):
-    """
-    Processes the input speech audio and translates the speech to the target language using faster-whisper.
+# @app.function(gpu=GPU_TYPE, timeout=SIXTY_MINS)
+# @modal.fastapi_endpoint(method="POST")
+# def youtube_generate_whisperx_speech(item: Dict):
+#     """
+#     Processes the input speech audio and translates the speech to the target language using faster-whisper.
 
-    Parameters:
-    - item (Dict): A dictionary containing the base64 encoded audio data and target language.
+#     Parameters:
+#     - item (Dict): A dictionary containing the base64 encoded audio data and target language.
 
-    Returns:
-    - Dict: A dictionary containing the status code, message, detected speech chunks, and the translated text.
-    """
-    import torch
-    import torchaudio
-    import whisperx
-    from pytubefix import YouTube
-    from pydub import AudioSegment
+#     Returns:
+#     - Dict: A dictionary containing the status code, message, detected speech chunks, and the translated text.
+#     """
+#     import torch
+#     import torchaudio
+#     import whisperx
+#     from pytubefix import YouTube
+#     from pydub import AudioSegment
 
-    try:
-        yt_id = item["yt_id"]
-        target_lang = item["target"]
+#     try:
+#         yt_id = item["yt_id"]
+#         target_lang = item["target"]
 
-        # Download YouTube video
-        youtube_url = f"https://www.youtube.com/watch?v={yt_id}"
-        youtube = YouTube(youtube_url)
-        video = youtube.streams.filter(only_audio=True).first()
-        video.download(filename="temp_video.mp4")
+#         # Download YouTube video
+#         youtube_url = f"https://www.youtube.com/watch?v={yt_id}"
+#         youtube = YouTube(youtube_url)
+#         video = youtube.streams.filter(only_audio=True).first()
+#         video.download(filename="temp_video.mp4")
 
-        # Convert video to wav
-        audio = AudioSegment.from_file("temp_video.mp4", format="mp4")
-        audio.export("temp_audio.wav", format="wav")
+#         # Convert video to wav
+#         audio = AudioSegment.from_file("temp_video.mp4", format="mp4")
+#         audio.export("temp_audio.wav", format="wav")
 
-        # Convert audio to mono channel with 16K frequency
-        audio = AudioSegment.from_wav("temp_audio.wav")
-        audio = audio.set_channels(1).set_frame_rate(16000)
-        audio.export("output.wav", format="wav")
+#         # Convert audio to mono channel with 16K frequency
+#         audio = AudioSegment.from_wav("temp_audio.wav")
+#         audio = audio.set_channels(1).set_frame_rate(16000)
+#         audio.export("output.wav", format="wav")
 
-        USE_ONNX = False
-        model, utils = torch.hub.load(
-            repo_or_dir="snakers4/silero-vad", model="silero_vad", onnx=USE_ONNX
-        )
+#         USE_ONNX = False
+#         model, utils = torch.hub.load(
+#             repo_or_dir="snakers4/silero-vad", model="silero_vad", onnx=USE_ONNX
+#         )
 
-        (
-            get_speech_timestamps,
-            save_audio,
-            read_audio,
-            VADIterator,
-            collect_chunks,
-        ) = utils
+#         (
+#             get_speech_timestamps,
+#             save_audio,
+#             read_audio,
+#             VADIterator,
+#             collect_chunks,
+#         ) = utils
 
-        # Perform voice activity detection on the processed audio
-        wav = read_audio("output.wav", sampling_rate=SAMPLING_RATE)
+#         # Perform voice activity detection on the processed audio
+#         wav = read_audio("output.wav", sampling_rate=SAMPLING_RATE)
 
-        # get speech timestamps from full audio file
-        speech_timestamps_seconds = get_speech_timestamps(
-            wav, model, sampling_rate=SAMPLING_RATE, return_seconds=True
-        )
-        print(speech_timestamps_seconds)
+#         # get speech timestamps from full audio file
+#         speech_timestamps_seconds = get_speech_timestamps(
+#             wav, model, sampling_rate=SAMPLING_RATE, return_seconds=True
+#         )
+#         print(speech_timestamps_seconds)
 
-        grouped_timestamps = sliding_window_approch_timestamps(speech_timestamps_seconds)
-        print(grouped_timestamps)
+#         grouped_timestamps = sliding_window_approch_timestamps(speech_timestamps_seconds)
+#         print(grouped_timestamps)
 
-        def generate():
-            lang = whisper_language_detection("output.wav")
-            yield json.dumps({"type": "language_detection", "data": lang["detected_language"]})
-            model = whisperx.load_model(
-                MODEL_SIZE, "cuda", compute_type="float16", language=target_lang
-            )
+#         def generate():
+#             lang = whisper_language_detection("output.wav")
+#             yield json.dumps({"type": "language_detection", "data": lang["detected_language"]})
+#             model = whisperx.load_model(
+#                 MODEL_SIZE, "cuda", compute_type="float16", language=target_lang
+#             )
 
-            yield json.dumps({"type": "info", "data": "Model loaded"})
-            for segment in grouped_timestamps:
-                s = segment["start"]
-                e = segment["end"]
+#             yield json.dumps({"type": "info", "data": "Model loaded"})
+#             for segment in grouped_timestamps:
+#                 s = segment["start"]
+#                 e = segment["end"]
 
-                newAudio = AudioSegment.from_wav("output.wav")
-                newAudio = newAudio[s * 1000 : e * 1000]
-                new_audio_name = "new_" + str(s) + ".wav"
-                newAudio.export(new_audio_name, format="wav")
-                waveform, sample_rate = torchaudio.load(new_audio_name)
-                resampler = torchaudio.transforms.Resample(
-                    sample_rate, SAMPLING_RATE, dtype=waveform.dtype
-                )
-                resampled_waveform = resampler(waveform)
-                torchaudio.save("resampled.wav", resampled_waveform, SAMPLING_RATE)
+#                 newAudio = AudioSegment.from_wav("output.wav")
+#                 newAudio = newAudio[s * 1000 : e * 1000]
+#                 new_audio_name = "new_" + str(s) + ".wav"
+#                 newAudio.export(new_audio_name, format="wav")
+#                 waveform, sample_rate = torchaudio.load(new_audio_name)
+#                 resampler = torchaudio.transforms.Resample(
+#                     sample_rate, SAMPLING_RATE, dtype=waveform.dtype
+#                 )
+#                 resampled_waveform = resampler(waveform)
+#                 torchaudio.save("resampled.wav", resampled_waveform, SAMPLING_RATE)
 
-                audio = whisperx.load_audio("resampled.wav")
-                result = model.transcribe(audio, batch_size=16)
-                model_a, metadata = whisperx.load_align_model(
-                    language_code=target_lang, device="cuda"
-                )
+#                 audio = whisperx.load_audio("resampled.wav")
+#                 result = model.transcribe(audio, batch_size=16)
+#                 model_a, metadata = whisperx.load_align_model(
+#                     language_code=target_lang, device="cuda"
+#                 )
 
-                result = whisperx.align(
-                    result["segments"],
-                    model_a,
-                    metadata,
-                    audio,
-                    "cuda",
-                    return_char_alignments=False,
-                )
+#                 result = whisperx.align(
+#                     result["segments"],
+#                     model_a,
+#                     metadata,
+#                     audio,
+#                     "cuda",
+#                     return_char_alignments=False,
+#                 )
 
-                for segment in result["segments"]:
-                    obj = {
-                        "start": segment["start"] + s,
-                        "end": segment["end"] + s,
-                        "text": segment["text"],
-                    }
-                    print(obj)
-                    yield json.dumps(obj)
+#                 for segment in result["segments"]:
+#                     obj = {
+#                         "start": segment["start"] + s,
+#                         "end": segment["end"] + s,
+#                         "text": segment["text"],
+#                     }
+#                     print(obj)
+#                     yield json.dumps(obj)
 
-        return StreamingResponse(generate(), media_type="text/event-stream")
+#         return StreamingResponse(generate(), media_type="text/event-stream")
 
-    except Exception as e:
-        print(e)
-        logging.critical(e, exc_info=True)
-        return {"message": "Internal server error", "code": 500}
+#     except Exception as e:
+#         print(e)
+#         logging.critical(e, exc_info=True)
+#         return {"message": "Internal server error", "code": 500}
