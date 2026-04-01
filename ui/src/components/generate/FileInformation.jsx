@@ -27,6 +27,9 @@ function Thumbnail({ image }) {
   return <img className="max-h-72  w-full" src={image} alt="Thumbnail" />;
 }
 export default function FileInformation({ uploadedFileInformation }) {
+  if (!uploadedFileInformation) {
+    return null;
+  }
   return (
     <>
       <h2 className="text-3xl font-medium mb-5">File Information</h2>
