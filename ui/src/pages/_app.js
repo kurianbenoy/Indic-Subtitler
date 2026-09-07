@@ -3,6 +3,7 @@ import "@components/styles/globals.css";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import Head from "next/head";
+import Script from "next/script";
 import { Analytics } from "@vercel/analytics/react";
 
 export default function App({ Component, pageProps }) {
@@ -45,9 +46,18 @@ export default function App({ Component, pageProps }) {
       </Head>
 
       <Header />
+
       <Component {...pageProps} />
+
       <Analytics />
+
       <ToastContainer />
+
+      <Script
+        data-goatcounter="https://kurianbenoy.goatcounter.com/count"
+        src="//gc.zgo.at/count.js"
+        strategy="afterInteractive"
+      />
     </>
   );
 }
