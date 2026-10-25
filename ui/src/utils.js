@@ -50,12 +50,6 @@ export const getRequestParamsForModel = async (
       youtubeLinkedBased:
         "https://indic-subtitler--seamless-m4t-speech-youtube-generate-fa-826932.modal.run",
     },
-    whisperX: {
-      fileBased:
-        "https://indic-subtitler--seamless-m4t-speech-generate-whisperx-speech.modal.run",
-      youtubeLinkedBased:
-        "https://indic-subtitler--seamless-m4t-speech-youtube-generate-wh-42397f.modal.run",
-    },
     vegamFasterWhisper: {
       fileBased:
         "https://indic-subtitler--seamless-m4t-speech-generate-vegam-fast-2d5a10.modal.run",

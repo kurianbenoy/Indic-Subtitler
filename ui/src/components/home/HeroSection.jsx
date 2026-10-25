@@ -11,7 +11,6 @@ export default function HeroSection() {
   const listOfSupportedModels = [
     "SeamlessM4T",
     "faster-whisper",
-    "WhisperX",
     "Vegam-Whisper",
   ];
   const router = useRouter();
