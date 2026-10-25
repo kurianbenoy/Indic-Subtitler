@@ -56,6 +56,9 @@ export default function CollectionTable({ storedFiles, setStoredFiles }) {
               .reverse()
               .map((element, index) => {
                 const localStorageIndex = storedFiles.length - 1 - index;
+                // Skip corrupt entries instead of crashing the table; the
+                // remaining rows keep their localStorage index.
+                if (!element || typeof element !== "object") return null;
 
                 return (
                   <tr key={index} aria-label="List of subtitles generated">

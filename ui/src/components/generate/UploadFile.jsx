@@ -5,7 +5,10 @@ import Dropzone from "@components/components/Dropzone";
 import { IconLink } from "@tabler/icons-react";
 import Dropdown from "@components/components/Dropdown";
 import { AVAILABLE_MODELS, LANGUAGES_PER_MODEL } from "@components/constants";
-import { getRequestParamsForModel } from "@components/utils";
+import {
+  addStoredFile,
+  getRequestParamsForModel,
+} from "@components/utils";
 import { formatLanguagesForDropdownOptions } from "@components/dropdownUtils";
 import useLocalStorage from "@components/hooks/useLocalStorage";
 
@@ -33,12 +36,10 @@ const UploadFile = ({
   const [submitCounter, setSubmitCounter] = useState(0);
 
   function storeFileToLocalStorage(file) {
-    const items = JSON.parse(localStorage.getItem("file"));
-    if (!items) {
-      localStorage.setItem("file", JSON.stringify([file]));
-    } else {
-      items.push(file);
-      localStorage.setItem("file", JSON.stringify(items));
+    if (!addStoredFile(file)) {
+      toast.warning(
+        "Subtitles were generated but could not be saved on this device."
+      );
     }
   }
   useEffect(() => {

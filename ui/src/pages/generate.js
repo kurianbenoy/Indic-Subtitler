@@ -3,7 +3,7 @@ import SubtitleEditor from "@components/components/SubtitleEditor";
 import { useRouter } from "next/router";
 import FileInformation from "@components/components/generate/FileInformation";
 import UploadFile from "@components/components/generate/UploadFile";
-import useLocalStorage from "@components/hooks/useLocalStorage";
+import { getStoredFiles } from "@components/utils";
 import Head from "next/head";
 
 export default function dashboard() {
@@ -21,25 +21,35 @@ export default function dashboard() {
   const router = useRouter();
   const index = router.query.id;
   useEffect(() => {
-    const items = JSON.parse(localStorage.getItem("file"));
-    if (index && items) {
-      if (items[index]) {
-        setIsLocalFile(true);
-        setIsSubtitleGenerated(true);
-        const item = items[index];
-        setTranscribed(item.transcribedData);
-        setSelectedModel(item.model);
-        setYoutubeTitle(item.filename);
-        setuploadedFileInformation({
-          filename: item.filename,
-          filesize: item.size,
-          targetLanguage: item.targetLanguage ?? item.outputLanguage,
-          uploadDate: item.uploadDate,
-          model: item.model,
-          link: item.link,
-        });
-      }
+    const files = getStoredFiles();
+    const item = index === undefined ? undefined : files[index];
+
+    // No usable record for this id (bad link, cleared storage, corrupt entry):
+    // fall back to the upload form instead of leaving the sidebar empty while
+    // the editor still shows subtitles.
+    if (!item || typeof item !== "object" || (!item.filename && !item.link)) {
+      setIsLocalFile(false);
+      setIsSubtitleGenerated(false);
+      setuploadedFileInformation(undefined);
+      setTranscribed([]);
+      return;
     }
+
+    setIsLocalFile(true);
+    setIsSubtitleGenerated(true);
+    setTranscribed(
+      Array.isArray(item.transcribedData) ? item.transcribedData : []
+    );
+    setSelectedModel(item.model);
+    setYoutubeTitle(item.filename);
+    setuploadedFileInformation({
+      filename: item.filename,
+      filesize: item.size,
+      targetLanguage: item.targetLanguage ?? item.outputLanguage,
+      uploadDate: item.uploadDate,
+      model: item.model,
+      link: item.link,
+    });
   }, [index]);
 
   return (
@@ -49,7 +59,7 @@ export default function dashboard() {
       </Head>
       <main className="flex flex-col md:flex-row   xl:mx-14 mx-4 gap-4">
         <aside className="w-full md:w-[50%] lg:w-[25%] flex flex-col space-y-10  md:h-[85vh]">
-          {isLocalFile ? (
+          {isLocalFile && uploadedFileInformation ? (
             <div className="h-full ">
               <FileInformation
                 uploadedFileInformation={uploadedFileInformation}

@@ -12,6 +12,41 @@ export function formatFileSize(size) {
   return `${size.toFixed(2)} ${units[i]}`;
 }
 
+const STORED_FILES_KEY = "file";
+
+// localStorage outlives deploys and can be edited by anything running on the
+// origin, so the "file" key may hold corrupt JSON, a non-array or records from
+// an older version of the app. Reading it must never throw and take a page down.
+export function getStoredFiles() {
+  if (typeof window === "undefined") return [];
+  try {
+    const stored = JSON.parse(localStorage.getItem(STORED_FILES_KEY));
+    return Array.isArray(stored) ? stored : [];
+  } catch (error) {
+    console.error("Ignoring unreadable saved files in localStorage", error);
+    return [];
+  }
+}
+
+export function saveStoredFiles(files) {
+  if (typeof window === "undefined") return false;
+  try {
+    localStorage.setItem(
+      STORED_FILES_KEY,
+      JSON.stringify(Array.isArray(files) ? files : [])
+    );
+    return true;
+  } catch (error) {
+    // Usually an exhausted quota: transcripts can get large.
+    console.error("Could not save files to localStorage", error);
+    return false;
+  }
+}
+
+export function addStoredFile(file) {
+  return saveStoredFiles([...getStoredFiles(), file]);
+}
+
 export const fileToBase64 = async (file) => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();

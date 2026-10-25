@@ -4,12 +4,24 @@ export default function useLocalStorage(key, initialValue) {
   let localstorage = typeof window !== "undefined" ? localStorage : null;
   const [value, setValue] = useState(() => {
     const jsonValue = localstorage?.getItem(key);
-    if (jsonValue != null) return JSON.parse(jsonValue);
-    return initialValue;
+    if (jsonValue == null) return initialValue;
+    try {
+      return JSON.parse(jsonValue);
+    } catch (error) {
+      // A corrupt value must not crash the page during the first render. The
+      // effect below writes the reset value back, so the bad data is replaced.
+      console.error(`Ignoring unreadable localStorage key "${key}"`, error);
+      return initialValue;
+    }
   });
 
   useEffect(() => {
-    localStorage.setItem(key, JSON.stringify(value));
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+    } catch (error) {
+      // Quota errors must not crash the page that is using the hook.
+      console.error(`Could not persist localStorage key "${key}"`, error);
+    }
   }, [key, value]);
 
   return [value, setValue];

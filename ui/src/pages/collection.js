@@ -7,7 +7,9 @@ import CollectionTable from "@components/components/CollectionTable";
 import Head from "next/head";
 
 const Collection = () => {
-  const [storedFiles, setStoredFiles] = useLocalStorage("file", []);
+  const [savedFiles, setStoredFiles] = useLocalStorage("file", []);
+  // localStorage can hold a corrupt or non-array value; never render from it.
+  const storedFiles = Array.isArray(savedFiles) ? savedFiles : [];
   const router = useRouter();
 
   return (

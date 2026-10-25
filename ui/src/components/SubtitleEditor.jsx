@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { formatTime } from "@components/utils";
+import { formatTime, getStoredFiles } from "@components/utils";
 import DownloadFileDropdown from "./DownloadFileDropdown";
 import { IconPencil } from "@tabler/icons-react";
 import useLocalStorage from "@components/hooks/useLocalStorage";
@@ -27,12 +27,14 @@ export default function SubtitleEditor({
 
     if (id) {
       // for previously uploaded files
-      const copyOfLocallyStoredFiles = [...file];
+      const copyOfLocallyStoredFiles = Array.isArray(file) ? [...file] : [];
+      if (!copyOfLocallyStoredFiles[id]) return;
       copyOfLocallyStoredFiles[id].transcribedData = updateTranscribe;
       setFile(copyOfLocallyStoredFiles);
     } else {
       // for newly uploaded files
-      const files = JSON.parse(localStorage.getItem("file"));
+      const files = getStoredFiles();
+      if (!files.length) return;
       const currentFile = files[files.length - 1];
       currentFile.transcribedData = updateTranscribe;
       setFile(files);
