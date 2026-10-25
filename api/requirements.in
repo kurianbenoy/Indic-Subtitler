@@ -1,0 +1,10 @@
+# Top-level dependencies for the Indic-Subtitler API dev environment (Modal CLI, style tooling).
+# Regenerate the fully pinned requirements.txt with:
+#   uv pip compile --python-version 3.10 --output-file requirements.txt requirements.in
+modal==1.6.2
+fastapi
+# Pre-commit pins the ruff version it uses (see ../.pre-commit-config.yaml), so the
+# requirements.txt's ruff version is kept aligned with the repo's lint baseline to avoid
+# unrelated lint churn. Bump both together.
+ruff==0.11.5
+pre-commit

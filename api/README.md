@@ -6,8 +6,8 @@ This directory contains the backend API for the Indic-Subtitler project, which i
 
 ### Prerequisites
 
-- Python 3.8 or higher
-- pip
+- Python 3.10 or higher (required by the Modal SDK)
+- [uv](https://docs.astral.sh/uv/) (or pip)
 
 ### Installation
 
@@ -16,7 +16,20 @@ This directory contains the backend API for the Indic-Subtitler project, which i
 3. Install the required dependencies:
 
 ```bash
+uv venv
+uv pip install -r requirements.txt
+```
+
+Or with plain pip:
+
+```bash
 pip install -r requirements.txt
+```
+
+The pinned `requirements.txt` is compiled from `requirements.in` with:
+
+```bash
+uv pip compile --python-version 3.10 --output-file requirements.txt requirements.in
 ```
 
 ## Running the API

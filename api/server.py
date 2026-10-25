@@ -148,19 +148,27 @@ image = (
     modal.Image.from_registry("nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu22.04", add_python="3.10")
     .apt_install("git", "ffmpeg")
     .pip_install(
+        # required by the modal.fastapi_endpoint decorator starting in modal 1.x
+        "fastapi",
         "fairseq2==0.2.*",
         "sentencepiece",
         "pydub",
         "ffmpeg-python",
         "torch==2.1.1",
+        # must match torch exactly; seamless_communication pulls it unpinned otherwise
+        "torchaudio==2.1.1",
         "seamless_communication @ git+https://github.com/facebookresearch/seamless_communication.git",  # torchaudio already included in seamless_communication
     )
     .pip_install(
         "faster-whisper @ https://github.com/guillaumekln/faster-whisper/archive/refs/heads/master.tar.gz"
     )
-    .pip_install("whisperx @ git+https://github.com/m-bain/whisperx.git")
+    # whisperx endpoints are commented out; upstream whisperx moved to torch~=2.8
+    # which conflicts with the pinned torch==2.1.1 required by fairseq2n/seamless.
+    # .pip_install("whisperx @ git+https://github.com/m-bain/whisperx.git")
     .pip_install("pytubefix")
-    .pip_install("openai-whisper==20231117")
+    # 20231117's legacy setup.py needs pkg_resources, removed by modern setuptools;
+    # 20250625 is already pulled transitively (seamless_communication deps) and works.
+    .pip_install("openai-whisper==20250625")
     .run_function(download_models, gpu=GPU_TYPE)
 )
 
@@ -229,7 +237,7 @@ def generate_seamlessm4t_speech(item: Dict):
                 e = item["end"]
 
                 # time in seconds should be multiplied by 1000.0 for AudioSegment array. So 20s = 20000
-                newAudio = newAudio[s * 1000 : e * 1000]
+                newAudio = AudioSegment.from_wav("output.wav")[s * 1000 : e * 1000]
                 new_audio_name = "new_" + str(s) + ".wav"
                 newAudio.export(new_audio_name, format="wav")
                 waveform, sample_rate = torchaudio.load(new_audio_name)
